@@ -1,4 +1,4 @@
-package com.apiv1.ominiModa.Models.Entitys;
+package com.apiv1.omniModa.Models.Entity;
 
 import java.time.LocalDate;
 
@@ -28,7 +28,7 @@ public class Ventas {
 
     @ManyToOne
     @JoinColumn(name = "Cliente_documento", referencedColumnName = "Documento")
-    private Customers cliente;
+    private Clientes cliente;
 
     @ManyToOne
     @JoinColumn(name = "Estado_id", referencedColumnName = "idEstado")
@@ -37,7 +37,7 @@ public class Ventas {
     public Ventas() {
     }
 
-    public Ventas(Integer idVentas, LocalDate fecha, Double total, Customers cliente, Estados estado) {
+    public Ventas(Integer idVentas, LocalDate fecha, Double total, Clientes cliente, Estados estado) {
         this.idVentas = idVentas;
         this.fecha = fecha;
         this.total = total;
@@ -69,11 +69,11 @@ public class Ventas {
         this.total = total;
     }
 
-    public Customers getCliente() {
+    public Clientes getCliente() {
         return cliente;
     }
 
-    public void setCliente(Customers cliente) {
+    public void setCliente(Clientes cliente) {
         this.cliente = cliente;
     }
 

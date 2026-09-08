@@ -1,4 +1,4 @@
-package com.apiv1.ominiModa.Models.Entitys;
+package com.apiv1.omniModa.Models.Entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,31 +8,31 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "roles")
-public class Roles {
+@Table(name = "estados")
+public class Estados {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idRol")
-    private Integer idRol;
+    @Column(name = "idEstado")
+    private Integer idEstado;
 
     @Column(name = "Tipo", nullable = false, length = 40)
     private String tipo;
 
-    public Roles() {
+    public Estados() {
     }
 
-    public Roles(Integer idRol, String tipo) {
-        this.idRol = idRol;
+    public Estados(Integer idEstado, String tipo) {
+        this.idEstado = idEstado;
         this.tipo = tipo;
     }
 
-    public Integer getIdRol() {
-        return idRol;
+    public Integer getIdEstado() {
+        return idEstado;
     }
 
-    public void setIdRol(Integer idRol) {
-        this.idRol = idRol;
+    public void setIdEstado(Integer idEstado) {
+        this.idEstado = idEstado;
     }
 
     public String getTipo() {

@@ -1,4 +1,4 @@
-package com.apiv1.ominiModa.Models.Entitys;
+package com.apiv1.omniModa.Models.Entity;
 
 import java.time.LocalDateTime;
 
