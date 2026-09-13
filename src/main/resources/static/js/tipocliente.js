@@ -97,9 +97,9 @@ function renderTiposCliente() {
         /* CONTENIDO */
 
         item.innerHTML = `
-            <span class="custom-option-icon">
+            <!-- <span class="custom-option-icon">
                 <i class="fa-brands fa-web-awesome"></i>
-            </span>
+            </span> -->
 
             <span class="custom-option-content">
 
