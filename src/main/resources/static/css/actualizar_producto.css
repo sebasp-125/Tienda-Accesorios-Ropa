@@ -11,7 +11,8 @@
   --sidebar: #101827;
   --text: #101827;
   --text-secondary: #64748b;
-  --primary: #b69a6a;
+  --primary: #111827;
+  --golden: #b69a6a;
   --primary-dark: #9d824f;
   --border: #e5e7eb;
   --radius: 14px;
@@ -686,7 +687,8 @@ form {
 /* LISTA */
 
 .country-list {
-  max-height: 80px;
+  max-height: 250px;
+
   overflow-y: auto;
 }
 
@@ -1060,6 +1062,286 @@ form {
 
 .custom-select-option.selected .custom-option-check {
   opacity: 1;
+}
+
+/* =====================================================
+   SELECTOR DE COLOR
+   ===================================================== */
+
+.color-selector-container {
+  position: relative;
+  width: 100%;
+}
+
+/* =====================================================
+   SELECTOR PRINCIPAL
+   ===================================================== */
+
+.color-selector {
+  width: 100%;
+  height: 46px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 14px;
+
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.color-selector:hover {
+  border-color: #c9c9c9;
+}
+
+.color-selector.open {
+  border-color: var(--primary);
+
+  box-shadow: 0 0 0 3px rgba(17, 24, 39, 0.08);
+}
+
+/* =====================================================
+   CÍRCULO DEL COLOR SELECCIONADO
+   ===================================================== */
+
+.selected-color-circle {
+  width: 20px;
+  height: 20px;
+
+  margin-right: 11px;
+
+  border-radius: 50%;
+
+  background-color: transparent;
+
+  border: 1px solid #d1d5db;
+
+  flex-shrink: 0;
+
+  display: block;
+
+  transition: background 0.2s ease;
+}
+
+/* =====================================================
+   TEXTO DEL COLOR
+   ===================================================== */
+
+.selected-color-text {
+  flex: 1;
+
+  color: var(--text);
+
+  font-size: 14px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================
+   FLECHA
+   ===================================================== */
+
+.color-arrow {
+  color: var(--text-light);
+
+  font-size: 12px;
+
+  transition: transform 0.2s ease;
+}
+
+.color-selector.open .color-arrow {
+  transform: rotate(180deg);
+}
+
+/* =====================================================
+   DROPDOWN
+   ===================================================== */
+
+.color-dropdown {
+  position: absolute;
+
+  top: calc(100% + 6px);
+  left: 0;
+
+  width: 100%;
+
+  background: var(--white);
+
+  border: 1px solid var(--border);
+  border-radius: 10px;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+  z-index: 1000;
+
+  overflow: hidden;
+
+  display: none;
+}
+
+.color-dropdown.open {
+  display: block;
+}
+
+/* =====================================================
+   BUSCADOR
+   ===================================================== */
+
+.color-search-wrapper {
+  height: 44px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 0 12px;
+
+  border-bottom: 1px solid var(--border);
+
+  background: var(--white);
+}
+
+.color-search-wrapper i {
+  color: var(--text-light);
+
+  font-size: 14px;
+
+  margin-right: 9px;
+}
+
+.color-search-wrapper input {
+  width: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: var(--text);
+
+  font-family: inherit;
+  font-size: 13px;
+}
+
+.color-search-wrapper input::placeholder {
+  color: #9ca3af;
+}
+
+/* =====================================================
+   LISTA DE COLORES
+   ===================================================== */
+
+.color-list {
+  max-height: 220px;
+
+  padding: 5px;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* =====================================================
+   OPCIÓN DE COLOR
+   ===================================================== */
+
+.color-option {
+  width: 100%;
+  min-height: 40px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 7px 10px;
+
+  border: none;
+  border-radius: 7px;
+
+  background: transparent;
+
+  cursor: pointer;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  transition: background 0.15s ease;
+}
+
+.color-option:hover {
+  background: #f5f6f8;
+}
+
+/* =====================================================
+   CÍRCULO DE CADA COLOR
+   ===================================================== */
+
+.color-circle {
+  width: 20px;
+  height: 20px;
+
+  margin-right: 10px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(0, 0, 0, 0.12);
+
+  flex-shrink: 0;
+}
+
+/* =====================================================
+   NOMBRE DE CADA COLOR
+   ===================================================== */
+
+.color-name {
+  color: var(--text);
+
+  font-size: 13px;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* =====================================================
+   COLOR SELECCIONADO
+   ===================================================== */
+
+.color-option.selected {
+  background: #f1f2f4;
+}
+
+.color-option.selected .color-name {
+  font-weight: 600;
+}
+
+/* =====================================================
+   SCROLLBAR
+   ===================================================== */
+
+.color-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.color-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.color-list::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 10px;
+}
+
+.color-list::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
 }
 
 /* =====================================================

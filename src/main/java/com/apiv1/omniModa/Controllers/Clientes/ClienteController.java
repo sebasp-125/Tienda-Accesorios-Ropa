@@ -52,6 +52,12 @@ public class ClienteController {
 
         clienteService.guardarCliente(cliente);
 
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         return "redirect:/clientes";
     }
 
@@ -67,10 +73,17 @@ public class ClienteController {
         return "client/actualizar_cliente";
     }
 
-    // ACTUALIZA CLIENTE
+    // ACTUALIZAR CLIENTE
     @PostMapping("/clientes/actualizar")
     public String guardarActualizacion(Clientes cliente) {
         clienteService.guardarCliente(cliente);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         return "redirect:/clientes";
     }
 
@@ -80,6 +93,13 @@ public class ClienteController {
     public String eliminarCliente(
             @PathVariable String documento) {
         clienteService.eliminarCliente(documento);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
         return "redirect:/clientes";
     }
 }

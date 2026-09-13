@@ -11,7 +11,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
     <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
@@ -57,7 +57,6 @@
 
             <div>
               <h3>Información del cliente</h3>
-
               <p>Completa los datos para registrar el cliente.</p>
             </div>
           </div>
@@ -65,6 +64,7 @@
           <form
             th:action="@{/clientes/guardar}"
             th:object="${cliente}"
+            class="save-client"
             method="post"
             autocomplete="off"
           >
@@ -104,7 +104,7 @@
                     class="real-select"
                     required
                   >
-                    <option value="" selected disabled>
+                    <option value="" selected>
                       Seleccionar tipo de cliente
                     </option>
 
@@ -243,7 +243,6 @@
 
               <button type="submit" class="btn-primary">
                 <i class="fa-solid fa-check"></i>
-
                 Guardar cliente
               </button>
             </div>
@@ -253,5 +252,7 @@
     </div>
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/tipocliente.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
   </body>
 </html>

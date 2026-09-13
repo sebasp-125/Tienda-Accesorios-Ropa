@@ -10,7 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
     <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
@@ -68,6 +68,7 @@
           <form
             th:action="@{/clientes/actualizar}"
             th:object="${cliente}"
+            class="update-client"
             method="post"
             autocomplete="off"
           >
@@ -283,35 +284,48 @@
 
     <!-- =====================================================
      JAVASCRIPT
-====================================================== -->
+    ====================================================== -->
 
     <script th:src="@{/js/paises.js}"></script>
-
     <script th:src="@{/js/tipocliente.js}"></script>
 
     <!-- =====================================================
      CARGAR TELEFONO EXISTENTE
-====================================================== -->
+    ====================================================== -->
 
     <script th:inline="javascript">
       const telefonoCompleto = /*[[${cliente.telefono}]]*/ "";
 
       if (telefonoCompleto) {
         const telefonoInput = document.getElementById("telefonoNumero");
-
         const hiddenTelefono = document.getElementById("telefono");
+        const selectedFlag = document.getElementById("selectedFlag");
+        const selectedDialCode = document.getElementById("selectedDialCode");
 
-        /*
-         * Si el teléfono empieza por +57,
-         * mostramos solamente el número.
-         */
+        const telefonoLimpio = telefonoCompleto.trim();
 
-        if (telefonoCompleto.startsWith("+57")) {
-          telefonoInput.value = telefonoCompleto.substring(3);
+        const paisEncontrado = [...countries]
+          .sort((a, b) => b.code.length - a.code.length)
+          .find((country) => telefonoLimpio.startsWith(country.code));
+
+        if (paisEncontrado) {
+          selectedCountry = paisEncontrado;
+
+          selectedFlag.textContent = paisEncontrado.flag;
+          selectedDialCode.textContent = paisEncontrado.code;
+
+          telefonoInput.value = telefonoLimpio
+            .substring(paisEncontrado.code.length)
+            .trim();
         } else {
-          telefonoInput.value = telefonoCompleto;
+          telefonoInput.value = telefonoLimpio;
         }
+
+        hiddenTelefono.value = telefonoLimpio;
       }
     </script>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
   </body>
 </html>

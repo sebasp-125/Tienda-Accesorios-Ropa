@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Productos | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/productos.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Gestión de Productos</h2>
+            <p>Gestiona y consulta los productos registrados.</p>
+          </div>
+          <!-- USER PROFILE -->
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- =====================================================
+             CARD PRODUCTOS
+        ====================================================== -->
+
+        <section class="content-card">
+          <!-- HEADER -->
+
+          <div class="card-header">
+            <div>
+              <h3>Productos registrados</h3>
+
+              <p>Administra el inventario y la información de tus productos.</p>
+            </div>
+
+            <a th:href="@{/productos/nuevo}" class="btn-primary">
+              <i class="fa-solid fa-plus"></i>
+
+              Nuevo producto
+            </a>
+          </div>
+
+          <!-- BUSCADOR -->
+
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                id="searchProduct"
+                placeholder="Buscar por código, nombre, color o categoría..."
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <!-- TABLA -->
+
+          <div class="table-container">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th>CÓDIGO</th>
+
+                  <th>PRODUCTO</th>
+
+                  <th>TALLA</th>
+
+                  <th>COLOR</th>
+
+                  <th>PRECIO</th>
+
+                  <th>STOCK</th>
+
+                  <th>CATEGORÍA</th>
+
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+
+              <tbody id="productsTable">
+                <!-- PRODUCTOS -->
+
+                <tr th:each="producto : ${productos}">
+                  <!-- CÓDIGO -->
+
+                  <td>
+                    <span class="product-code" th:text="${producto.codigo}">
+                      COD001
+                    </span>
+                  </td>
+
+                  <!-- NOMBRE -->
+
+                  <td>
+                    <div class="product-name">
+                      <div class="product-icon">
+                        <i class="fa-solid fa-shirt"></i>
+                      </div>
+
+                      <strong th:text="${producto.nombre}">
+                        Camiseta básica
+                      </strong>
+                    </div>
+                  </td>
+
+                  <!-- TALLA -->
+
+                  <td>
+                    <span class="size-badge" th:text="${producto.talla}">
+                      M
+                    </span>
+                  </td>
+
+                  <!-- COLOR -->
+
+                  <td th:text="${producto.color}">Negro</td>
+
+                  <!-- PRECIO -->
+
+                  <td>
+                    <strong class="product-price" th:text="${producto.precio}">
+                      $80.000
+                    </strong>
+                  </td>
+
+                  <!-- STOCK -->
+
+                  <td>
+                    <span
+                      class="stock-badge"
+                      th:classappend="${producto.stockDisponible <= 5 ? 'low' : ''}"
+                      th:text="${producto.stockDisponible}"
+                    >
+                      12
+                    </span>
+                  </td>
+
+                  <!-- CATEGORÍA -->
+                  <td>
+                    <span
+                      class="category-badge"
+                      th:text="${producto.categoria.tipo}"
+                    >
+                      Camisas
+                    </span>
+                  </td>
+
+                  <!-- ACCIONES -->
+
+                  <td>
+                    <div class="table-actions">
+                      <a
+                        th:href="@{/productos/actualizar/{codigo}(codigo=${producto.codigo})}"
+                        class="action-button edit"
+                        title="Editar"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                      </a>
+
+                      <!-- ELIMINAR -->
+                      <form
+                        th:action="@{/productos/eliminar/{codigo}(codigo=${producto.codigo})}"
+                        method="post"
+                        class="delete-product"
+                      >
+                        <button
+                          type="submit"
+                          class="action-button delete"
+                          title="Eliminar"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- =================================================
+                         SIN PRODUCTOS
+                ================================================== -->
+
+                <tr th:if="${#lists.isEmpty(productos)}">
+                  <td colspan="8">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="fa-solid fa-box-open"></i>
+                      </div>
+
+                      <h4>No hay productos registrados</h4>
+
+                      <p>Comienza agregando tu primer producto.</p>
+
+                      <a href="/productos/nuevo" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i>
+
+                        Nuevo producto
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- FOOTER -->
+
+          <div class="table-footer">
+            <span>
+              Mostrando
+
+              <strong th:text="${productos != null ? productos.size() : 0}">
+                0
+              </strong>
+
+              productos
+            </span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- =====================================================
+     BUSCADOR
+    ====================================================== -->
+
+    <script>
+      const searchInput = document.getElementById("searchProduct");
+
+      const table = document.getElementById("productsTable");
+
+      searchInput.addEventListener("input", function () {
+        const search = this.value.toLowerCase().trim();
+
+        const rows = table.querySelectorAll("tr");
+
+        rows.forEach((row) => {
+          const text = row.textContent.toLowerCase();
+
+          row.style.display = text.includes(search) ? "" : "none";
+        });
+      });
+    </script>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+  </body>
+</html>
