@@ -288,11 +288,6 @@
 
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/tipocliente.js}"></script>
-
-    <!-- =====================================================
-     CARGAR TELEFONO EXISTENTE
-    ====================================================== -->
-
     <script th:inline="javascript">
       const telefonoCompleto = /*[[${cliente.telefono}]]*/ "";
 
@@ -324,7 +319,6 @@
         hiddenTelefono.value = telefonoLimpio;
       }
     </script>
-
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

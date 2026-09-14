@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Nuevo proveedor | OmniModa</title>
+
+    <!-- FONT AWESOME -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- SWEETALERT -->
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" th:href="@{/css/nuevo_proveedor.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- =====================================================
+         SIDEBAR
+    ====================================================== -->
+
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <!-- =====================================================
+         MAIN CONTENT
+    ====================================================== -->
+
+      <main class="main-content">
+        <!-- =================================================
+             HEADER
+        ================================================== -->
+
+        <header class="page-header">
+          <div>
+            <h2>Nuevo proveedor</h2>
+
+            <p>Registra un nuevo proveedor en el sistema.</p>
+          </div>
+
+          <!-- USER PROFILE -->
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- =================================================
+             VOLVER
+        ================================================== -->
+
+        <a th:href="@{/proveedores}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+
+          Volver a proveedores
+        </a>
+
+        <!-- =================================================
+             FORMULARIO
+        ================================================== -->
+
+        <section class="form-card">
+          <!-- =================================================
+                 FORM HEADER
+            ================================================== -->
+
+          <div class="form-header">
+            <div class="form-icon">
+              <i class="fa-solid fa-building"></i>
+            </div>
+
+            <div>
+              <h3>Información del proveedor</h3>
+
+              <p>Completa los datos para registrar el proveedor.</p>
+            </div>
+          </div>
+
+          <!-- =================================================
+                 FORM
+            ================================================== -->
+
+          <form
+            th:action="@{/proveedores/guardar}"
+            th:object="${proveedor}"
+            class="save-provider"
+            method="post"
+            autocomplete="off"
+          >
+            <div class="form-grid">
+              <!-- =================================================
+                         NIT
+                    ================================================== -->
+
+              <!-- NIT -->
+              <div class="form-group">
+                <label for="nitBase">
+                  NIT
+                  <span>*</span>
+                </label>
+
+                <div class="nit-wrapper">
+                  <!-- NIT SIN DÍGITO DE VERIFICACIÓN -->
+                  <div class="nit-input-wrapper">
+                    <i class="fa-solid fa-building"></i>
+
+                    <input
+                      type="text"
+                      id="nitBase"
+                      maxlength="9"
+                      placeholder="900123456"
+                      autocomplete="off"
+                      required
+                    />
+                  </div>
+
+                  <!-- GUION -->
+                  <span class="nit-separator">-</span>
+
+                  <!-- DÍGITO DE VERIFICACIÓN -->
+                  <div class="nit-dv-wrapper">
+                    <input
+                      type="text"
+                      id="nitDv"
+                      maxlength="1"
+                      placeholder="0"
+                      readonly
+                    />
+                  </div>
+                </div>
+
+                <!-- VALOR QUE REALMENTE RECIBE SPRING -->
+                <input type="hidden" id="nit" name="nit" />
+              </div>
+
+              <!-- =================================================
+                         NOMBRE
+                    ================================================== -->
+
+              <div class="form-group">
+                <label for="nombre">
+                  Nombre
+
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-building"></i>
+
+                  <input
+                    type="text"
+                    id="nombre"
+                    th:field="*{nombre}"
+                    placeholder="Ej. Distribuciones ABC"
+                    maxlength="40"
+                    required
+                  />
+                </div>
+              </div>
+
+              <!-- =================================================
+                         CORREO
+                    ================================================== -->
+
+              <div class="form-group">
+                <label for="correo"> Correo electrónico </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-envelope"></i>
+
+                  <input
+                    type="email"
+                    id="correo"
+                    th:field="*{correo}"
+                    placeholder="Ej. contacto@empresa.com"
+                    maxlength="40"
+                  />
+                </div>
+              </div>
+
+              <!-- =================================================
+                         TELEFONO
+                    ================================================== -->
+
+              <div class="form-group">
+                <label for="telefonoNumero"> Teléfono </label>
+
+                <div class="phone-wrapper">
+                  <!-- =========================================
+                                 PREFIJO
+                            ========================================== -->
+
+                  <div class="phone-prefix">
+                    <button
+                      type="button"
+                      id="countrySelector"
+                      class="country-selector"
+                    >
+                      <span id="selectedFlag"> 🇨🇴 </span>
+
+                      <span id="selectedDialCode"> +57 </span>
+
+                      <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+
+                    <!-- =====================================
+                                     DROPDOWN PAISES
+                                ====================================== -->
+
+                    <div id="countryDropdown" class="country-dropdown">
+                      <!-- BUSCADOR -->
+
+                      <div class="country-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+
+                        <input
+                          type="text"
+                          id="countrySearch"
+                          placeholder="Buscar país..."
+                          autocomplete="off"
+                        />
+                      </div>
+
+                      <!-- LISTA -->
+
+                      <div id="countryList" class="country-list"></div>
+                    </div>
+                  </div>
+
+                  <!-- =========================================
+                                 TELEFONO
+                            ========================================== -->
+
+                  <div class="phone-input-wrapper">
+                    <i class="fa-solid fa-phone"></i>
+
+                    <input
+                      type="tel"
+                      id="telefonoNumero"
+                      placeholder="300 123 4567"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+
+                <!-- =============================================
+                             VALOR REAL PARA THYMELEAF
+                        ============================================== -->
+
+                <input type="hidden" id="telefono" th:field="*{telefono}" />
+              </div>
+            </div>
+
+            <!-- =================================================
+                     FOOTER
+                ================================================== -->
+
+            <div class="form-footer">
+              <!-- CANCELAR -->
+
+              <a th:href="@{/proveedores}" class="btn-secondary"> Cancelar </a>
+
+              <!-- GUARDAR -->
+
+              <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-check"></i>
+
+                Guardar proveedor
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+    <script th:src="@{/js/nit.js}"></script>
+    <script th:src="@{/js/paises.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+  </body>
+</html>
