@@ -282,3 +282,99 @@ document.querySelectorAll(".delete-provider").forEach((form) => {
         });
     });
 });
+
+// =====================================================
+// TOAST - GUARDAR PROMOCION
+// =====================================================
+
+document.querySelectorAll(".save-promotion").forEach((form) => {
+    form.addEventListener("submit", function () {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "La promoción ha sido registrada exitosamente",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+        });
+    });
+});
+
+// =====================================================
+// TOAST - ACTUALIZAR PROMOCION
+// =====================================================
+
+document.querySelectorAll(".update-promotion").forEach((form) => {
+    form.addEventListener("submit", function () {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "La promoción ha sido actualizada exitosamente",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+        });
+    });
+});
+
+// =====================================================
+// ALERTA - ELIMINAR PROMOCION
+// =====================================================
+
+document.querySelectorAll(".delete-promotion").forEach((form) => {
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "¿Estás seguro?",
+            text: "La promoción será eliminada permanentemente.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "No, cancelar",
+            confirmButtonColor: "#9d824f",
+            cancelButtonColor: "#101827",
+            reverseButtons: true
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                Swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "success",
+                    title: "La promoción ha sido eliminada exitosamente",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false
+                });
+
+                form.submit();
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                Swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "info",
+                    title: "La promoción no ha sido eliminada",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false
+                });
+            }
+        });
+    });
+});
+
