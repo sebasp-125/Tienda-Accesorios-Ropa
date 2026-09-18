@@ -1,0 +1,314 @@
+<!doctype html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Actualizar promoción | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/actualizar_promocion.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <span class="page-kicker"> GESTIÓN DE CAMPAÑAS </span>
+            <h2>Actualizar promoción</h2>
+            <p>Modifica la información de la promoción seleccionada.</p>
+          </div>
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <a th:href="@{/promociones}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          Volver a promociones
+        </a>
+
+        <form
+          th:action="@{/promociones/actualizar}"
+          th:object="${promocion}"
+          method="post"
+          class="promotion-form update-promotion"
+          autocomplete="off"
+        >
+          <input type="hidden" th:field="*{idPromocion}" />
+
+          <div class="promotion-layout">
+            <section class="form-card main-form-card">
+              <div class="form-card-header">
+                <div class="header-symbol">
+                  <i class="fa-solid fa-percent"></i>
+                </div>
+
+                <div>
+                  <span>01</span>
+                  <h3>Información de la promoción</h3>
+                  <p>Actualiza los datos principales de la campaña.</p>
+                </div>
+              </div>
+
+              <div class="form-body">
+                <!-- TITULO -->
+                <div class="form-group full">
+                  <label for="titulo">
+                    Título de la promoción
+                    <span>*</span>
+                  </label>
+
+                  <div class="input-wrapper large">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    <input
+                      type="text"
+                      id="titulo"
+                      th:field="*{titulo}"
+                      maxlength="70"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- DESCRIPCION -->
+                <div class="form-group full">
+                  <label for="descripcion"> Descripción </label>
+                  <div class="textarea-wrapper">
+                    <textarea
+                      id="descripcion"
+                      th:field="*{descripcion}"
+                      maxlength="200"
+                    ></textarea>
+                    <span> Máximo 200 caracteres </span>
+                  </div>
+                </div>
+
+                <!-- DESCUENTO -->
+                <div class="discount-panel">
+                  <div class="discount-content">
+                    <span class="discount-label"> DESCUENTO </span>
+                    <h4>Porcentaje aplicado</h4>
+                    <p>
+                      Modifica el porcentaje de descuento de esta promoción.
+                    </p>
+                  </div>
+
+                  <div class="discount-input">
+                    <input
+                      type="number"
+                      id="porcentajeDescuento"
+                      th:field="*{porcentajeDescuento}"
+                      min="0"
+                      max="100"
+                      step="0.01"
+                      required
+                    />
+                    <span>%</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="form-card settings-card">
+              <div class="form-card-header compact">
+                <div class="header-symbol small">
+                  <i class="fa-solid fa-sliders"></i>
+                </div>
+
+                <div>
+                  <span>02</span>
+                  <h3>Configuración</h3>
+                  <p>Ajusta fechas y público objetivo.</p>
+                </div>
+              </div>
+
+              <div class="settings-body">
+                <!-- FECHA INICIO -->
+                <div class="form-group">
+                  <label for="fechaInicio">
+                    Fecha de inicio
+                    <span>*</span>
+                  </label>
+
+                  <div class="input-wrapper">
+                    <i class="fa-solid fa-calendar-plus"></i>
+                    <input
+                      type="datetime-local"
+                      id="fechaInicio"
+                      name="fechaInicio"
+                      th:value="${promocion.fechaInicio != null ? #temporals.format(promocion.fechaInicio, 'yyyy-MM-dd''T''HH:mm') : ''}"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- FECHA FIN -->
+                <div class="form-group">
+                  <label for="fechaFin">
+                    Fecha de finalización
+                    <span>*</span>
+                  </label>
+
+                  <div class="input-wrapper">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <input
+                      type="datetime-local"
+                      id="fechaFin"
+                      name="fechaFin"
+                      th:value="${promocion.fechaFin != null ? #temporals.format(promocion.fechaFin, 'yyyy-MM-dd''T''HH:mm') : ''}"
+                      required
+                    />
+                  </div>
+                </div>
+
+                <!-- TIPO CLIENTE -->
+
+                <div class="form-group">
+                  <label for="tipoCliente">
+                    Tipo de cliente <span>*</span>
+                  </label>
+
+                  <div class="custom-select" id="tipoClienteCustom">
+                    <select
+                      id="tipoCliente"
+                      name="tipoClienteId"
+                      class="real-select"
+                      required
+                    >
+                      <option value="" disabled>Selecciona un tipo</option>
+
+                      <option
+                        th:each="tipo : ${tiposCliente}"
+                        th:value="${tipo.idTipoCliente}"
+                        th:text="${tipo.tipo}"
+                        th:selected="${promocion.tipoCliente != null and tipo.idTipoCliente == promocion.tipoCliente.idTipoCliente}"
+                      ></option>
+                    </select>
+
+                    <button
+                      type="button"
+                      class="custom-select-trigger"
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                    >
+                      <span class="custom-select-left">
+                        <span class="custom-select-icon">
+                          <i class="fa-solid fa-users"></i>
+                        </span>
+
+                        <span
+                          class="custom-select-text placeholder"
+                          id="tipoClienteText"
+                        >
+                          Seleccionar tipo de cliente
+                        </span>
+                      </span>
+
+                      <i
+                        class="fa-solid fa-chevron-down custom-select-arrow"
+                      ></i>
+                    </button>
+
+                    <div class="custom-select-dropdown" id="tipoClienteOptions">
+                      <div class="custom-select-options"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- CATEGORIA -->
+
+                <div class="form-group">
+                  <label for="categoria"> Categoría <span>*</span> </label>
+
+                  <div class="custom-select" id="categoriaCustom">
+                    <select
+                      id="categoria"
+                      name="categoriaId"
+                      class="real-select"
+                      required
+                    >
+                      <option value="" disabled>
+                        Selecciona una categoría
+                      </option>
+
+                      <option
+                        th:each="categoria : ${categorias}"
+                        th:value="${categoria.idTipoCategoria}"
+                        th:text="${categoria.tipo}"
+                        th:selected="${promocion.categoria != null and categoria.idTipoCategoria == promocion.categoria.idTipoCategoria}"
+                      ></option>
+                    </select>
+
+                    <button
+                      type="button"
+                      class="custom-select-trigger"
+                      aria-haspopup="listbox"
+                      aria-expanded="false"
+                    >
+                      <span class="custom-select-left">
+                        <span class="custom-select-icon">
+                          <i class="fa-solid fa-layer-group"></i>
+                        </span>
+
+                        <span
+                          class="custom-select-text placeholder"
+                          id="categoriaText"
+                        >
+                          Seleccionar categoría
+                        </span>
+                      </span>
+
+                      <i
+                        class="fa-solid fa-chevron-down custom-select-arrow"
+                      ></i>
+                    </button>
+
+                    <div class="custom-select-dropdown" id="categoriaOptions">
+                      <div class="custom-select-options"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- ESTADO -->
+                <div class="current-state">
+                  <div class="current-state-icon">
+                    <i class="fa-solid fa-circle-check"></i>
+                  </div>
+                  <div>
+                    <span> ESTADO ACTUAL </span>
+                    <strong th:text="${promocion.estado}"> Activa </strong>
+                    <p>
+                      El estado se actualiza automáticamente de acuerdo con las
+                      fechas configuradas.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="form-footer">
+            <a th:href="@{/promociones}" class="btn-secondary"> Cancelar </a>
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-pen-to-square"></i>
+              Actualizar promoción
+            </button>
+          </div>
+        </form>
+      </main>
+    </div>
+    <script th:src="@{/js/tipocliente.js}"></script>
+    <script th:src="@{/js/categorias.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+  </body>
+</html>

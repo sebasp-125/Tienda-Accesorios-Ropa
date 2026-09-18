@@ -769,57 +769,34 @@ form {
   max-width: calc(50% - 11px);
 }
 
-/* =====================================================
-   CUSTOM SELECT - TIPO CLIENTE
-===================================================== */
+/* Mejora combo box */
 
 .custom-select {
   position: relative;
-
   width: 100%;
 }
 
-/* SELECT REAL
-   Lo mantenemos para Thymeleaf/Spring
-*/
-
 .real-select {
   position: absolute;
-
   width: 1px;
   height: 1px;
-
   opacity: 0;
-
   pointer-events: none;
 }
-
-/* =====================================================
-   TRIGGER
-===================================================== */
 
 .custom-select-trigger {
   width: 100%;
   height: 48px;
-
   padding: 0 14px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   border: 1px solid var(--border);
-
   border-radius: 9px;
-
   background: white;
-
   color: var(--text);
-
   font-family: inherit;
-
   cursor: pointer;
-
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -832,48 +809,33 @@ form {
 
 .custom-select.open .custom-select-trigger {
   border-color: var(--primary);
-
   box-shadow: 0 0 0 3px rgba(182, 154, 106, 0.1);
 }
 
-/* =====================================================
-   PARTE IZQUIERDA
-===================================================== */
-
 .custom-select-left {
   display: flex;
-
   align-items: center;
-
   gap: 11px;
-
   min-width: 0;
 }
 
 .custom-select-icon {
   width: 20px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
 }
 
 .custom-select-icon i {
   color: #94a3b8;
-
   font-size: 14px;
 }
 
 .custom-select-text {
   overflow: hidden;
-
   white-space: nowrap;
-
   text-overflow: ellipsis;
-
   font-size: 13px;
-
   color: var(--text);
 }
 
@@ -881,17 +843,10 @@ form {
   color: #9aa4b4;
 }
 
-/* =====================================================
-   FLECHA
-===================================================== */
-
 .custom-select-arrow {
   flex-shrink: 0;
-
   color: #94a3b8;
-
   font-size: 10px;
-
   transition: transform 0.2s ease;
 }
 
@@ -899,39 +854,21 @@ form {
   transform: rotate(180deg);
 }
 
-/* =====================================================
-   DROPDOWN TIPO CLIENTE
-===================================================== */
-
 .custom-select-dropdown {
   position: absolute;
-
   top: calc(100% + 8px);
-
   left: 0;
-
   width: 100%;
-
   padding: 7px;
-
   background: white;
-
   border: 1px solid var(--border);
-
   border-radius: 12px;
-
   box-shadow: 0 15px 35px rgba(15, 23, 42, 0.13);
-
   z-index: 1000;
-
   opacity: 0;
-
   visibility: hidden;
-
   transform: translateY(-6px) scale(0.98);
-
   transform-origin: top;
-
   transition:
     opacity 0.18s ease,
     transform 0.18s ease,
@@ -940,51 +877,30 @@ form {
 
 .custom-select.open .custom-select-dropdown {
   opacity: 1;
-
   visibility: visible;
-
   transform: translateY(0) scale(1);
 }
 
-/* =====================================================
-   OPCIONES
-===================================================== */
-
 .custom-select-options {
   display: flex;
-
   flex-direction: column;
-
   gap: 2px;
 }
 
 .custom-select-option {
   width: 100%;
-
   min-height: 50px;
-
   padding: 7px 10px;
-
   display: flex;
-
   align-items: center;
-
   gap: 11px;
-
   border: 0;
-
   border-radius: 9px;
-
   background: transparent;
-
   color: var(--text);
-
   font-family: inherit;
-
   text-align: left;
-
   cursor: pointer;
-
   transition:
     background 0.15s ease,
     transform 0.15s ease;
@@ -994,33 +910,18 @@ form {
   background: #f7f7f8;
 }
 
-/* =====================================================
-   ICONO
-===================================================== */
-
 .custom-option-icon {
   width: 34px;
   height: 34px;
-
   flex-shrink: 0;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   border-radius: 9px;
-
   background: #f5f2ec;
-
   color: var(--primary-dark);
-
   font-size: 13px;
 }
-
-/* =====================================================
-   NOMBRE
-===================================================== */
 
 .custom-option-content {
   flex: 1;
@@ -1028,29 +929,17 @@ form {
 
 .custom-option-name {
   display: block;
-
   color: var(--text);
-
   font-size: 12px;
-
   font-weight: 600;
 }
 
-/* =====================================================
-   CHECK
-===================================================== */
-
 .custom-option-check {
   width: 25px;
-
   display: flex;
-
   justify-content: center;
-
   color: var(--primary-dark);
-
   font-size: 12px;
-
   opacity: 0;
 }
 

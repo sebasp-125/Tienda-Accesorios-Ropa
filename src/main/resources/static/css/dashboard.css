@@ -492,7 +492,7 @@ body {
 ===================================================== */
 
 .stat-value {
-  margin: 0;
+  margin-bottom: 6px;
   color: #0f172a;
   font-size: 28px;
   line-height: 1.15;
@@ -662,7 +662,7 @@ thead {
 }
 
 th {
-  text-align: left;
+  text-align: center;
   padding: 12px 18px;
   color: var(--text-light);
   font-size: 10px;
@@ -672,6 +672,7 @@ th {
 
 td {
   padding: 13px 18px;
+  text-align: center;
   border-top: 1px solid var(--border);
   font-size: 11px;
 }

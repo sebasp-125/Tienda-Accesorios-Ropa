@@ -1,0 +1,326 @@
+<!doctype html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Promociones | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/promociones.css}" />
+
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Gestión de Promociones</h2>
+            <p>Administra las promociones y descuentos de OmniModa.</p>
+          </div>
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="promotion-hero">
+          <div class="hero-content">
+            <div class="hero-icon">
+              <i class="fa-solid fa-percent"></i>
+            </div>
+
+            <div>
+              <span class="hero-label"> CAMPAÑAS COMERCIALES </span>
+
+              <h1>Impulsa tus ventas</h1>
+
+              <p>
+                Crea promociones especiales para tus clientes y categorías de
+                productos.
+              </p>
+            </div>
+          </div>
+
+          <a th:href="@{/promociones/nueva}" class="hero-button">
+            <i class="fa-solid fa-plus"></i>
+
+            Nueva promoción
+          </a>
+        </section>
+
+        <!-- =====================================================
+             RESUMEN
+        ====================================================== -->
+
+        <section class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+
+            <div>
+              <span>Total promociones</span>
+
+              <strong th:text="${#lists.size(promociones)}"> 0 </strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon active">
+              <i class="fa-solid fa-bolt"></i>
+            </div>
+
+            <div>
+              <span>Promociones activas</span>
+
+              <strong
+                th:text="${#lists.size(promociones.?[estado == 'Activa'])}"
+              >
+                0
+              </strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon scheduled">
+              <i class="fa-solid fa-calendar-days"></i>
+            </div>
+
+            <div>
+              <span>Programadas</span>
+
+              <strong
+                th:text="${#lists.size(promociones.?[estado == 'Programada'])}"
+              >
+                0
+              </strong>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon discount">
+              <i class="fa-solid fa-tag"></i>
+            </div>
+
+            <div>
+              <span>Descuento promedio</span>
+
+              <strong>
+                <span
+                  th:if="${!#lists.isEmpty(promociones)}"
+                  th:text="${#numbers.formatDecimal(#aggregates.avg(promociones.![porcentajeDescuento]), 1, 1)} + '%'"
+                >
+                  0%
+                </span>
+
+                <span th:if="${#lists.isEmpty(promociones)}"> 0% </span>
+              </strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- =====================================================
+             LISTADO
+        ====================================================== -->
+
+        <section class="promotions-card">
+          <div class="section-header">
+            <div>
+              <h3>Promociones registradas</h3>
+
+              <p>Consulta y administra tus campañas comerciales.</p>
+            </div>
+
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+
+              <input
+                type="text"
+                id="searchPromotion"
+                placeholder="Buscar promoción..."
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Promoción</th>
+
+                  <th>Descuento</th>
+
+                  <th>Vigencia</th>
+
+                  <th>Cliente</th>
+
+                  <th>Categoría</th>
+
+                  <th>Estado</th>
+
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+
+              <tbody id="promotionsTable">
+                <tr th:each="promocion : ${promociones}" class="promotion-row">
+                  <td>
+                    <div class="promotion-name">
+                      <div class="promotion-mini-icon">
+                        <i class="fa-solid fa-percent"></i>
+                      </div>
+
+                      <div>
+                        <strong th:text="${promocion.titulo}">
+                          Promoción
+                        </strong>
+
+                        <small th:text="${promocion.descripcion}">
+                          Descripción
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span class="discount-value">
+                      <span
+                        th:text="${#numbers.formatDecimal(promocion.porcentajeDescuento, 0, 2)}"
+                      >
+                        20 </span
+                      >%
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="date-range">
+                      <span
+                        th:text="${#temporals.format(promocion.fechaInicio, 'dd/MM/yyyy HH:mm')}"
+                      >
+                        01/01/2026
+                      </span>
+
+                      <i class="fa-solid fa-arrow-right"></i>
+
+                      <span
+                        th:text="${#temporals.format(promocion.fechaFin, 'dd/MM/yyyy HH:mm')}"
+                      >
+                        31/01/2026
+                      </span>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span class="tag" th:text="${promocion.tipoCliente.tipo}">
+                      Minorista
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="tag category"
+                      th:text="${promocion.categoria.tipo}"
+                    >
+                      Ropa
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="status"
+                      th:classappend="${promocion.estado == 'Activa'} ? ' status-active' :
+                                                (${promocion.estado == 'Programada'} ? ' status-scheduled' : ' status-finished')"
+                      th:text="${promocion.estado}"
+                    >
+                      Activa
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="actions">
+                      <a
+                        th:href="@{/promociones/editar/{id}(id=${promocion.idPromocion})}"
+                        class="action edit"
+                        title="Editar"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                      </a>
+
+                      <form
+                        th:action="@{/promociones/eliminar/{id}(id=${promocion.idPromocion})}"
+                        method="post"
+                        class="delete-promotion"
+                      >
+                        <button
+                          type="submit"
+                          class="action delete"
+                          title="Eliminar"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(promociones)}" class="empty-row">
+                  <td colspan="7">
+                    <div class="empty-state">
+                      <i class="fa-solid fa-percent"></i>
+
+                      <h3>No hay promociones registradas</h3>
+
+                      <p>Crea tu primera promoción para comenzar.</p>
+
+                      <a th:href="@{/promociones/nueva}"> Crear promoción </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const searchInput = document.getElementById("searchPromotion");
+
+        const rows = document.querySelectorAll(".promotion-row");
+
+        if (searchInput) {
+          searchInput.addEventListener("input", function () {
+            const value = this.value.toLowerCase().trim();
+
+            rows.forEach((row) => {
+              const text = row.textContent.toLowerCase();
+
+              row.style.display = text.includes(value) ? "" : "none";
+            });
+          });
+        }
+      });
+    </script>
+
+    <script th:src="@{/js/alertas.js}"></script>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+  </body>
+</html>
