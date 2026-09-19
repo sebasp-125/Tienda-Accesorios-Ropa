@@ -130,6 +130,7 @@ public class ProductoController {
         return "redirect:/productos";
     }
 
+    // Para consumir el consecutivo con la categoria CZ - 001
     @GetMapping("/productos/siguiente-codigo")
     @ResponseBody
     public String siguienteCodigo() {
@@ -141,14 +142,18 @@ public class ProductoController {
         for (String codigo : codigos) {
 
             try {
-                int numero = Integer.parseInt(codigo);
+
+                String numeroCodigo = codigo.substring(
+                        codigo.lastIndexOf("-") + 1);
+
+                int numero = Integer.parseInt(numeroCodigo);
 
                 if (numero >= siguiente) {
                     siguiente = numero + 1;
                 }
 
-            } catch (NumberFormatException e) {
-                // Ignora códigos que no sean numéricos
+            } catch (Exception e) {
+                // Ignora códigos con formato inválido
             }
         }
 

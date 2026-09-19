@@ -3,87 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Proveedores | OmniModa</title>
-
-    <!-- Font Awesome -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
-
-    <!-- SweetAlert2 -->
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
-
-    <!-- Dashboard -->
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
-
-    <!-- Proveedores -->
     <link rel="stylesheet" th:href="@{/css/proveedores.css}" />
   </head>
-
   <body>
     <div class="app">
-      <!-- =====================================================
-         SIDEBAR
-    ====================================================== -->
-
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
-
-      <!-- =====================================================
-         MAIN CONTENT
-    ====================================================== -->
-
       <main class="main-content">
-        <!-- =================================================
-             HEADER
-        ================================================== -->
-
         <header class="page-header">
           <div>
             <h2>Gestión de Proveedores</h2>
-
             <p>Gestiona y consulta los proveedores registrados.</p>
           </div>
-
-          <!-- USER PROFILE -->
-
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
-
-        <!-- =================================================
-             CARD PROVEEDORES
-        ================================================== -->
-
         <section class="content-card">
-          <!-- =================================================
-                 CARD HEADER
-            ================================================== -->
-
           <div class="card-header">
             <div>
               <h3>Proveedores registrados</h3>
-
               <p>Administra la información de los proveedores.</p>
             </div>
-
-            <!-- NUEVO PROVEEDOR -->
-
             <a th:href="@{/proveedores/nuevo}" class="btn-primary">
               <i class="fa-solid fa-plus"></i>
-
               Nuevo proveedor
             </a>
           </div>
-
-          <!-- =================================================
-                 BUSCADOR
-            ================================================== -->
-
           <div class="search-container">
             <div class="search-box">
               <i class="fa-solid fa-magnifying-glass"></i>
-
               <input
                 type="text"
                 id="searchProvider"
@@ -92,87 +45,52 @@
               />
             </div>
           </div>
-
-          <!-- =================================================
-                 TABLA
-            ================================================== -->
-
           <div class="table-container">
             <table class="providers-table">
               <thead>
                 <tr>
                   <th>NIT</th>
-
                   <th>PROVEEDOR</th>
-
                   <th>CORREO</th>
-
                   <th>TELÉFONO</th>
-
                   <th>ACCIONES</th>
                 </tr>
               </thead>
-
               <tbody id="providersTable">
-                <!-- =================================================
-                             PROVEEDORES
-                        ================================================== -->
-
                 <tr th:each="proveedor : ${proveedores}">
-                  <!-- NIT -->
-
                   <td>
                     <span class="provider-nit" th:text="${proveedor.nit}">
                       900123456-1
                     </span>
                   </td>
-
-                  <!-- NOMBRE -->
-
                   <td>
                     <div class="provider-name">
                       <div class="provider-icon">
                         <i class="fa-solid fa-building"></i>
                       </div>
-
                       <strong th:text="${proveedor.nombre}">
                         Proveedor Ejemplo
                       </strong>
                     </div>
                   </td>
-
-                  <!-- CORREO -->
-
                   <td>
                     <div class="provider-email">
                       <i class="fa-regular fa-envelope"></i>
-
                       <span th:text="${proveedor.correo}">
                         proveedor@email.com
                       </span>
                     </div>
                   </td>
-
-                  <!-- TELÉFONO -->
-
                   <td>
                     <div class="provider-phone">
                       <i class="fa-solid fa-phone"></i>
-
                       <span th:text="${proveedor.telefono}">
                         +57 300 123 4567
                       </span>
                     </div>
                   </td>
-
-                  <!-- =================================================
-                                 ACCIONES
-                            ================================================== -->
-
                   <td>
                     <div class="table-actions">
-                      <!-- EDITAR -->
-
                       <a
                         th:href="@{/proveedores/actualizar/{nit}(nit=${proveedor.nit})}"
                         class="action-button edit"
@@ -180,9 +98,6 @@
                       >
                         <i class="fa-solid fa-pen"></i>
                       </a>
-
-                      <!-- ELIMINAR -->
-
                       <form
                         th:action="@{/proveedores/eliminar/{nit}(nit=${proveedor.nit})}"
                         method="post"
@@ -199,25 +114,16 @@
                     </div>
                   </td>
                 </tr>
-
-                <!-- =================================================
-                             SIN PROVEEDORES
-                        ================================================== -->
-
                 <tr th:if="${#lists.isEmpty(proveedores)}">
                   <td colspan="5">
                     <div class="empty-state">
                       <div class="empty-icon">
                         <i class="fa-solid fa-building"></i>
                       </div>
-
                       <h4>No hay proveedores registrados</h4>
-
                       <p>Comienza agregando tu primer proveedor.</p>
-
                       <a th:href="@{/proveedores/nuevo}" class="btn-primary">
                         <i class="fa-solid fa-plus"></i>
-
                         Nuevo proveedor
                       </a>
                     </div>
@@ -226,54 +132,31 @@
               </tbody>
             </table>
           </div>
-
-          <!-- =================================================
-                 FOOTER
-            ================================================== -->
-
           <div class="table-footer">
             <span>
               Mostrando
-
               <strong th:text="${proveedores != null ? proveedores.size() : 0}">
                 0
               </strong>
-
               proveedores
             </span>
           </div>
         </section>
       </main>
     </div>
-
-    <!-- =====================================================
-     BUSCADOR
-====================================================== -->
-
     <script>
       const searchInput = document.getElementById("searchProvider");
-
       const table = document.getElementById("providersTable");
-
       searchInput.addEventListener("input", function () {
         const search = this.value.toLowerCase().trim();
-
         const rows = table.querySelectorAll("tr");
-
         rows.forEach((row) => {
           const text = row.textContent.toLowerCase();
-
           row.style.display = text.includes(search) ? "" : "none";
         });
       });
     </script>
-
-    <!-- =====================================================
-     SWEETALERT
-====================================================== -->
-
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
-
     <script th:src="@{/js/alertas.js}"></script>
   </body>
 </html>

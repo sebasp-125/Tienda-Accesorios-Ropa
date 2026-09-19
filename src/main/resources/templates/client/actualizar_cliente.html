@@ -3,68 +3,40 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Actualizar cliente | OmniModa</title>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
+    <link rel="stylesheet" th:href="@{/css/actualizar_cliente.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
-
   <body>
     <div class="app">
-      <!-- SIDEBAR -->
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
-
-      <!-- =====================================================
-         MAIN
-    ====================================================== -->
-
       <main class="main-content">
-        <!-- HEADER -->
         <header class="page-header">
           <div>
             <h2>Actualizar cliente</h2>
-
             <p>Modifica la información del cliente seleccionado.</p>
           </div>
-
-          <!-- USER PROFILE -->
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
-
-        <!-- VOLVER -->
-
         <a th:href="@{/clientes}" class="back-link">
           <i class="fa-solid fa-arrow-left"></i>
           Volver a clientes
         </a>
-
-        <!-- =====================================================
-             FORMULARIO
-        ====================================================== -->
-
         <section class="form-card">
-          <!-- FORM HEADER -->
-
           <div class="form-header">
             <div class="form-icon">
               <i class="fa-solid fa-user-pen"></i>
             </div>
-
             <div>
               <h3>Información del cliente</h3>
-
               <p>Actualiza los datos necesarios del cliente.</p>
             </div>
           </div>
-
-          <!-- FORM -->
-
           <form
             th:action="@{/clientes/actualizar}"
             th:object="${cliente}"
@@ -73,20 +45,13 @@
             autocomplete="off"
           >
             <div class="form-grid">
-              <!-- =================================================
-                         DOCUMENTO
-                    ================================================== -->
-
               <div class="form-group">
                 <label for="documento">
                   Documento identidad
-
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-solid fa-id-card"></i>
-
                   <input
                     type="text"
                     id="documento"
@@ -95,21 +60,12 @@
                   />
                 </div>
               </div>
-
-              <!-- =================================================
-                         TIPO CLIENTE
-                    ================================================== -->
-
               <div class="form-group">
                 <label>
                   Tipo de cliente
-
                   <span>*</span>
                 </label>
-
                 <div class="custom-select" id="tipoClienteCustom">
-                  <!-- SELECT REAL -->
-
                   <select
                     id="tipoCliente"
                     th:field="*{tipoCliente}"
@@ -119,32 +75,23 @@
                     <option value="" disabled>
                       Seleccionar tipo de cliente
                     </option>
-
                     <option
                       th:each="tipo : ${tiposCliente}"
                       th:value="${tipo.idTipoCliente}"
                       th:text="${tipo.tipo}"
                     ></option>
                   </select>
-
-                  <!-- CAMPO VISIBLE -->
-
                   <button type="button" class="custom-select-trigger">
                     <span class="custom-select-left">
                       <span class="custom-select-icon">
                         <i class="fa-solid fa-users"></i>
                       </span>
-
                       <span class="custom-select-text" id="tipoClienteText">
                         Seleccionar tipo de cliente
                       </span>
                     </span>
-
                     <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
                   </button>
-
-                  <!-- DROPDOWN -->
-
                   <div class="custom-select-dropdown">
                     <div
                       class="custom-select-options"
@@ -153,21 +100,13 @@
                   </div>
                 </div>
               </div>
-
-              <!-- =================================================
-                         NOMBRE
-                    ================================================== -->
-
               <div class="form-group">
                 <label for="nombreCompleto">
                   Nombre completo
-
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-regular fa-user"></i>
-
                   <input
                     type="text"
                     id="nombreCompleto"
@@ -177,21 +116,13 @@
                   />
                 </div>
               </div>
-
-              <!-- =================================================
-                         CORREO
-                    ================================================== -->
-
               <div class="form-group">
                 <label for="correo">
                   Correo electrónico
-
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-regular fa-envelope"></i>
-
                   <input
                     type="email"
                     id="correo"
@@ -201,21 +132,12 @@
                   />
                 </div>
               </div>
-
-              <!-- =================================================
-                         TELEFONO
-                    ================================================== -->
-
               <div class="form-group phone-group">
                 <label for="telefonoNumero">
                   Teléfono
-
                   <span>*</span>
                 </label>
-
                 <div class="phone-wrapper">
-                  <!-- PAIS -->
-
                   <div class="phone-prefix">
                     <button
                       type="button"
@@ -223,32 +145,23 @@
                       id="countrySelector"
                     >
                       <span id="selectedFlag"> 🇨🇴 </span>
-
                       <span id="selectedDialCode"> +57 </span>
-
                       <i class="fa-solid fa-chevron-down"></i>
                     </button>
-
                     <div class="country-dropdown" id="countryDropdown">
                       <div class="country-search">
                         <i class="fa-solid fa-magnifying-glass"></i>
-
                         <input
                           type="text"
                           id="countrySearch"
                           placeholder="Buscar país..."
                         />
                       </div>
-
                       <div class="country-list" id="countryList"></div>
                     </div>
                   </div>
-
-                  <!-- NUMERO -->
-
                   <div class="phone-input-wrapper">
                     <i class="fa-solid fa-phone"></i>
-
                     <input
                       type="tel"
                       id="telefonoNumero"
@@ -257,23 +170,13 @@
                     />
                   </div>
                 </div>
-
-                <!-- TELEFONO COMPLETO -->
-
                 <input type="hidden" id="telefono" th:field="*{telefono}" />
               </div>
             </div>
-
-            <!-- =====================================================
-                     FOOTER
-                ====================================================== -->
-
             <div class="form-footer">
               <a th:href="@{/clientes}" class="btn-secondary"> Cancelar </a>
-
               <button type="submit" class="btn-primary">
                 <i class="fa-solid fa-rotate"></i>
-
                 Actualizar cliente
               </button>
             </div>
@@ -281,41 +184,29 @@
         </section>
       </main>
     </div>
-
-    <!-- =====================================================
-     JAVASCRIPT
-    ====================================================== -->
-
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/tipocliente.js}"></script>
     <script th:inline="javascript">
       const telefonoCompleto = /*[[${cliente.telefono}]]*/ "";
-
       if (telefonoCompleto) {
         const telefonoInput = document.getElementById("telefonoNumero");
         const hiddenTelefono = document.getElementById("telefono");
         const selectedFlag = document.getElementById("selectedFlag");
         const selectedDialCode = document.getElementById("selectedDialCode");
-
         const telefonoLimpio = telefonoCompleto.trim();
-
         const paisEncontrado = [...countries]
           .sort((a, b) => b.code.length - a.code.length)
           .find((country) => telefonoLimpio.startsWith(country.code));
-
         if (paisEncontrado) {
           selectedCountry = paisEncontrado;
-
           selectedFlag.textContent = paisEncontrado.flag;
           selectedDialCode.textContent = paisEncontrado.code;
-
           telefonoInput.value = telefonoLimpio
             .substring(paisEncontrado.code.length)
             .trim();
         } else {
           telefonoInput.value = telefonoLimpio;
         }
-
         hiddenTelefono.value = telefonoLimpio;
       }
     </script>

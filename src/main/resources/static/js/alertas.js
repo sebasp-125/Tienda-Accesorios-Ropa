@@ -378,3 +378,21 @@ document.querySelectorAll(".delete-promotion").forEach((form) => {
     });
 });
 
+// =====================================================
+// TOAST - EFECTUAR ASOCIACION PROVEEDOR - PRODUCTO
+// =====================================================
+
+document.querySelectorAll(".save-asociacion").forEach((form) => {
+    form.addEventListener("submit", function () {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "La asociacion de ha realizado exitosamente",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+        });
+    });
+});
+
