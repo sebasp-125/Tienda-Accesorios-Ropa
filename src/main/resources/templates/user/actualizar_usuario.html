@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Actualizar usuario | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Actualizar usuario</h2>
+            <p>Modifica la información, rol o credenciales del usuario.</p>
+          </div>
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <a th:href="@{/usuarios}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          Volver a usuarios
+        </a>
+
+        <section class="form-card">
+          <div class="form-header">
+            <div class="form-icon">
+              <i class="fa-solid fa-user-pen"></i>
+            </div>
+
+            <div>
+              <h3>Información del usuario</h3>
+              <p>Actualiza los datos del usuario seleccionado.</p>
+            </div>
+          </div>
+
+          <form
+            th:action="@{/usuarios/actualizar}"
+            method="post"
+            class="update-user"
+            autocomplete="off"
+          >
+            <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}" />
+
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nombreUsuario">
+                  Nombre completo / Usuario
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-regular fa-user"></i>
+                  <input
+                    type="text"
+                    id="nombreUsuario"
+                    name="nombreUsuario"
+                    th:value="${usuario.nombreUsuario}"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="correo">
+                  Correo electrónico
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-regular fa-envelope"></i>
+                  <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    th:value="${usuario.correo}"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="password">
+                  Nueva contraseña
+                  <span style="font-weight: normal; color: #94a3b8; font-size: 11px;">(dejar en blanco para mantener actual)</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-lock"></i>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Escribe si deseas cambiarla"
+                    minlength="6"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="rolId">
+                  Rol asignado
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <select id="rolId" name="rolId" required style="cursor: pointer;">
+                    <option
+                      th:each="r : ${roles}"
+                      th:value="${r.idRol}"
+                      th:text="${r.tipo}"
+                      th:selected="${r.idRol == rolActualId}"
+                    ></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="estado">
+                  Estado de cuenta
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-toggle-on"></i>
+                  <select id="estado" name="estado" required style="cursor: pointer;">
+                    <option value="ACTIVO" th:selected="${usuario.estado == 'ACTIVO'}">Activo</option>
+                    <option value="INACTIVO" th:selected="${usuario.estado == 'INACTIVO'}">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <a th:href="@{/usuarios}" class="btn-secondary">
+                Cancelar
+              </a>
+
+              <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-check"></i>
+                Actualizar usuario
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+  </body>
+</html>

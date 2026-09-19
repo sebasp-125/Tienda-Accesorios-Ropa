@@ -378,3 +378,87 @@ document.querySelectorAll(".delete-promotion").forEach((form) => {
     });
 });
 
+document.querySelectorAll(".save-user").forEach((form) => {
+    form.addEventListener("submit", function () {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "El usuario ha sido registrado exitosamente",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+        });
+    });
+});
+
+document.querySelectorAll(".update-user").forEach((form) => {
+    form.addEventListener("submit", function () {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "El usuario ha sido actualizado exitosamente",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: false
+        });
+    });
+});
+
+document.querySelectorAll(".delete-user").forEach((form) => {
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: "btn btn-success",
+                cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true
+        });
+
+        swalWithBootstrapButtons.fire({
+            title: "¿Estás seguro?",
+            text: "El usuario será eliminado del sistema.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí, eliminar",
+            cancelButtonText: "No, cancelar",
+            confirmButtonColor: "#9d824f",
+            cancelButtonColor: "#101827",
+            reverseButtons: true
+        }).then((result) => {
+
+            if (result.isConfirmed) {
+
+                Swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "success",
+                    title: "El usuario ha sido eliminado exitosamente",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false
+                });
+
+                form.submit();
+
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+
+                Swal.fire({
+                    toast: true,
+                    position: "top-end",
+                    icon: "info",
+                    title: "El usuario no ha sido eliminado",
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: false
+                });
+            }
+        });
+    });
+});
+
+

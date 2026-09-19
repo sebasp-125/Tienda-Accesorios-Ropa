@@ -10,6 +10,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
 
@@ -336,5 +337,19 @@
         </div>
       </main>
     </div>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      const accesoDenegado = /*[[${accesoDenegado}]]*/ false;
+      if (accesoDenegado) {
+        Swal.fire({
+          icon: "warning",
+          title: "Acceso Denegado",
+          text: "No tienes los permisos administrativos necesarios para acceder a ese módulo.",
+          confirmButtonColor: "#9d824f"
+        });
+      }
+      /*]]>*/
+    </script>
   </body>
 </html>

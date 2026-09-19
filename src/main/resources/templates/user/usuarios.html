@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Usuarios | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/clientes.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Gestión de Usuarios</h2>
+            <p>Gestiona y administra los usuarios y roles del sistema.</p>
+          </div>
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <section class="content-card">
+          <div class="card-header">
+            <div>
+              <h3>Usuarios registrados</h3>
+              <p>Administra los roles y accesos para la gestión de la tienda.</p>
+            </div>
+
+            <a th:href="@{/usuarios/nuevo}" class="btn-primary">
+              <i class="fa-solid fa-plus"></i>
+              Nuevo usuario
+            </a>
+          </div>
+
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass"></i>
+              <input
+                type="text"
+                id="searchUser"
+                placeholder="Buscar por usuario, correo o rol..."
+                autocomplete="off"
+              />
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="clients-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>USUARIO</th>
+                  <th>CORREO</th>
+                  <th>ROL ASIGNADO</th>
+                  <th>ESTADO</th>
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+
+              <tbody id="usersTable">
+                <tr th:each="u : ${usuarios}">
+                  <td class="client-id" th:text="${u.idUsuario}">1</td>
+
+                  <td>
+                    <div class="client-name">
+                      <div
+                        class="client-avatar"
+                        th:text="${#strings.substring(u.nombreUsuario, 0, 1).toUpperCase()}"
+                      >
+                        A
+                      </div>
+                      <div>
+                        <strong th:text="${u.nombreUsuario}">Nombre Usuario</strong>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td th:text="${u.correo}">correo@ejemplo.com</td>
+
+                  <td>
+                    <span
+                      class="role-badge"
+                      th:classappend="${u.rol == 'ADMINISTRADOR' ? 'admin' : (u.rol == 'VENTAS' ? 'ventas' : 'cliente')}"
+                      th:text="${u.rol}"
+                    >
+                      ADMINISTRADOR
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="status-badge"
+                      th:classappend="${u.estado == 'ACTIVO' ? 'activo' : 'inactivo'}"
+                    >
+                      <span class="status-dot"></span>
+                      <span th:text="${u.estado}">ACTIVO</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="table-actions">
+                      <a
+                        th:href="@{/usuarios/actualizar/{id}(id=${u.idUsuario})}"
+                        class="action-button edit"
+                        title="Editar usuario"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                      </a>
+
+                      <form
+                        th:action="@{/usuarios/cambiar-estado/{id}(id=${u.idUsuario})}"
+                        method="post"
+                        style="display:inline;"
+                      >
+                        <button
+                          type="submit"
+                          class="action-button toggle-status"
+                          th:title="${u.estado == 'ACTIVO' ? 'Desactivar usuario' : 'Activar usuario'}"
+                        >
+                          <i th:class="${u.estado == 'ACTIVO' ? 'fa-solid fa-user-slash' : 'fa-solid fa-user-check'}"></i>
+                        </button>
+                      </form>
+
+                      <form
+                        th:action="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"
+                        method="post"
+                        class="delete-user"
+                        style="display:inline;"
+                      >
+                        <button
+                          type="submit"
+                          class="action-button delete"
+                          title="Eliminar usuario"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                <tr th:if="${#lists.isEmpty(usuarios)}">
+                  <td colspan="6" style="text-align: center; padding: 30px; color: #94a3b8;">
+                    No hay usuarios registrados en el sistema.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+    <script th:src="@{/js/usuarios.js}"></script>
+  </body>
+</html>

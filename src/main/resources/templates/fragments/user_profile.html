@@ -5,11 +5,11 @@
   </button>
 
   <div class="profile">
-    <div class="profile-avatar">A</div>
+    <div class="profile-avatar" th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}">A</div>
 
     <div>
-      <strong>Administrador</strong>
-      <small>Administrador</small>
+      <strong th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}">Administrador</strong>
+      <small th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}">Administrador</small>
     </div>
   </div>
 </div>

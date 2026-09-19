@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Nuevo usuario | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/usuarios.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Nuevo usuario</h2>
+            <p>Registra un nuevo usuario y asígnale su rol en el sistema.</p>
+          </div>
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <a th:href="@{/usuarios}" class="back-link">
+          <i class="fa-solid fa-arrow-left"></i>
+          Volver a usuarios
+        </a>
+
+        <section class="form-card">
+          <div class="form-header">
+            <div class="form-icon">
+              <i class="fa-solid fa-user-plus"></i>
+            </div>
+
+            <div>
+              <h3>Información del usuario</h3>
+              <p>Completa los datos requeridos para crear el usuario en la tienda.</p>
+            </div>
+          </div>
+
+          <form
+            th:action="@{/usuarios/guardar}"
+            method="post"
+            class="save-user"
+            autocomplete="off"
+          >
+            <div class="form-grid">
+              <div class="form-group">
+                <label for="nombreUsuario">
+                  Nombre completo / Usuario
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-regular fa-user"></i>
+                  <input
+                    type="text"
+                    id="nombreUsuario"
+                    name="nombreUsuario"
+                    placeholder="Ej. Laura González"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="correo">
+                  Correo electrónico
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-regular fa-envelope"></i>
+                  <input
+                    type="email"
+                    id="correo"
+                    name="correo"
+                    placeholder="usuario@omnimoda.com"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="password">
+                  Contraseña
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-lock"></i>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Mínimo 6 caracteres"
+                    minlength="6"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="rolId">
+                  Rol asignado
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-shield-halved"></i>
+                  <select id="rolId" name="rolId" required style="cursor: pointer;">
+                    <option value="" disabled selected>Selecciona un rol</option>
+                    <option
+                      th:each="r : ${roles}"
+                      th:value="${r.idRol}"
+                      th:text="${r.tipo}"
+                    ></option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="estado">
+                  Estado de cuenta
+                  <span>*</span>
+                </label>
+
+                <div class="input-wrapper">
+                  <i class="fa-solid fa-toggle-on"></i>
+                  <select id="estado" name="estado" required style="cursor: pointer;">
+                    <option value="ACTIVO" selected>Activo</option>
+                    <option value="INACTIVO">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-footer">
+              <a th:href="@{/usuarios}" class="btn-secondary">
+                Cancelar
+              </a>
+
+              <button type="submit" class="btn-primary">
+                <i class="fa-solid fa-check"></i>
+                Guardar usuario
+              </button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+  </body>
+</html>

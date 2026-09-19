@@ -186,48 +186,54 @@ loginForm.addEventListener("submit", async (event) => {
 
 
     try {
-
-        /*
-         * AQUÍ CONECTAREMOS SPRING BOOT
-         *
-         * const response = await fetch("/api/auth/login", {
-         *
-         *     method: "POST",
-         *
-         *     headers: {
-         *         "Content-Type": "application/json"
-         *     },
-         *
-         *     body: JSON.stringify({
-         *         email,
-         *         password
-         *     })
-         * });
-         */
-
-
-        await new Promise(resolve =>
-            setTimeout(resolve, 1000)
-        );
-
-
-        console.log("Login:", {
-            email,
-            password
+        const response = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
         });
 
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            Swal.fire({
+                toast: true,
+                position: "top-end",
+                icon: "success",
+                title: "¡Bienvenido, " + (data.userName || "Usuario") + "!",
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true
+            });
+
+            setTimeout(() => {
+                window.location.href = data.redirectUrl || "/dashboard";
+            }, 1200);
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error al iniciar sesión",
+                text: data.message || "Correo o contraseña incorrectos.",
+                confirmButtonColor: "#9d824f"
+            });
+        }
 
     } catch (error) {
-
         console.error(error);
-
+        Swal.fire({
+            icon: "error",
+            title: "Error de conexión",
+            text: "No se pudo conectar con el servidor. Intenta de nuevo más tarde.",
+            confirmButtonColor: "#9d824f"
+        });
     } finally {
-
         loginButton.classList.remove("loading");
-
         loginButton.disabled = false;
     }
-
 });
 
 
@@ -253,11 +259,9 @@ const confirmPassword =
 const terms =
     document.getElementById("terms");
 
-
 registerForm.addEventListener("submit", async (event) => {
 
     event.preventDefault();
-
 
     const name =
         registerName.value.trim();
@@ -271,78 +275,114 @@ registerForm.addEventListener("submit", async (event) => {
     const confirmation =
         confirmPassword.value;
 
-
     /* Validaciones */
 
     if (!name) {
-
         registerName.closest(".form-group")
             .classList.add("has-error");
-
         return;
     }
-
 
     if (!validEmail(email)) {
-
         registerEmail.closest(".form-group")
             .classList.add("has-error");
-
         return;
     }
-
 
     if (password.length < 6) {
-
-        alert(
-            "La contraseña debe tener mínimo 6 caracteres."
-        );
-
+        Swal.fire({
+            icon: "warning",
+            title: "Contraseña corta",
+            text: "La contraseña debe tener mínimo 6 caracteres.",
+            confirmButtonColor: "#9d824f"
+        });
         return;
     }
-
 
     if (password !== confirmation) {
-
-        alert(
-            "Las contraseñas no coinciden."
-        );
-
+        Swal.fire({
+            icon: "warning",
+            title: "Contraseñas no coinciden",
+            text: "Las contraseñas ingresadas no son iguales.",
+            confirmButtonColor: "#9d824f"
+        });
         return;
     }
-
 
     if (!terms.checked) {
-
-        alert(
-            "Debes aceptar los términos y condiciones."
-        );
-
+        Swal.fire({
+            icon: "warning",
+            title: "Términos requeridos",
+            text: "Debes aceptar los términos y condiciones.",
+            confirmButtonColor: "#9d824f"
+        });
         return;
     }
 
+    const registerBtn = registerForm.querySelector("button[type='submit']");
+    if (registerBtn) registerBtn.disabled = true;
 
-    /*
-     * AQUÍ CONECTAREMOS SPRING BOOT
-     *
-     * fetch("/api/auth/register", {
-     *     method: "POST",
-     *     headers: {
-     *         "Content-Type": "application/json"
-     *     },
-     *     body: JSON.stringify({
-     *         name,
-     *         email,
-     *         password
-     *     })
-     * });
-     */
+    try {
+        const response = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name,
+                email,
+                password
+            })
+        });
 
+        const data = await response.json();
 
-    console.log("Registro:", {
-        name,
-        email,
-        password
-    });
+        if (response.ok && data.success) {
+            Swal.fire({
+                icon: "success",
+                title: "¡Cuenta creada!",
+                text: "Bienvenido a OmniModa, " + (data.userName || name) + ". Redirigiendo a tu cuenta...",
+                confirmButtonColor: "#9d824f",
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            });
 
+            setTimeout(() => {
+                window.location.href = data.redirectUrl || "/cliente/inicio";
+            }, 1800);
+        } else {
+            Swal.fire({
+                icon: "error",
+                title: "Error de registro",
+                text: data.message || "No se pudo registrar la cuenta.",
+                confirmButtonColor: "#9d824f"
+            });
+        }
+    } catch (error) {
+        console.error("Error en registro:", error);
+        Swal.fire({
+            icon: "error",
+            title: "Error de conexión",
+            text: "Ocurrió un error al procesar el registro.",
+            confirmButtonColor: "#9d824f"
+        });
+    } finally {
+        if (registerBtn) registerBtn.disabled = false;
+    }
+});
+
+window.addEventListener("DOMContentLoaded", () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get("logout") === "true") {
+        Swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "info",
+            title: "Sesión cerrada correctamente",
+            showConfirmButton: false,
+            timer: 2500,
+            timerProgressBar: true
+        });
+    }
 });

@@ -92,42 +92,46 @@
       <span>Ventas</span>
     </a>
 
-    <p class="menu-title">ADMINISTRACIÓN</p>
+    <div th:if="${session.esAdmin == true or session.esAdmin == null}">
+      <p class="menu-title">ADMINISTRACIÓN</p>
 
-    <a
-      th:href="@{/usuarios}"
-      class="menu-item"
-      th:classappend="${paginaActual == 'usuarios'} ? 'active' : ''"
-    >
-      <span class="icon">
-        <i class="fa-solid fa-user-gear"></i>
-      </span>
+      <a
+        th:href="@{/usuarios}"
+        class="menu-item"
+        th:classappend="${paginaActual == 'usuarios'} ? 'active' : ''"
+      >
+        <span class="icon">
+          <i class="fa-solid fa-user-gear"></i>
+        </span>
 
-      <span>Usuarios</span>
-    </a>
+        <span>Usuarios</span>
+      </a>
 
-    <a
-      th:href="@{/roles}"
-      class="menu-item"
-      th:classappend="${paginaActual == 'roles'} ? 'active' : ''"
-    >
-      <span class="icon">
-        <i class="fa-solid fa-gear"></i>
-      </span>
+      <a
+        th:href="@{/roles}"
+        class="menu-item"
+        th:classappend="${paginaActual == 'roles'} ? 'active' : ''"
+      >
+        <span class="icon">
+          <i class="fa-solid fa-gear"></i>
+        </span>
 
-      <span>Roles</span>
-    </a>
+        <span>Roles</span>
+      </a>
+    </div>
   </nav>
 
   <!-- USUARIO -->
   <div class="sidebar-user">
-    <div class="user-avatar">A</div>
+    <div class="user-avatar" th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}">A</div>
 
     <div class="user-info">
-      <strong>Administrador</strong>
-      <span>Administrador</span>
+      <strong th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}">Administrador</strong>
+      <span th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}">Administrador</span>
     </div>
 
-    <button class="logout-button">⇥</button>
+    <a th:href="@{/logout}" class="logout-button" title="Cerrar sesión" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </a>
   </div>
 </aside>
