@@ -2,57 +2,45 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Nuevo producto | OmniModa</title>
-
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=steps"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
     <link rel="stylesheet" th:href="@{/css/nuevo_producto.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
-
   <body>
     <div class="app">
-      <!-- SIDEBAR -->
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
-
       <main class="main-content">
         <header class="page-header">
           <div>
             <h2>Nuevo producto</h2>
             <p>Registra un nuevo producto en el inventario.</p>
           </div>
-          <!-- USER PROFILE -->
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
-
-        <!-- VOLVER -->
-
         <a href="/productos" class="back-link">
           <i class="fa-solid fa-arrow-left"></i>
-
           Volver a productos
         </a>
-
-        <!-- FORMULARIO -->
-
         <section class="form-card">
           <div class="form-header">
             <div class="form-icon">
               <i class="fa-solid fa-box"></i>
             </div>
-
             <div>
               <h3>Información del producto</h3>
               <p>Completa los datos para registrar el producto.</p>
             </div>
           </div>
-
           <form
             th:action="@{/productos/guardar}"
             th:object="${producto}"
@@ -61,16 +49,13 @@
             autocomplete="off"
           >
             <div class="form-grid">
-              <!-- CÓDIGO -->
               <div class="form-group">
                 <label for="codigo">
                   Código
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-solid fa-barcode"></i>
-
                   <input
                     type="text"
                     id="codigo"
@@ -82,14 +67,11 @@
                   />
                 </div>
               </div>
-
-              <!-- CATEGORÍA -->
               <div class="form-group full-width">
                 <label>
                   Categoría
                   <span>*</span>
                 </label>
-
                 <div class="custom-select" id="categoriaCustom">
                   <select
                     id="categoria"
@@ -97,21 +79,18 @@
                     class="real-select"
                     required
                   >
-                    <option value="" selected>Seleccionar categoría</option>
-
+                    <option value="">Seleccionar categoría</option>
                     <option
                       th:each="categoria : ${categorias}"
                       th:value="${categoria.idTipoCategoria}"
                       th:text="${categoria.tipo}"
                     ></option>
                   </select>
-
                   <button type="button" class="custom-select-trigger">
                     <span class="custom-select-left">
                       <span class="custom-select-icon">
                         <i class="fa-solid fa-tags"></i>
                       </span>
-
                       <span
                         class="custom-select-text placeholder"
                         id="categoriaText"
@@ -119,10 +98,8 @@
                         Seleccionar categoría
                       </span>
                     </span>
-
                     <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
                   </button>
-
                   <div class="custom-select-dropdown">
                     <div
                       class="custom-select-options"
@@ -131,14 +108,11 @@
                   </div>
                 </div>
               </div>
-
-              <!-- NOMBRE -->
               <div class="form-group">
                 <label for="nombre">
                   Nombre
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-solid fa-shirt"></i>
                   <input
@@ -151,24 +125,17 @@
                   />
                 </div>
               </div>
-
-              <!-- TALLA -->
               <div class="form-group">
                 <label for="talla"> Talla </label>
-
                 <div class="custom-select" id="tallaCustom">
-                  <!-- SELECT REAL PARA THYMELEAF -->
                   <select id="talla" th:field="*{talla}" class="real-select">
-                    <option value="" selected>Selecciona una talla</option>
+                    <option value="">Selecciona una talla</option>
                   </select>
-
-                  <!-- CAMPO VISIBLE -->
                   <button type="button" class="custom-select-trigger">
                     <span class="custom-select-left">
                       <span class="custom-select-icon">
                         <i class="fa-solid fa-ruler"></i>
                       </span>
-
                       <span
                         class="custom-select-text placeholder"
                         id="tallaText"
@@ -176,46 +143,30 @@
                         Selecciona una talla
                       </span>
                     </span>
-
                     <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
                   </button>
-
-                  <!-- DROPDOWN -->
                   <div class="custom-select-dropdown">
                     <div class="custom-select-options" id="tallaOptions"></div>
                   </div>
                 </div>
               </div>
-
-              <!-- COLOR -->
               <div class="form-group">
                 <label for="color">Color</label>
-
                 <div class="color-selector-container">
-                  <!-- SELECTOR PRINCIPAL -->
                   <div id="colorSelector" class="color-selector">
-                    <!-- CÍRCULO DEL COLOR -->
                     <span
                       id="selectedColorCircle"
                       class="selected-color-circle"
                     >
                     </span>
-
-                    <!-- NOMBRE DEL COLOR -->
                     <span id="selectedColorText" class="selected-color-text">
                       Seleccionar color
                     </span>
-
-                    <!-- FLECHA -->
                     <i class="fa-solid fa-chevron-down color-arrow"></i>
                   </div>
-
-                  <!-- DROPDOWN -->
                   <div id="colorDropdown" class="color-dropdown">
-                    <!-- BUSCADOR -->
                     <div class="color-search-wrapper">
                       <i class="fa-solid fa-magnifying-glass"></i>
-
                       <input
                         type="text"
                         id="colorSearch"
@@ -223,27 +174,18 @@
                         autocomplete="off"
                       />
                     </div>
-
-                    <!-- LISTA DE COLORES -->
                     <div id="colorList" class="color-list"></div>
                   </div>
-
-                  <!-- INPUT REAL PARA THYMELEAF -->
                   <input type="hidden" id="color" th:field="*{color}" />
                 </div>
               </div>
-
-              <!-- PRECIO -->
-
               <div class="form-group">
                 <label for="precio">
                   Precio
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-solid fa-dollar-sign"></i>
-
                   <input
                     type="number"
                     id="precio"
@@ -255,19 +197,13 @@
                   />
                 </div>
               </div>
-
-              <!-- STOCK -->
-
               <div class="form-group">
                 <label for="stockDisponible">
                   Stock disponible
-
                   <span>*</span>
                 </label>
-
                 <div class="input-wrapper">
                   <i class="fa-solid fa-boxes-stacked"></i>
-
                   <input
                     type="number"
                     id="stockDisponible"
@@ -279,12 +215,8 @@
                 </div>
               </div>
             </div>
-
-            <!-- FOOTER -->
-
             <div class="form-footer">
               <a href="/productos" class="btn-secondary"> Cancelar </a>
-
               <button type="submit" class="btn-primary">
                 <i class="fa-solid fa-check"></i>
                 Guardar producto

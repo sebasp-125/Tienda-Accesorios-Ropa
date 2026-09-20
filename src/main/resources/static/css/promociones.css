@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;500;600;700&display=swap");
-
 :root {
   --background: #f5f6f8;
   --surface: #ffffff;
@@ -12,51 +11,39 @@
   --border: #e5e7eb;
   --radius: 14px;
 }
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
-
 body {
   background: var(--background);
   color: var(--text);
   font-family: "Playpen Sans", sans-serif;
 }
-
 .app {
   min-height: 100vh;
 }
-
 .main-content {
   width: calc(100% - 300px);
   margin-left: 300px;
   padding: 38px 42px;
 }
-
 .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 28px;
 }
-
 .page-header h2 {
   font-size: 34px;
   font-weight: 700;
   margin-bottom: 5px;
 }
-
 .page-header p {
   color: var(--text-secondary);
   font-size: 14px;
 }
-
-/* =====================================================
-   HERO
-===================================================== */
-
 .promotion-hero {
   position: relative;
   overflow: hidden;
@@ -69,7 +56,6 @@ body {
   align-items: center;
   margin-bottom: 24px;
 }
-
 .promotion-hero::after {
   content: "%";
   position: absolute;
@@ -79,7 +65,6 @@ body {
   font-weight: 700;
   color: rgba(255, 255, 255, 0.035);
 }
-
 .hero-content {
   position: relative;
   z-index: 2;
@@ -87,7 +72,6 @@ body {
   align-items: center;
   gap: 20px;
 }
-
 .hero-icon {
   width: 62px;
   height: 62px;
@@ -99,25 +83,21 @@ body {
   align-items: center;
   font-size: 25px;
 }
-
 .hero-label {
   color: #cbb98f;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 1.5px;
 }
-
 .hero-content h1 {
   color: white;
   font-size: 27px;
   margin: 3px 0 5px;
 }
-
 .hero-content p {
   color: #aeb8c8;
   font-size: 13px;
 }
-
 .hero-button {
   position: relative;
   z-index: 3;
@@ -133,23 +113,16 @@ body {
   font-weight: 600;
   transition: 0.2s ease;
 }
-
 .hero-button:hover {
   background: var(--primary-dark);
   transform: translateY(-1px);
 }
-
-/* =====================================================
-   STATS
-===================================================== */
-
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
   margin-bottom: 24px;
 }
-
 .stat-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -159,7 +132,6 @@ body {
   align-items: center;
   gap: 15px;
 }
-
 .stat-icon {
   width: 45px;
   height: 45px;
@@ -170,46 +142,35 @@ body {
   align-items: center;
   justify-content: center;
 }
-
 .stat-icon.active {
   color: #56806c;
   background: #edf6f0;
 }
-
 .stat-icon.scheduled {
   color: #8a7041;
   background: #faf5e9;
 }
-
 .stat-icon.discount {
   color: #876b45;
   background: #f7f1e7;
 }
-
 .stat-card span {
   display: block;
   color: var(--text-secondary);
   font-size: 11px;
   margin-bottom: 3px;
 }
-
 .stat-card strong {
   display: block;
   text-align: center;
   font-size: 20px;
 }
-
-/* =====================================================
-   TABLE CARD
-===================================================== */
-
 .promotions-card {
   background: white;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
 }
-
 .section-header {
   padding: 23px 25px;
   display: flex;
@@ -217,17 +178,14 @@ body {
   align-items: center;
   border-bottom: 1px solid var(--border);
 }
-
 .section-header h3 {
   font-size: 17px;
   margin-bottom: 3px;
 }
-
 .section-header p {
   color: var(--text-secondary);
   font-size: 12px;
 }
-
 .search-box {
   width: 500px;
   height: 42px;
@@ -239,12 +197,10 @@ body {
   border-radius: 9px;
   background: var(--surface-soft);
 }
-
 .search-box i {
   color: #94a3b8;
   font-size: 13px;
 }
-
 .search-box input {
   border: 0;
   outline: 0;
@@ -253,21 +209,17 @@ body {
   font-family: inherit;
   font-size: 12px;
 }
-
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
 }
-
 table {
   width: 100%;
   border-collapse: collapse;
 }
-
 thead {
   background: #fafbfc;
 }
-
 th {
   padding: 14px 18px;
   text-align: left;
@@ -277,20 +229,17 @@ th {
   letter-spacing: 0.6px;
   font-weight: 700;
 }
-
 td {
   padding: 16px 18px;
   border-top: 1px solid #edf0f3;
   font-size: 12px;
   vertical-align: middle;
 }
-
 .promotion-name {
   display: flex;
   align-items: center;
   gap: 11px;
 }
-
 .promotion-mini-icon {
   width: 38px;
   height: 38px;
@@ -301,13 +250,11 @@ td {
   align-items: center;
   justify-content: center;
 }
-
 .promotion-name strong {
   display: block;
   font-size: 12px;
   margin-bottom: 3px;
 }
-
 .promotion-name small {
   display: block;
   max-width: 180px;
@@ -316,13 +263,11 @@ td {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
 .discount-value {
   color: var(--primary-dark);
   font-size: 15px;
   font-weight: 700;
 }
-
 .date-range {
   display: flex;
   align-items: center;
@@ -330,11 +275,9 @@ td {
   color: var(--text-secondary);
   font-size: 10px;
 }
-
 .date-range i {
   font-size: 8px;
 }
-
 .tag {
   display: inline-flex;
   padding: 5px 9px;
@@ -344,12 +287,10 @@ td {
   font-size: 10px;
   font-weight: 600;
 }
-
 .tag.category {
   background: #f7f2e9;
   color: #806b48;
 }
-
 .status {
   display: inline-flex;
   align-items: center;
@@ -358,28 +299,23 @@ td {
   font-size: 10px;
   font-weight: 600;
 }
-
 .status-active {
   color: #47715a;
   background: #edf7f0;
 }
-
 .status-scheduled {
   color: #856b3f;
   background: #faf5e8;
 }
-
 .status-finished {
   color: #6b7280;
   background: #f1f2f4;
 }
-
 .actions {
   display: flex;
   align-items: center;
   gap: 7px;
 }
-
 .action {
   width: 32px;
   height: 32px;
@@ -392,34 +328,24 @@ td {
   text-decoration: none;
   font-size: 11px;
 }
-
 .action.edit {
   color: #64748b;
   background: #f1f3f5;
 }
-
 .action.delete {
   color: #a06969;
   background: #faf0f0;
 }
-
 .action:hover {
   transform: translateY(-1px);
 }
-
 .delete-promotion {
   margin: 0;
 }
-
-/* =====================================================
-   EMPTY
-===================================================== */
-
 .empty-state {
   padding: 60px 20px;
   text-align: center;
 }
-
 .empty-state > i {
   width: 60px;
   height: 60px;
@@ -432,18 +358,15 @@ td {
   font-size: 22px;
   margin-bottom: 15px;
 }
-
 .empty-state h3 {
   font-size: 16px;
   margin-bottom: 5px;
 }
-
 .empty-state p {
   color: var(--text-secondary);
   font-size: 12px;
   margin-bottom: 17px;
 }
-
 .empty-state a {
   display: inline-flex;
   padding: 10px 16px;
@@ -453,43 +376,33 @@ td {
   text-decoration: none;
   font-size: 11px;
 }
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
 @media (max-width: 1150px) {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
 @media (max-width: 900px) {
   .main-content {
     width: 100%;
     margin-left: 0;
     padding: 25px;
   }
-
   .promotion-hero {
     flex-direction: column;
     align-items: flex-start;
     gap: 25px;
   }
 }
-
 @media (max-width: 650px) {
   .stats-grid {
     grid-template-columns: 1fr;
   }
-
   .section-header {
     display: flex;
     flex-direction: column;
     align-items: stretch;
     gap: 15px;
   }
-
   .search-box {
     width: 100%;
   }

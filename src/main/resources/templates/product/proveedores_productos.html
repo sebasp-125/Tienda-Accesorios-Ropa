@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Asociacion de proveedores | OmniModa</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0&icon_names=steps"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/proveedores_productos.css}" />
+  </head>
+  <body>
+    <div class="app">
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Asociacion de proveedores</h2>
+            <p>Administra los productos suministrados por cada proveedor.</p>
+          </div>
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+        <section class="content-card supplier-products-card">
+          <nav class="supplier-tabs">
+            <a href="#asociar" class="supplier-tab active" id="tabAsociar">
+              <i class="fa-solid fa-link"></i>
+              <span>
+                <strong>1. Asociar productos</strong>
+                <small>Asignación de productos</small>
+              </span>
+              <span class="tab-badge">Gestión</span>
+            </a>
+            <a href="#consultar" class="supplier-tab" id="tabConsultar">
+              <i class="fa-solid fa-clock-rotate-left"></i>
+              <span>
+                <strong>2. Consultar productos</strong>
+                <small>Consulta por proveedor</small>
+              </span>
+              <span class="tab-badge">Consulta</span>
+            </a>
+          </nav>
+          <div class="supplier-content">
+            <section class="supplier-section active" id="asociar">
+              <div class="section-heading">
+                <div class="section-icon">
+                  <i class="fa-solid fa-link"></i>
+                </div>
+                <div>
+                  <h3>Asociar productos a proveedor</h3>
+                  <p>
+                    Selecciona un proveedor y marca los productos que este
+                    suministra.
+                  </p>
+                </div>
+              </div>
+              <form
+                th:action="@{/proveedores-productos/guardar}"
+                method="post"
+                class="save-asociacion"
+                id="associationForm"
+              >
+                <div class="field-group">
+                  <label for="proveedor"> Proveedor </label>
+                  <div class="custom-select" id="proveedorCustom">
+                    <select
+                      id="proveedor"
+                      name="proveedorNit"
+                      class="real-select"
+                      required
+                    >
+                      <option value="" selected disabled>
+                        Selecciona un proveedor
+                      </option>
+                      <option
+                        th:each="proveedor : ${proveedores}"
+                        th:value="${proveedor.nit}"
+                        th:text="${proveedor.nombre}"
+                      >
+                        Proveedor ejemplo
+                      </option>
+                    </select>
+                    <button
+                      type="button"
+                      class="custom-select-trigger"
+                      id="proveedorTrigger"
+                    >
+                      <span class="custom-select-left">
+                        <span class="custom-select-icon">
+                          <i class="fa-solid fa-truck-field"></i>
+                        </span>
+                        <span
+                          id="proveedorText"
+                          class="custom-select-text placeholder"
+                        >
+                          Selecciona un proveedor
+                        </span>
+                      </span>
+                      <i
+                        class="fa-solid fa-chevron-down custom-select-arrow"
+                      ></i>
+                    </button>
+                    <div class="custom-select-dropdown" id="proveedorDropdown">
+                      <div
+                        class="custom-select-options"
+                        id="proveedorOptions"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="products-panel">
+                  <div class="products-panel-header">
+                    <div>
+                      <h4>Productos disponibles</h4>
+                      <p>
+                        Selecciona los productos que suministra este proveedor.
+                      </p>
+                    </div>
+                    <div class="selection-counter">
+                      <span id="selectedCount"> 0 </span>
+                      seleccionados
+                    </div>
+                  </div>
+                  <div class="product-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input
+                      type="text"
+                      id="productAssociationSearch"
+                      placeholder="Buscar producto por código, nombre, color o categoría..."
+                      autocomplete="off"
+                    />
+                  </div>
+                  <div
+                    class="products-selection-grid"
+                    id="productsSelectionGrid"
+                  >
+                    <label
+                      class="product-selection-card"
+                      th:each="producto : ${productos}"
+                      th:for="'producto-' + ${producto.codigo}"
+                    >
+                      <input
+                        type="checkbox"
+                        name="productosIds"
+                        th:value="${producto.codigo}"
+                        th:id="'producto-' + ${producto.codigo}"
+                        class="product-checkbox"
+                      />
+                      <span class="custom-checkbox">
+                        <i class="fa-solid fa-check"></i>
+                      </span>
+                      <div class="selection-product-icon">
+                        <i
+                          th:if="${producto.categoria.tipo == 'Ropa'}"
+                          class="fa-solid fa-shirt"
+                        ></i>
+                        <i th:if="${producto.categoria.tipo == 'Calzado'}">
+                          <span class="material-symbols-outlined"> steps </span>
+                        </i>
+                        <i
+                          th:if="${producto.categoria.tipo == 'Accesorios'}"
+                          class="fa-solid fa-bag-shopping"
+                        ></i>
+                      </div>
+                      <div class="selection-product-info">
+                        <strong th:text="${producto.nombre}">
+                          Camiseta básica
+                        </strong>
+                        <span th:text="${producto.codigo}"> RP-001 </span>
+                        <div class="selection-product-meta">
+                          <span th:text="${producto.talla}"> M </span>
+                          <span th:text="${producto.color}"> Azul </span>
+                          <span th:text="${producto.categoria.tipo}">
+                            Ropa
+                          </span>
+                        </div>
+                      </div>
+                    </label>
+                    <div
+                      class="empty-products"
+                      th:if="${#lists.isEmpty(productos)}"
+                    >
+                      <i class="fa-solid fa-box-open"></i>
+                      <h4>No hay productos registrados</h4>
+                      <p>
+                        Registra productos antes de asociarlos a un proveedor.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <a th:href="@{/productos}" class="btn-cancel"> Cancelar </a>
+                  <button type="submit" class="btn-save" id="saveAssociation">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    Guardar asociaciones
+                  </button>
+                </div>
+              </form>
+            </section>
+            <section class="supplier-section" id="consultar">
+              <div class="section-heading">
+                <div class="section-icon">
+                  <i class="fa-solid fa-magnifying-glass"></i>
+                </div>
+                <div>
+                  <h3>Consultar productos por proveedor</h3>
+                  <p>
+                    Selecciona un proveedor para consultar los productos que
+                    suministra.
+                  </p>
+                </div>
+              </div>
+              <div class="field-group consultation-field">
+                <label for="proveedorConsulta"> Proveedor </label>
+                <div class="custom-select" id="proveedorConsultaCustom">
+                  <select
+                    id="proveedorConsulta"
+                    name="proveedorConsulta"
+                    class="real-select"
+                  >
+                    <option value="" selected disabled>
+                      Selecciona un proveedor
+                    </option>
+                    <option
+                      th:each="proveedor : ${proveedores}"
+                      th:value="${proveedor.nit}"
+                      th:text="${proveedor.nombre}"
+                    >
+                      Proveedor ejemplo
+                    </option>
+                  </select>
+                  <button
+                    type="button"
+                    class="custom-select-trigger"
+                    id="proveedorConsultaTrigger"
+                  >
+                    <span class="custom-select-left">
+                      <span class="custom-select-icon">
+                        <i class="fa-solid fa-truck-field"></i>
+                      </span>
+                      <span
+                        id="proveedorConsultaText"
+                        class="custom-select-text placeholder"
+                      >
+                        Selecciona un proveedor
+                      </span>
+                    </span>
+                    <i class="fa-solid fa-chevron-down custom-select-arrow"></i>
+                  </button>
+                  <div
+                    class="custom-select-dropdown"
+                    id="proveedorConsultaDropdown"
+                  >
+                    <div
+                      class="custom-select-options"
+                      id="proveedorConsultaOptions"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="loading-container" id="loadingProducts">
+                <div class="loader"></div>
+                <strong> Consultando productos... </strong>
+                <span> Estamos obteniendo la información del proveedor. </span>
+              </div>
+              <div class="consultation-result" id="consultationResult">
+                <div class="result-header">
+                  <div>
+                    <h4>Productos asociados</h4>
+                    <p id="supplierResultText">
+                      Selecciona un proveedor para consultar sus productos.
+                    </p>
+                  </div>
+                  <span class="result-count" id="resultCount">
+                    0 productos
+                  </span>
+                </div>
+                <div
+                  class="consultation-products"
+                  id="consultationProducts"
+                ></div>
+                <div class="empty-consultation" id="emptyConsultation">
+                  <div class="empty-consultation-icon">
+                    <i class="fa-solid fa-box-open"></i>
+                  </div>
+                  <h4>Selecciona un proveedor</h4>
+                  <p>Los productos asociados aparecerán aquí.</p>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/alertas.js}"></script>
+    <script th:src="@{/js/proveedor.js}"></script>
+    <script th:inline="javascript">
+      const proveedores = /*[[${proveedores}]]*/ [];
+    </script>
+    <script>
+      const tabs = document.querySelectorAll(".supplier-tab");
+      const sections = document.querySelectorAll(".supplier-section");
+      function activateSection(sectionId) {
+        tabs.forEach((tab) => {
+          tab.classList.remove("active");
+        });
+        sections.forEach((section) => {
+          section.classList.remove("active");
+        });
+        const activeTab = document.querySelector(
+          `.supplier-tab[href="#${sectionId}"]`,
+        );
+        const activeSection = document.getElementById(sectionId);
+        if (activeTab && activeSection) {
+          activeTab.classList.add("active");
+          activeSection.classList.add("active");
+        }
+      }
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", function (event) {
+          event.preventDefault();
+          const sectionId = this.getAttribute("href").substring(1);
+          activateSection(sectionId);
+          history.pushState(null, "", `#${sectionId}`);
+        });
+      });
+      window.addEventListener("load", function () {
+        const hash = window.location.hash;
+        if (hash === "#consultar") {
+          activateSection("consultar");
+        } else {
+          activateSection("asociar");
+        }
+        // Evita que el navegador mantenga el scroll provocado por el hash
+        if (hash) {
+          window.scrollTo(0, 0);
+        }
+      });
+      const checkboxes = document.querySelectorAll(".product-checkbox");
+      const selectedCount = document.getElementById("selectedCount");
+      function updateSelectedCount() {
+        const selected = document.querySelectorAll(
+          ".product-checkbox:checked",
+        ).length;
+        selectedCount.textContent = selected;
+      }
+      checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener("change", updateSelectedCount);
+      });
+      const proveedor = document.getElementById("proveedor");
+      proveedor.addEventListener("change", async function () {
+        const proveedorNit = this.value;
+        if (!proveedorNit) {
+          return;
+        }
+        try {
+          const response = await fetch(
+            `/proveedores-productos/consultar/${encodeURIComponent(proveedorNit)}`,
+          );
+          if (!response.ok) {
+            throw new Error("No se pudieron consultar las asociaciones.");
+          }
+          const productosAsociados = await response.json();
+          const codigosAsociados = new Set(
+            productosAsociados.map((producto) => String(producto.codigo)),
+          );
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = codigosAsociados.has(String(checkbox.value));
+          });
+          updateSelectedCount();
+        } catch (error) {
+          console.error("Error al cargar productos asociados:", error);
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = false;
+          });
+          updateSelectedCount();
+        }
+      });
+      const productSearch = document.getElementById("productAssociationSearch");
+      const productCards = document.querySelectorAll(".product-selection-card");
+      productSearch.addEventListener("input", function () {
+        const search = this.value.toLowerCase().trim();
+        productCards.forEach((card) => {
+          const text = card.textContent.toLowerCase();
+          card.style.display = text.includes(search) ? "" : "none";
+        });
+      });
+      const proveedorConsulta = document.getElementById("proveedorConsulta");
+      const loadingProducts = document.getElementById("loadingProducts");
+      const consultationResult = document.getElementById("consultationResult");
+      const consultationProducts = document.getElementById(
+        "consultationProducts",
+      );
+      const emptyConsultation = document.getElementById("emptyConsultation");
+      const resultCount = document.getElementById("resultCount");
+      const supplierResultText = document.getElementById("supplierResultText");
+      proveedorConsulta.addEventListener("change", function () {
+        const proveedorNit = this.value;
+        if (!proveedorNit) {
+          return;
+        }
+        loadingProducts.classList.add("show");
+        consultationResult.classList.remove("show");
+        setTimeout(() => {
+          cargarProductosProveedor(proveedorNit);
+        }, 700);
+      });
+      async function cargarProductosProveedor(proveedorNit) {
+        try {
+          const response = await fetch(
+            `/proveedores-productos/consultar/${encodeURIComponent(
+              proveedorNit,
+            )}`,
+          );
+          if (!response.ok) {
+            throw new Error("No se pudieron consultar los productos.");
+          }
+          const productos = await response.json();
+          loadingProducts.classList.remove("show");
+          consultationResult.classList.add("show");
+          consultationProducts.innerHTML = "";
+          emptyConsultation.style.display = "none";
+          const proveedorSeleccionado = proveedores.find(
+            (proveedor) => String(proveedor.nit) === String(proveedorNit),
+          );
+          const nombreProveedor = proveedorSeleccionado
+            ? proveedorSeleccionado.nombre
+            : "Proveedor seleccionado";
+          supplierResultText.textContent = `Productos suministrados por ${nombreProveedor}`;
+          resultCount.textContent = `${productos.length} ${
+            productos.length === 1 ? "producto" : "productos"
+          }`;
+          if (productos.length === 0) {
+            emptyConsultation.style.display = "flex";
+            emptyConsultation.querySelector("h4").textContent =
+              "Sin productos asociados";
+            emptyConsultation.querySelector("p").textContent =
+              "Este proveedor todavía no tiene productos asociados.";
+            return;
+          }
+          productos.forEach((producto) => {
+            const card = document.createElement("div");
+            card.className = "consultation-product-card";
+            let icon = "fa-box";
+            if (producto.categoria === "Ropa") {
+              icon = "fa-shirt";
+            }
+            if (producto.categoria === "Calzado") {
+              icon = "fa-shoe-prints";
+            }
+            if (producto.categoria === "Accesorios") {
+              icon = "fa-bag-shopping";
+            }
+            card.innerHTML = `
+              <div class="consultation-product-icon">
+                <i class="fa-solid ${icon}"></i>
+              </div>
+              <div class="consultation-product-info">
+                <strong>
+                  ${producto.nombre}
+                </strong>
+                <span>
+                  ${producto.codigo}
+                </span>
+              </div>
+              <div class="consultation-product-details">
+                <span>
+                  Talla:
+                  <strong>
+                    ${producto.talla}
+                  </strong>
+                </span>
+                <span>
+                  Color:
+                  <strong>
+                    ${producto.color}
+                  </strong>
+                </span>
+                <span>
+                  Categoría:
+                  <strong>
+                    ${producto.categoria}
+                  </strong>
+                </span>
+              </div>
+            `;
+            consultationProducts.appendChild(card);
+          });
+        } catch (error) {
+          console.error("Error al consultar productos:", error);
+          loadingProducts.classList.remove("show");
+          consultationResult.classList.add("show");
+          consultationProducts.innerHTML = "";
+          emptyConsultation.style.display = "flex";
+          emptyConsultation.querySelector("h4").textContent =
+            "No se pudieron consultar los productos";
+          emptyConsultation.querySelector("p").textContent =
+            "Ocurrió un error al obtener los productos del proveedor.";
+          resultCount.textContent = "0 productos";
+        }
+      }
+    </script>
+  </body>
+</html>
