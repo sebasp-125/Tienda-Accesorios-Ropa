@@ -41,6 +41,7 @@
                 type="text"
                 id="searchProvider"
                 placeholder="Buscar por NIT, nombre, correo o teléfono..."
+                oninput="validarBuscador(this)"
                 autocomplete="off"
               />
             </div>
@@ -144,6 +145,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script>
       const searchInput = document.getElementById("searchProvider");
       const table = document.getElementById("providersTable");

@@ -59,10 +59,12 @@
                       id="nitBase"
                       maxlength="9"
                       placeholder="900123456"
+                      oninput="validarNIT(this)"
                       autocomplete="off"
                       th:value="${#strings.contains(proveedor.nit, '-')
                     ? #strings.substringBefore(proveedor.nit, '-')
                     : proveedor.nit}"
+                      readonly
                       required
                     />
                   </div>
@@ -94,6 +96,7 @@
                     id="nombre"
                     th:field="*{nombre}"
                     placeholder="Ej. Distribuciones ABC"
+                    oninput="validarTextoyCaracter(this)"
                     maxlength="40"
                     required
                   />
@@ -108,6 +111,8 @@
                     id="correo"
                     th:field="*{correo}"
                     placeholder="Ej. contacto@empresa.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
                     maxlength="40"
                   />
                 </div>
@@ -132,6 +137,7 @@
                           type="text"
                           id="countrySearch"
                           placeholder="Buscar país..."
+                          oninput="validarTexto(this)"
                           autocomplete="off"
                         />
                       </div>
@@ -144,6 +150,7 @@
                       type="tel"
                       id="telefonoNumero"
                       placeholder="300 123 4567"
+                      oninput="validarTelefono(this)"
                       autocomplete="off"
                     />
                   </div>
@@ -188,6 +195,7 @@
         hiddenTelefono.value = telefonoLimpio;
       }
     </script>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
   </body>
