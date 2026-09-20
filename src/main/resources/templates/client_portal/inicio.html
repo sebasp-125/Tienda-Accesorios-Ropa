@@ -59,7 +59,7 @@
       .portal-user {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
       }
 
       .portal-avatar {
@@ -86,13 +86,57 @@
         color: #94a3b8;
       }
 
-      .btn-logout {
+      .btn-portal-action {
         display: inline-flex;
         align-items: center;
         gap: 8px;
         padding: 8px 14px;
         border-radius: 8px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        color: #f1f5f9;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+        font-family: inherit;
+      }
+
+      .btn-portal-action:hover {
+        background: rgba(255, 255, 255, 0.18);
+        transform: translateY(-1px);
+      }
+
+      .btn-cart-highlight {
+        background: #b69a6a;
+        border-color: #d4be95;
+        color: #101827;
+        font-weight: 700;
+        position: relative;
+      }
+
+      .btn-cart-highlight:hover {
+        background: #c7ad7f;
+        color: #101827;
+      }
+
+      .cart-badge-count {
+        background: #dc2626;
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        padding: 2px 7px;
+        border-radius: 12px;
+        margin-left: 2px;
+      }
+
+      .btn-logout {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.08);
         color: #cbd5e1;
         text-decoration: none;
         font-size: 12px;
@@ -109,7 +153,7 @@
         background: white;
         border: 1px solid var(--border);
         border-radius: var(--radius);
-        padding: 32px;
+        padding: 28px 32px;
         margin-bottom: 28px;
         display: flex;
         align-items: center;
@@ -118,7 +162,7 @@
       }
 
       .welcome-banner h2 {
-        font-size: 26px;
+        font-size: 24px;
         color: var(--text);
         margin-bottom: 6px;
       }
@@ -138,6 +182,7 @@
         color: #8c7144;
         font-size: 12px;
         font-weight: 600;
+        white-space: nowrap;
       }
 
       .section-heading {
@@ -146,17 +191,23 @@
         margin-bottom: 16px;
         display: flex;
         align-items: center;
+        justify-content: space-between;
+      }
+
+      .section-heading-title {
+        display: flex;
+        align-items: center;
         gap: 10px;
       }
 
-      .section-heading i {
+      .section-heading-title i {
         color: var(--primary-dark);
       }
 
       .catalog-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+        gap: 22px;
         margin-bottom: 35px;
       }
 
@@ -174,7 +225,7 @@
       .product-card:hover {
         border-color: var(--primary);
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(182, 154, 106, 0.08);
+        box-shadow: 0 6px 16px rgba(182, 154, 106, 0.1);
       }
 
       .product-icon {
@@ -191,7 +242,7 @@
       }
 
       .product-title {
-        font-size: 15px;
+        font-size: 16px;
         font-weight: 700;
         color: var(--text);
         margin-bottom: 4px;
@@ -200,7 +251,7 @@
       .product-category {
         font-size: 12px;
         color: var(--text-light);
-        margin-bottom: 12px;
+        margin-bottom: 10px;
       }
 
       .product-details {
@@ -213,7 +264,7 @@
       }
 
       .product-price {
-        font-size: 16px;
+        font-size: 17px;
         font-weight: 700;
         color: var(--primary-dark);
       }
@@ -223,19 +274,440 @@
         color: var(--text-secondary);
       }
 
-      .empty-state {
-        background: white;
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 30px;
+      .cart-action-row {
+        margin-top: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .qty-selector {
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        background: #f8fafc;
+        overflow: hidden;
+      }
+
+      .qty-btn {
+        width: 28px;
+        height: 36px;
+        border: 0;
+        background: transparent;
+        font-size: 14px;
+        font-weight: 700;
+        color: #334155;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.15s;
+      }
+
+      .qty-btn:hover {
+        background: #e2e8f0;
+      }
+
+      .qty-input {
+        width: 32px;
+        height: 36px;
+        border: 0;
+        background: transparent;
         text-align: center;
-        color: var(--text-secondary);
+        font-size: 13px;
+        font-weight: 700;
+        color: #0f172a;
+        pointer-events: none;
+      }
+
+      .btn-add-cart {
+        flex: 1;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        background: #101827;
+        color: white;
+        border: 0;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s ease;
+        font-family: inherit;
+      }
+
+      .btn-add-cart:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+      }
+
+      .btn-add-cart.out-of-stock {
+        background: #cbd5e1;
+        color: #64748b;
+        cursor: not-allowed;
+      }
+
+      .badge-out-of-stock {
+        display: block;
+        text-align: center;
+        padding: 8px;
+        border-radius: 8px;
+        background: #fee2e2;
+        color: #b91c1c;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 14px;
+      }
+
+      /* =====================================================
+         CART DRAWER (CARRITO LATERAL)
+      ===================================================== */
+      .cart-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(16, 24, 39, 0.6);
+        backdrop-filter: blur(2px);
+        z-index: 9998;
+        opacity: 0;
+        visibility: hidden;
+        transition: 0.3s ease;
+      }
+
+      .cart-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .cart-drawer {
+        position: fixed;
+        top: 0;
+        right: -450px;
+        width: 420px;
+        max-width: 90vw;
+        height: 100vh;
+        background: white;
+        z-index: 9999;
+        box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+        display: flex;
+        flex-direction: column;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+
+      .cart-drawer.active {
+        right: 0;
+      }
+
+      .cart-drawer-header {
+        padding: 22px 24px;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fafbfc;
+      }
+
+      .cart-drawer-header h3 {
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0;
+      }
+
+      .cart-close-btn {
+        width: 34px;
+        height: 34px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #64748b;
+        font-size: 14px;
+        transition: 0.2s ease;
+      }
+
+      .cart-close-btn:hover {
+        background: #fee2e2;
+        color: #dc2626;
+        border-color: #fca5a5;
+      }
+
+      .cart-drawer-body {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px 24px;
+      }
+
+      .cart-item-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px;
+        border: 1px solid #f1f5f9;
+        border-radius: 10px;
+        background: #fbfcfe;
+        margin-bottom: 12px;
+      }
+
+      .cart-item-info {
+        flex: 1;
+      }
+
+      .cart-item-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 3px;
+      }
+
+      .cart-item-meta {
+        font-size: 11px;
+        color: #64748b;
+        margin-bottom: 4px;
+      }
+
+      .cart-item-price {
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+
+      .cart-item-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .cart-item-qty {
+        display: flex;
+        align-items: center;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        background: white;
+      }
+
+      .cart-item-qty button {
+        width: 24px;
+        height: 28px;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 12px;
+      }
+
+      .cart-item-qty span {
+        width: 24px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .cart-item-del {
+        border: 0;
+        background: transparent;
+        color: #94a3b8;
+        cursor: pointer;
+        padding: 6px;
+        font-size: 14px;
+        border-radius: 6px;
+        transition: 0.2s;
+      }
+
+      .cart-item-del:hover {
+        color: #dc2626;
+        background: #fee2e2;
+      }
+
+      .cart-empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: #64748b;
+      }
+
+      .cart-empty-state i {
+        font-size: 48px;
+        color: #cbd5e1;
+        margin-bottom: 14px;
+        display: block;
+      }
+
+      .cart-drawer-footer {
+        padding: 22px 24px;
+        border-top: 1px solid var(--border);
+        background: #fafbfc;
+      }
+
+      .cart-summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .cart-summary-row span {
+        font-size: 14px;
+        color: #64748b;
+        font-weight: 500;
+      }
+
+      .cart-summary-total {
+        font-size: 22px;
+        font-weight: 800;
+        color: #0f172a;
+      }
+
+      .cart-footer-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-cart-clear {
+        padding: 12px 16px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        background: white;
+        color: #475569;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: 0.2s;
+        font-family: inherit;
+      }
+
+      .btn-cart-clear:hover {
+        background: #f1f5f9;
+        color: #0f172a;
+      }
+
+      .btn-cart-checkout {
+        flex: 1;
+        padding: 12px 18px;
+        border: 0;
+        border-radius: 9px;
+        background: #101827;
+        color: white;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: 0.2s ease;
+        font-family: inherit;
+      }
+
+      .btn-cart-checkout:hover {
+        background: var(--primary-dark);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(157, 130, 79, 0.25);
+      }
+
+      /* MODAL GENERAL (MIS COMPRAS) */
+      .custom-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(16, 24, 39, 0.6);
+        backdrop-filter: blur(2px);
+        z-index: 10000;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+
+      .custom-modal-card {
+        background: white;
+        border-radius: 14px;
+        max-width: 680px;
+        width: 100%;
+        max-height: 85vh;
+        overflow-y: auto;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        padding: 26px;
+      }
+
+      .custom-modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        padding-bottom: 14px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .custom-modal-header h3 {
+        font-size: 18px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .orders-table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      .orders-table th {
+        background: #f8fafc;
+        padding: 10px 14px;
+        font-size: 11px;
+        text-align: left;
+        color: #64748b;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .orders-table td {
+        padding: 12px 14px;
+        font-size: 13px;
+        border-bottom: 1px solid #f1f5f9;
+        vertical-align: middle;
+      }
+
+      .badge-status {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .badge-status.pagada {
+        background: #dcfce7;
+        color: #15803d;
+      }
+
+      .badge-status.pendiente {
+        background: #fef3c7;
+        color: #b45309;
+      }
+
+      .badge-status.cancelada {
+        background: #fee2e2;
+        color: #b91c1c;
       }
     </style>
   </head>
 
   <body>
     <div class="portal-container">
+      <!-- HEADER / BARRA DE NAVEGACION -->
       <header class="portal-nav">
         <div class="portal-brand">
           <img th:src="@{/img/logo.png}" alt="OmniModa" />
@@ -246,6 +718,17 @@
         </div>
 
         <div class="portal-user">
+          <button type="button" class="btn-portal-action" onclick="abrirMisCompras()" title="Historial de compras">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Mis Compras</span>
+          </button>
+
+          <button type="button" class="btn-portal-action btn-cart-highlight" onclick="abrirCarrito()" title="Ver carrito">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Carrito</span>
+            <span id="cartCountBadge" class="cart-badge-count">0</span>
+          </button>
+
           <div
             class="portal-avatar"
             th:text="${usuario != null ? #strings.substring(usuario.nombreUsuario, 0, 1).toUpperCase() : 'C'}"
@@ -269,13 +752,14 @@
         </div>
       </header>
 
+      <!-- BANNER DE BIENVENIDA -->
       <section class="welcome-banner">
         <div>
           <h2>
             ¡Hola, <span th:text="${usuario != null ? usuario.nombreUsuario : 'Comprador'}">Comprador</span>!
           </h2>
           <p>
-            Bienvenido a tu cuenta en OmniModa. Aquí puedes consultar los productos disponibles y promociones activas.
+            Bienvenido a tu tienda favorita OmniModa. Explora las colecciones, añade productos a tu carrito y realiza tus compras en segundos.
           </p>
         </div>
 
@@ -285,10 +769,13 @@
         </div>
       </section>
 
-      <h3 class="section-heading">
-        <i class="fa-solid fa-box-open"></i>
-        Catálogo de Productos
-      </h3>
+      <!-- CATALOGO DE PRODUCTOS -->
+      <div class="section-heading">
+        <div class="section-heading-title">
+          <i class="fa-solid fa-box-open"></i>
+          <h3>Catálogo de Productos</h3>
+        </div>
+      </div>
 
       <div class="catalog-grid" th:if="${not #lists.isEmpty(productos)}">
         <div class="product-card" th:each="p : ${productos}">
@@ -306,12 +793,45 @@
             </p>
           </div>
 
-          <div class="product-details">
-            <div class="product-price">
-              $<span th:text="${p.precio != null ? #numbers.formatDecimal(p.precio, 1, 2) : '0.00'}">0.00</span>
+          <div>
+            <div class="product-details">
+              <div class="product-price">
+                $<span th:text="${p.precio != null ? #numbers.formatDecimal(p.precio, 1, 2) : '0.00'}">0.00</span>
+              </div>
+              <div class="product-stock">
+                Stock: <span th:id="'stock-' + ${p.codigo}" th:text="${p.stockDisponible != null ? p.stockDisponible : 0}">0</span>
+              </div>
             </div>
-            <div class="product-stock">
-              Stock: <span th:text="${p.stockDisponible != null ? p.stockDisponible : 0}">0</span>
+
+            <!-- FILA DE AÑADIR AL CARRITO -->
+            <div class="cart-action-row" th:if="${p.stockDisponible != null and p.stockDisponible > 0}">
+              <div class="qty-selector">
+                <button type="button" class="qty-btn" onclick="cambiarCantidadCard(this, -1)">-</button>
+                <input type="number" class="qty-input" value="1" min="1" th:max="${p.stockDisponible}" readonly />
+                <button type="button" class="qty-btn" onclick="cambiarCantidadCard(this, 1)">+</button>
+              </div>
+
+              <button
+                type="button"
+                class="btn-add-cart"
+                th:data-codigo="${p.codigo}"
+                th:data-nombre="${p.nombre}"
+                th:data-precio="${p.precio}"
+                th:data-talla="${p.talla}"
+                th:data-color="${p.color}"
+                th:data-stock="${p.stockDisponible}"
+                onclick="agregarAlCarrito(this)"
+              >
+                <i class="fa-solid fa-cart-plus"></i>
+                Añadir
+              </button>
+            </div>
+
+            <!-- AGOTADO -->
+            <div th:if="${p.stockDisponible == null or p.stockDisponible <= 0}">
+              <span class="badge-out-of-stock">
+                <i class="fa-solid fa-ban"></i> Agotado
+              </span>
             </div>
           </div>
         </div>
@@ -322,11 +842,14 @@
         Pronto encontrarás nuevos productos en el catálogo.
       </div>
 
+      <!-- PROMOCIONES -->
       <div th:if="${not #lists.isEmpty(promociones)}" style="margin-top: 30px;">
-        <h3 class="section-heading">
-          <i class="fa-solid fa-percent"></i>
-          Promociones Especiales
-        </h3>
+        <div class="section-heading">
+          <div class="section-heading-title">
+            <i class="fa-solid fa-percent"></i>
+            <h3>Promociones Especiales</h3>
+          </div>
+        </div>
 
         <div class="catalog-grid">
           <div class="product-card" th:each="promo : ${promociones}">
@@ -341,7 +864,7 @@
             </div>
 
             <div class="product-details">
-              <span class="role-badge ventas">
+              <span class="role-badge ventas" style="padding: 4px 10px; background: #fef3c7; color: #b45309; border-radius: 20px; font-size: 12px;">
                 Descuento: <strong style="margin-left: 4px;" th:text="${promo.porcentajeDescuento != null ? promo.porcentajeDescuento + '%' : '0%'}">10%</strong>
               </span>
             </div>
@@ -350,6 +873,114 @@
       </div>
     </div>
 
+    <!-- =====================================================
+         CART DRAWER (PANEL LATERAL DEL CARRITO)
+    ===================================================== -->
+    <div id="cartOverlay" class="cart-overlay" onclick="cerrarCarrito()"></div>
+
+    <aside id="cartDrawer" class="cart-drawer">
+      <div class="cart-drawer-header">
+        <h3>
+          <i class="fa-solid fa-bag-shopping" style="color: #b69a6a;"></i>
+          Tu Carrito de Compras
+        </h3>
+        <button type="button" class="cart-close-btn" onclick="cerrarCarrito()" title="Cerrar">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="cartDrawerBody" class="cart-drawer-body">
+        <!-- Renderizado dinámico desde LocalStorage -->
+      </div>
+
+      <div class="cart-drawer-footer">
+        <div class="cart-summary-row">
+          <span>Total de la compra:</span>
+          <span id="cartTotalDisplay" class="cart-summary-total">$0.00</span>
+        </div>
+
+        <div class="cart-footer-buttons">
+          <button type="button" class="btn-cart-clear" onclick="confirmarVaciarCarrito()">
+            <i class="fa-solid fa-trash-can"></i> Vaciar
+          </button>
+          <button type="button" id="btnCheckout" class="btn-cart-checkout" onclick="procesarCompra()">
+            <i class="fa-solid fa-check"></i> Comprar ahora
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- =====================================================
+         MODAL HISTORIAL DE COMPRAS
+    ===================================================== -->
+    <div id="modalMisCompras" class="custom-modal-overlay">
+      <div class="custom-modal-card">
+        <div class="custom-modal-header">
+          <h3><i class="fa-solid fa-clock-rotate-left" style="color: #b69a6a;"></i> Mis Compras Realizadas</h3>
+          <button type="button" class="cart-close-btn" onclick="cerrarMisCompras()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div id="misComprasContenido">
+          <div class="table-container">
+            <table class="orders-table">
+              <thead>
+                <tr>
+                  <th># VENTA</th>
+                  <th>FECHA</th>
+                  <th>TOTAL</th>
+                  <th>ESTADO</th>
+                  <th>DETALLE</th>
+                </tr>
+              </thead>
+              <tbody id="ordersTableBody">
+                <!-- Se llena dinámicamente -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =====================================================
+         MODAL DETALLE DE COMPRA
+    ===================================================== -->
+    <div id="modalDetalleCompra" class="custom-modal-overlay">
+      <div class="custom-modal-card">
+        <div class="custom-modal-header">
+          <h3><i class="fa-solid fa-receipt" style="color: #b69a6a;"></i> Detalle del Pedido #<span id="detIdVenta"></span></h3>
+          <button type="button" class="cart-close-btn" onclick="cerrarDetalleCompra()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div id="detalleCompraContenido">
+          <p style="margin-bottom: 12px; font-size: 13px; color: #64748b;">
+            Fecha: <strong id="detFecha" style="color: #0f172a;"></strong> |
+            Estado: <span id="detEstadoBadge" class="badge-status"></span>
+          </p>
+
+          <table class="orders-table" style="margin-top: 10px;">
+            <thead>
+              <tr>
+                <th>PRODUCTO</th>
+                <th>CANTIDAD</th>
+                <th>PRECIO UNIT.</th>
+                <th>SUBTOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="detItemsTableBody"></tbody>
+          </table>
+
+          <div style="text-align: right; margin-top: 16px; font-size: 18px; font-weight: 800;">
+            Total: $<span id="detTotal">0.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:inline="javascript">
       /*<![CDATA[*/
@@ -362,6 +993,413 @@
           confirmButtonColor: "#9d824f"
         });
       }
+
+      // =====================================================
+      // GESTIÓN DE CARRITO CON LOCALSTORAGE
+      // =====================================================
+      const CART_KEY = "omniModa_cart";
+
+      function getCart() {
+        try {
+          const raw = localStorage.getItem(CART_KEY);
+          return raw ? JSON.parse(raw) : [];
+        } catch (e) {
+          console.error("Error al leer carrito de localStorage:", e);
+          return [];
+        }
+      }
+
+      function saveCart(cart) {
+        localStorage.setItem(CART_KEY, JSON.stringify(cart));
+        actualizarBadge();
+        renderizarCarrito();
+      }
+
+      function actualizarBadge() {
+        const cart = getCart();
+        const totalUnits = cart.reduce((acc, item) => acc + item.cantidad, 0);
+        const badge = document.getElementById("cartCountBadge");
+        if (badge) {
+          badge.textContent = totalUnits;
+          badge.style.display = totalUnits > 0 ? "inline-block" : "none";
+        }
+      }
+
+      function cambiarCantidadCard(btn, delta) {
+        const row = btn.closest(".cart-action-row");
+        const input = row.querySelector(".qty-input");
+        let val = parseInt(input.value) || 1;
+        const max = parseInt(input.getAttribute("max")) || 999;
+        val += delta;
+        if (val < 1) val = 1;
+        if (val > max) val = max;
+        input.value = val;
+      }
+
+      function agregarAlCarrito(btn) {
+        const codigo = btn.getAttribute("data-codigo");
+        const nombre = btn.getAttribute("data-nombre");
+        const precio = parseFloat(btn.getAttribute("data-precio")) || 0;
+        const talla = btn.getAttribute("data-talla") || "Única";
+        const color = btn.getAttribute("data-color") || "N/A";
+        const stockMax = parseInt(btn.getAttribute("data-stock")) || 0;
+
+        const row = btn.closest(".cart-action-row");
+        const input = row ? row.querySelector(".qty-input") : null;
+        const cantAAgregar = input ? parseInt(input.value) || 1 : 1;
+
+        if (stockMax <= 0) {
+          Swal.fire({
+            icon: "warning",
+            title: "Producto agotado",
+            text: "No hay existencias disponibles de este producto.",
+            confirmButtonColor: "#9d824f"
+          });
+          return;
+        }
+
+        const cart = getCart();
+        const existente = cart.find(i => i.codigo === codigo);
+
+        if (existente) {
+          const nuevaCant = existente.cantidad + cantAAgregar;
+          if (nuevaCant > stockMax) {
+            Swal.fire({
+              icon: "warning",
+              title: "Límite de stock",
+              text: `Solo hay ${stockMax} unidades disponibles de este producto.`,
+              confirmButtonColor: "#9d824f"
+            });
+            return;
+          }
+          existente.cantidad = nuevaCant;
+        } else {
+          cart.push({
+            codigo: codigo,
+            nombre: nombre,
+            precio: precio,
+            talla: talla,
+            color: color,
+            stockMax: stockMax,
+            cantidad: cantAAgregar
+          });
+        }
+
+        saveCart(cart);
+
+        // Feedback toast
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          icon: "success",
+          title: `¡"${nombre}" añadido al carrito!`,
+          showConfirmButton: false,
+          timer: 1800
+        });
+
+        // Reset cantidad del input a 1
+        if (input) input.value = 1;
+      }
+
+      function abrirCarrito() {
+        renderizarCarrito();
+        document.getElementById("cartOverlay").classList.add("active");
+        document.getElementById("cartDrawer").classList.add("active");
+      }
+
+      function cerrarCarrito() {
+        document.getElementById("cartOverlay").classList.remove("active");
+        document.getElementById("cartDrawer").classList.remove("active");
+      }
+
+      function renderizarCarrito() {
+        const body = document.getElementById("cartDrawerBody");
+        const totalDisplay = document.getElementById("cartTotalDisplay");
+        const checkoutBtn = document.getElementById("btnCheckout");
+        const cart = getCart();
+
+        if (cart.length === 0) {
+          body.innerHTML = `
+            <div class="cart-empty-state">
+              <i class="fa-solid fa-cart-arrow-down"></i>
+              <h4>Tu carrito está vacío</h4>
+              <p>Explora el catálogo y añade tus prendas favoritas.</p>
+            </div>
+          `;
+          totalDisplay.textContent = "$0.00";
+          if (checkoutBtn) checkoutBtn.disabled = true;
+          return;
+        }
+
+        if (checkoutBtn) checkoutBtn.disabled = false;
+
+        let html = "";
+        let total = 0;
+
+        cart.forEach(item => {
+          const subtotal = item.precio * item.cantidad;
+          total += subtotal;
+
+          html += `
+            <div class="cart-item-card">
+              <div class="cart-item-info">
+                <div class="cart-item-title">${item.nombre}</div>
+                <div class="cart-item-meta">Talla: <strong>${item.talla}</strong> | Color: <strong>${item.color}</strong></div>
+                <div class="cart-item-price">$${item.precio.toLocaleString('es-CO', { minimumFractionDigits: 2 })} c/u</div>
+              </div>
+
+              <div class="cart-item-actions">
+                <div class="cart-item-qty">
+                  <button type="button" onclick="modificarCantidadItem('${item.codigo}', -1)">-</button>
+                  <span>${item.cantidad}</span>
+                  <button type="button" onclick="modificarCantidadItem('${item.codigo}', 1)">+</button>
+                </div>
+                <button type="button" class="cart-item-del" onclick="eliminarItemCart('${item.codigo}')" title="Eliminar">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        body.innerHTML = html;
+        totalDisplay.textContent = "$" + total.toLocaleString('es-CO', { minimumFractionDigits: 2 });
+      }
+
+      function modificarCantidadItem(codigo, delta) {
+        const cart = getCart();
+        const item = cart.find(i => i.codigo === codigo);
+        if (!item) return;
+
+        const nuevaCant = item.cantidad + delta;
+        if (nuevaCant <= 0) {
+          eliminarItemCart(codigo);
+          return;
+        }
+
+        if (item.stockMax && nuevaCant > item.stockMax) {
+          Swal.fire({
+            icon: "warning",
+            title: "Stock máximo alcanzado",
+            text: `Solo disponemos de ${item.stockMax} unidades de este producto.`,
+            confirmButtonColor: "#9d824f"
+          });
+          return;
+        }
+
+        item.cantidad = nuevaCant;
+        saveCart(cart);
+      }
+
+      function eliminarItemCart(codigo) {
+        let cart = getCart();
+        cart = cart.filter(i => i.codigo !== codigo);
+        saveCart(cart);
+      }
+
+      function confirmarVaciarCarrito() {
+        const cart = getCart();
+        if (cart.length === 0) return;
+
+        Swal.fire({
+          title: "¿Vaciar el carrito?",
+          text: "Se eliminarán todos los productos agregados.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Sí, vaciar",
+          cancelButtonText: "Cancelar",
+          confirmButtonColor: "#dc2626",
+          cancelButtonColor: "#101827"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            localStorage.removeItem(CART_KEY);
+            actualizarBadge();
+            renderizarCarrito();
+          }
+        });
+      }
+
+      async function procesarCompra() {
+        const cart = getCart();
+        if (cart.length === 0) {
+          Swal.fire({
+            icon: "info",
+            title: "Carrito vacío",
+            text: "Agrega al menos un producto al carrito antes de comprar.",
+            confirmButtonColor: "#9d824f"
+          });
+          return;
+        }
+
+        const total = cart.reduce((sum, item) => sum + (item.precio * item.cantidad), 0);
+
+        const confirmacion = await Swal.fire({
+          title: "¿Confirmar Compra?",
+          html: `Estás a punto de comprar <strong>${cart.reduce((a, b) => a + b.cantidad, 0)} prendas</strong> por un total de:<br><br><span style="font-size: 24px; font-weight: 800; color: #15803d;">$${total.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</span>`,
+          icon: "question",
+          showCancelButton: true,
+          confirmButtonText: "Sí, comprar ahora",
+          cancelButtonText: "Seguir viendo",
+          confirmButtonColor: "#15803d",
+          cancelButtonColor: "#101827"
+        });
+
+        if (!confirmacion.isConfirmed) return;
+
+        Swal.fire({
+          title: "Procesando compra...",
+          text: "Por favor espera un momento mientras registramos tu venta en OmniModa.",
+          allowOutsideClick: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+
+        try {
+          const payload = {
+            items: cart.map(i => ({
+              codigo: i.codigo,
+              cantidad: i.cantidad
+            }))
+          };
+
+          const res = await fetch("/cliente/api/comprar", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          const data = await res.json();
+
+          if (res.ok && data.success) {
+            // Vaciar carrito
+            localStorage.removeItem(CART_KEY);
+            actualizarBadge();
+            cerrarCarrito();
+
+            Swal.fire({
+              icon: "success",
+              title: "¡Compra realizada con éxito!",
+              html: `Tu venta <strong>#${data.idVenta}</strong> ha sido registrada exitosamente por un total de <strong>$${data.total.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</strong>.<br><br>¡Gracias por comprar en OmniModa!`,
+              confirmButtonText: "Ver mis compras",
+              confirmButtonColor: "#9d824f"
+            }).then(() => {
+              window.location.reload();
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "No se pudo procesar la compra",
+              text: data.message || "Ocurrió un error al registrar la venta.",
+              confirmButtonColor: "#9d824f"
+            });
+          }
+        } catch (error) {
+          console.error("Error en checkout:", error);
+          Swal.fire({
+            icon: "error",
+            title: "Error de conexión",
+            text: "No se pudo conectar con el servidor. Intenta de nuevo.",
+            confirmButtonColor: "#9d824f"
+          });
+        }
+      }
+
+      // =====================================================
+      // HISTORIAL DE COMPRAS DEL CLIENTE
+      // =====================================================
+      async function abrirMisCompras() {
+        const modal = document.getElementById("modalMisCompras");
+        const tbody = document.getElementById("ordersTableBody");
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b;">Cargando tus compras...</td></tr>`;
+        modal.style.display = "flex";
+
+        try {
+          const res = await fetch("/cliente/api/mis-compras");
+          if (!res.ok) throw new Error("Error al consultar compras");
+          const compras = await res.json();
+
+          if (compras.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #64748b; padding: 25px;">Aún no has realizado compras. ¡Haz tu primer pedido hoy!</td></tr>`;
+            return;
+          }
+
+          let html = "";
+          compras.forEach(c => {
+            const estadoClase = (c.estado || "").toLowerCase();
+            html += `
+              <tr>
+                <td><strong>#${c.idVentas}</strong></td>
+                <td>${c.fecha}</td>
+                <td><strong style="color: #0f172a;">$${c.total.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</strong></td>
+                <td><span class="badge-status ${estadoClase}">${c.estado}</span></td>
+                <td>
+                  <button type="button" class="btn-portal-action" style="padding: 4px 8px; font-size: 11px; background: #f1f5f9; color: #334155;" onclick="verDetalleCompra(${c.idVentas})">
+                    <i class="fa-solid fa-eye"></i> Ver
+                  </button>
+                </td>
+              </tr>
+            `;
+          });
+          tbody.innerHTML = html;
+        } catch (err) {
+          tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: #dc2626;">Error al cargar compras.</td></tr>`;
+        }
+      }
+
+      function cerrarMisCompras() {
+        document.getElementById("modalMisCompras").style.display = "none";
+      }
+
+      async function verDetalleCompra(idVenta) {
+        try {
+          const res = await fetch(`/cliente/api/compras/${idVenta}`);
+          if (!res.ok) throw new Error("No se pudo cargar el detalle");
+          const det = await res.json();
+
+          document.getElementById("detIdVenta").textContent = det.idVenta;
+          document.getElementById("detFecha").textContent = det.fecha;
+
+          const badge = document.getElementById("detEstadoBadge");
+          badge.textContent = det.estado;
+          badge.className = "badge-status " + (det.estado || "").toLowerCase();
+
+          const tbody = document.getElementById("detItemsTableBody");
+          let itemsHtml = "";
+          (det.items || []).forEach(item => {
+            itemsHtml += `
+              <tr>
+                <td><strong>${item.nombre}</strong> (${item.codigo})</td>
+                <td>${item.cantidad}</td>
+                <td>$${item.precioUnitario.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</td>
+                <td><strong>$${item.subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</strong></td>
+              </tr>
+            `;
+          });
+          tbody.innerHTML = itemsHtml;
+          document.getElementById("detTotal").textContent = det.total.toLocaleString('es-CO', { minimumFractionDigits: 2 });
+
+          document.getElementById("modalDetalleCompra").style.display = "flex";
+        } catch (e) {
+          Swal.fire({
+            icon: "error",
+            title: "Error",
+            text: "No fue posible cargar los detalles del pedido.",
+            confirmButtonColor: "#9d824f"
+          });
+        }
+      }
+
+      function cerrarDetalleCompra() {
+        document.getElementById("modalDetalleCompra").style.display = "none";
+      }
+
+      // Inicializar badge al cargar la página
+      document.addEventListener("DOMContentLoaded", () => {
+        actualizarBadge();
+      });
       /*]]>*/
     </script>
   </body>

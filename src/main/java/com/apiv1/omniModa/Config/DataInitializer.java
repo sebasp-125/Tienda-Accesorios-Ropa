@@ -7,9 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import com.apiv1.omniModa.Models.Entity.Estados;
 import com.apiv1.omniModa.Models.Entity.Roles;
 import com.apiv1.omniModa.Models.Entity.Usuario_rol;
 import com.apiv1.omniModa.Models.Entity.Usuarios;
+import com.apiv1.omniModa.Models.Repository.EstadoRepository;
 import com.apiv1.omniModa.Models.Repository.RolRepository;
 import com.apiv1.omniModa.Models.Repository.UsuarioRepository;
 import com.apiv1.omniModa.Models.Repository.UsuarioRolRepository;
@@ -23,6 +25,7 @@ public class DataInitializer implements CommandLineRunner {
     private final RolRepository rolRepository;
     private final UsuarioRepository usuarioRepository;
     private final UsuarioRolRepository usuarioRolRepository;
+    private final EstadoRepository estadoRepository;
     private final PasswordEncoder passwordEncoder;
 
     public DataInitializer(
@@ -30,11 +33,13 @@ public class DataInitializer implements CommandLineRunner {
             RolRepository rolRepository,
             UsuarioRepository usuarioRepository,
             UsuarioRolRepository usuarioRolRepository,
+            EstadoRepository estadoRepository,
             PasswordEncoder passwordEncoder) {
         this.jdbcTemplate = jdbcTemplate;
         this.rolRepository = rolRepository;
         this.usuarioRepository = usuarioRepository;
         this.usuarioRolRepository = usuarioRolRepository;
+        this.estadoRepository = estadoRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -59,6 +64,10 @@ public class DataInitializer implements CommandLineRunner {
         Roles rolAdmin = seedRol("ADMINISTRADOR");
         Roles rolVentas = seedRol("VENTAS");
         Roles rolCliente = seedRol("CLIENTE");
+
+        seedEstado("PENDIENTE");
+        seedEstado("PAGADA");
+        seedEstado("CANCELADA");
 
         if (!usuarioRepository.existsByCorreo("admin@omnimoda.com")) {
             Usuarios admin = new Usuarios();
@@ -102,6 +111,16 @@ public class DataInitializer implements CommandLineRunner {
                     r.setTipo(nombreRol.toUpperCase());
                     log.info("Rol '{}' registrado en el sistema.", nombreRol);
                     return rolRepository.save(r);
+                });
+    }
+
+    private Estados seedEstado(String nombreEstado) {
+        return estadoRepository.findByTipoIgnoreCase(nombreEstado)
+                .orElseGet(() -> {
+                    Estados e = new Estados();
+                    e.setTipo(nombreEstado.toUpperCase());
+                    log.info("Estado de venta '{}' registrado en el sistema.", nombreEstado);
+                    return estadoRepository.save(e);
                 });
     }
 }

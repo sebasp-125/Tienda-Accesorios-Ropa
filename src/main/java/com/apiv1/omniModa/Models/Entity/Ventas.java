@@ -1,7 +1,10 @@
 package com.apiv1.omniModa.Models.Entity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -33,6 +37,9 @@ public class Ventas {
     @ManyToOne
     @JoinColumn(name = "Estado_id", referencedColumnName = "idEstado")
     private Estados estado;
+
+    @OneToMany(mappedBy = "venta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Detalle_venta> detalles = new ArrayList<>();
 
     public Ventas() {
     }
@@ -83,5 +90,23 @@ public class Ventas {
 
     public void setEstado(Estados estado) {
         this.estado = estado;
+    }
+
+    public List<Detalle_venta> getDetalles() {
+        return detalles;
+    }
+
+    public void setDetalles(List<Detalle_venta> detalles) {
+        this.detalles = detalles;
+    }
+
+    public void addDetalle(Detalle_venta detalle) {
+        detalles.add(detalle);
+        detalle.setVenta(this);
+    }
+
+    public void removeDetalle(Detalle_venta detalle) {
+        detalles.remove(detalle);
+        detalle.setVenta(null);
     }
 }

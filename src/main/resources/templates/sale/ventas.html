@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestión de Ventas | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/clientes.css}" />
+    <link rel="stylesheet" th:href="@{/css/ventas.css}" />
+  </head>
+
+  <body>
+    <div class="app">
+      <!-- SIDEBAR -->
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <!-- CONTENIDO PRINCIPAL -->
+      <main class="main-content">
+        <header class="page-header">
+          <div>
+            <h2>Gestión de Ventas</h2>
+            <p>Supervisa, consulta y administra las ventas de la tienda.</p>
+          </div>
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- TARJETAS DE ESTADÍSTICAS / KPIS -->
+        <section class="ventas-kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon blue">
+              <i class="fa-solid fa-cart-shopping"></i>
+            </div>
+            <div class="kpi-info">
+              <span>Total Ventas</span>
+              <strong th:text="${totalVentas != null ? totalVentas : 0}">0</strong>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon gold">
+              <i class="fa-solid fa-dollar-sign"></i>
+            </div>
+            <div class="kpi-info">
+              <span>Ingresos Pagados</span>
+              <strong>$<span th:text="${totalIngresos != null ? #numbers.formatDecimal(totalIngresos, 1, 2) : '0.00'}">0.00</span></strong>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon green">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+            <div class="kpi-info">
+              <span>Ventas Pagadas</span>
+              <strong th:text="${ventasPagadas != null ? ventasPagadas : 0}">0</strong>
+            </div>
+          </div>
+
+          <div class="kpi-card">
+            <div class="kpi-icon yellow">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="kpi-info">
+              <span>Ventas Pendientes</span>
+              <strong th:text="${ventasPendientes != null ? ventasPendientes : 0}">0</strong>
+            </div>
+          </div>
+        </section>
+
+        <!-- TARJETA DE CONTENIDO PRINCIPAL -->
+        <section class="content-card">
+          <div class="card-header">
+            <div>
+              <h3>Historial de Ventas</h3>
+              <p>Registro detallado de transacciones realizadas por clientes y tienda.</p>
+            </div>
+
+            <div class="card-actions">
+              <a th:href="@{/ventas/nueva}" class="btn-primary">
+                <i class="fa-solid fa-plus"></i>
+                Nueva venta manual
+              </a>
+            </div>
+          </div>
+
+          <!-- BARRA DE FILTROS AVANZADOS -->
+          <div class="filters-bar">
+            <form th:action="@{/ventas}" method="get" class="filters-form">
+              <div class="filter-input-group">
+                <i class="fa-solid fa-user"></i>
+                <input
+                  type="text"
+                  name="cliente"
+                  placeholder="Buscar por cliente o doc..."
+                  th:value="${filtroCliente}"
+                />
+              </div>
+
+              <div class="filter-input-group">
+                <i class="fa-solid fa-box"></i>
+                <input
+                  type="text"
+                  name="producto"
+                  placeholder="Buscar por producto..."
+                  th:value="${filtroProducto}"
+                />
+              </div>
+
+              <div class="filter-input-group">
+                <i class="fa-regular fa-calendar"></i>
+                <input
+                  type="date"
+                  name="fecha"
+                  th:value="${filtroFecha}"
+                  title="Filtrar por fecha"
+                />
+              </div>
+
+              <div class="filter-input-group" style="max-width: 180px;">
+                <i class="fa-solid fa-sliders"></i>
+                <select name="estadoId">
+                  <option value="">Todos los estados</option>
+                  <option
+                    th:each="est : ${estados}"
+                    th:value="${est.idEstado}"
+                    th:text="${est.tipo}"
+                    th:selected="${filtroEstadoId == est.idEstado}"
+                  ></option>
+                </select>
+              </div>
+
+              <button type="submit" class="btn-filter" title="Aplicar filtros">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Filtrar
+              </button>
+
+              <a th:href="@{/ventas}" class="btn-filter-reset" title="Limpiar filtros">
+                <i class="fa-solid fa-rotate-left"></i>
+                Limpiar
+              </a>
+            </form>
+          </div>
+
+          <!-- TABLA DE VENTAS -->
+          <div class="table-container">
+            <table class="ventas-table">
+              <thead>
+                <tr>
+                  <th># VENTA</th>
+                  <th>FECHA</th>
+                  <th>CLIENTE</th>
+                  <th>ITEMS</th>
+                  <th>TOTAL</th>
+                  <th>ESTADO</th>
+                  <th>ACCIONES</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr th:each="venta : ${ventas}">
+                  <td>
+                    <span class="sale-code" th:text="'#' + ${venta.idVentas}">#1</span>
+                  </td>
+
+                  <td>
+                    <span style="color: #64748b; font-size: 13px;" th:text="${venta.fecha}">
+                      2026-09-20
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="client-name">
+                      <div class="client-avatar" th:text="${venta.cliente != null and #strings.length(venta.cliente.nombreCompleto) > 0 ? #strings.substring(venta.cliente.nombreCompleto, 0, 1).toUpperCase() : 'C'}">
+                        C
+                      </div>
+                      <div>
+                        <strong th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}">
+                          Nombre Cliente
+                        </strong>
+                        <small style="display: block; color: #94a3b8; font-size: 11px;" th:text="${venta.cliente != null ? venta.cliente.documento : 'N/A'}">
+                          1010101
+                        </small>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    <span class="items-tag">
+                      <i class="fa-solid fa-bag-shopping"></i>
+                      <span th:text="${venta.detalles != null ? venta.detalles.size() + ' prod.' : '1 prod.'}">1 prod.</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span class="sale-total">
+                      $<span th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}">0.00</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <span
+                      class="status-pill"
+                      th:classappend="${venta.estado != null ? #strings.toLowerCase(venta.estado.tipo) : 'pendiente'}"
+                    >
+                      <span class="status-dot"></span>
+                      <span th:text="${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'}">PENDIENTE</span>
+                    </span>
+                  </td>
+
+                  <td>
+                    <div class="table-actions">
+                      <!-- VER DETALLE COMPLETO -->
+                      <button
+                        type="button"
+                        class="action-button view"
+                        title="Ver detalle del comprobante"
+                        th:onclick="'verDetalleVenta(' + ${venta.idVentas} + ')'"
+                      >
+                        <i class="fa-solid fa-eye"></i>
+                      </button>
+
+                      <!-- CAMBIO RÁPIDO DE ESTADO -->
+                      <button
+                        type="button"
+                        class="action-button status-change"
+                        title="Cambiar estado"
+                        th:onclick="'cambiarEstadoRapido(' + ${venta.idVentas} + ', \'' + ${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'} + '\')'"
+                      >
+                        <i class="fa-solid fa-arrows-rotate"></i>
+                      </button>
+
+                      <!-- EDITAR VENTA -->
+                      <a
+                        th:href="@{/ventas/actualizar/{id}(id=${venta.idVentas})}"
+                        class="action-button edit"
+                        title="Editar venta"
+                      >
+                        <i class="fa-solid fa-pen"></i>
+                      </a>
+
+                      <!-- ELIMINAR VENTA -->
+                      <form
+                        th:action="@{/ventas/eliminar/{id}(id=${venta.idVentas})}"
+                        method="post"
+                        class="delete-sale-form"
+                        style="display: inline;"
+                      >
+                        <button
+                          type="submit"
+                          class="action-button delete"
+                          title="Eliminar venta"
+                        >
+                          <i class="fa-solid fa-trash"></i>
+                        </button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- ESTADO VACÍO -->
+                <tr th:if="${#lists.isEmpty(ventas)}">
+                  <td colspan="7">
+                    <div class="empty-state">
+                      <div class="empty-icon">
+                        <i class="fa-solid fa-receipt"></i>
+                      </div>
+                      <h4>No se encontraron ventas registradas</h4>
+                      <p>Intenta ajustar los filtros de búsqueda o registra una nueva venta.</p>
+                      <a th:href="@{/ventas/nueva}" class="btn-primary">
+                        <i class="fa-solid fa-plus"></i>
+                        Nueva venta
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-footer">
+            <span>
+              Mostrando
+              <strong th:text="${ventas != null ? ventas.size() : 0}">0</strong>
+              ventas
+            </span>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- =====================================================
+         MODAL COMPROBANTE DE VENTA
+    ===================================================== -->
+    <div id="receiptModal" class="receipt-modal-overlay">
+      <div class="receipt-card">
+        <div class="receipt-header">
+          <div class="receipt-title">
+            <h3>Comprobante de Venta #<span id="modalVentaId"></span></h3>
+            <p>OmniModa Store - Sistema de Facturación y Ventas</p>
+          </div>
+          <button type="button" class="cart-close-btn" onclick="cerrarModalDetalle()" title="Cerrar">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <div class="receipt-meta-grid">
+          <div class="meta-item">
+            <span>Cliente:</span>
+            <strong id="modalClienteNombre">Juan Pérez</strong>
+          </div>
+          <div class="meta-item">
+            <span>Documento:</span>
+            <strong id="modalClienteDoc">12345678</strong>
+          </div>
+          <div class="meta-item">
+            <span>Correo:</span>
+            <strong id="modalClienteCorreo">cliente@correo.com</strong>
+          </div>
+          <div class="meta-item">
+            <span>Teléfono:</span>
+            <strong id="modalClienteTel">3001234567</strong>
+          </div>
+          <div class="meta-item">
+            <span>Fecha de emisión:</span>
+            <strong id="modalFecha">2026-09-20</strong>
+          </div>
+          <div class="meta-item">
+            <span>Estado:</span>
+            <span id="modalEstadoPill" class="status-pill pagada">PAGADA</span>
+          </div>
+        </div>
+
+        <table class="receipt-items-table">
+          <thead>
+            <tr>
+              <th>PRODUCTO</th>
+              <th>CANT.</th>
+              <th>PRECIO UNIT.</th>
+              <th>SUBTOTAL</th>
+            </tr>
+          </thead>
+          <tbody id="modalItemsBody">
+            <!-- Filas dinámicas -->
+          </tbody>
+        </table>
+
+        <div class="receipt-total-bar">
+          <span>TOTAL FACTURADO</span>
+          <strong id="modalTotalAmount">$0.00</strong>
+        </div>
+      </div>
+    </div>
+
+    <script th:src="@{/js/sweetalert2.all.min.js}"></script>
+    <script th:src="@{/js/ventas.js}"></script>
+  </body>
+</html>

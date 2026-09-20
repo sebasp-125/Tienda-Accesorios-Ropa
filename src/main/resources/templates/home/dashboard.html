@@ -181,7 +181,7 @@
                 <p>Últimas ventas registradas</p>
               </div>
 
-              <a href="#" class="view-all"> Ver todas </a>
+              <a th:href="@{/ventas}" class="view-all"> Ver todas </a>
             </div>
 
             <div class="table-container">
@@ -203,45 +203,29 @@
                                 -->
 
                   <tr th:each="venta : ${ventasRecientes}">
-                    <td th:text="${venta.idVenta}">1</td>
+                    <td th:text="'#' + ${venta.idVentas}">#1</td>
 
-                    <td th:text="${venta.cliente.nombreCompleto}">Cliente</td>
+                    <td th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}">Cliente</td>
 
-                    <td th:text="${venta.fecha}">03/09/2026</td>
+                    <td th:text="${venta.fecha}">2026-09-20</td>
 
-                    <td class="price" th:text="${venta.total}">$0</td>
+                    <td class="price">$<span th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}">0.00</span></td>
 
                     <td>
-                      <span class="status completed"> Completada </span>
+                      <span
+                        class="status"
+                        th:classappend="${venta.estado != null and venta.estado.tipo == 'PAGADA'} ? 'completed' : ''"
+                        th:text="${venta.estado != null ? venta.estado.tipo : 'PAGADA'}"
+                      >
+                        PAGADA
+                      </span>
                     </td>
                   </tr>
 
-                  <!-- DATOS DE EJEMPLO -->
-                  <tr th:if="${ventasRecientes == null}">
-                    <td>#0001</td>
-
-                    <td>Cliente ejemplo</td>
-
-                    <td>03/09/2026</td>
-
-                    <td class="price">$250.000</td>
-
-                    <td>
-                      <span class="status completed"> Completada </span>
-                    </td>
-                  </tr>
-
-                  <tr th:if="${ventasRecientes == null}">
-                    <td>#0002</td>
-
-                    <td>Cliente ejemplo</td>
-
-                    <td>02/09/2026</td>
-
-                    <td class="price">$180.000</td>
-
-                    <td>
-                      <span class="status completed"> Completada </span>
+                  <!-- CUANDO NO HAY VENTAS -->
+                  <tr th:if="${ventasRecientes == null or #lists.isEmpty(ventasRecientes)}">
+                    <td colspan="5" style="text-align: center; color: #94a3b8; padding: 22px;">
+                      No hay ventas recientes registradas.
                     </td>
                   </tr>
                 </tbody>

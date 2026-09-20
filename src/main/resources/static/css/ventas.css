@@ -1,0 +1,417 @@
+@import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap");
+
+:root {
+  --background: #f5f6f8;
+  --surface: #ffffff;
+  --surface-soft: #f8f9fb;
+  --sidebar: #101827;
+  --sidebar-hover: #192235;
+  --text: #101827;
+  --text-secondary: #64748b;
+  --text-light: #94a3b8;
+  --primary: #b69a6a;
+  --primary-dark: #9d824f;
+  --border: #e5e7eb;
+  --danger: #dc2626;
+  --danger-soft: #fee2e2;
+  --success: #16a34a;
+  --success-soft: #dcfce7;
+  --warning: #d97706;
+  --warning-soft: #fef3c7;
+  --radius: 14px;
+}
+
+/* =====================================================
+   KPIs SUPERIORES DE VENTAS
+===================================================== */
+.ventas-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.kpi-icon.blue {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.kpi-icon.green {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.kpi-icon.yellow {
+  background: #fffbeb;
+  color: #d97706;
+}
+
+.kpi-icon.gold {
+  background: #fdfbf7;
+  color: #b69a6a;
+  border: 1px solid #f1e9dc;
+}
+
+.kpi-info span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: block;
+  margin-bottom: 4px;
+}
+
+.kpi-info strong {
+  font-size: 20px;
+  color: var(--text);
+  font-weight: 800;
+}
+
+/* =====================================================
+   BARRA DE FILTROS AVANZADOS
+===================================================== */
+.filters-bar {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--border);
+  background: #fafbfc;
+}
+
+.filters-form {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filter-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  padding: 0 12px;
+  height: 40px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.filter-input-group i {
+  color: #94a3b8;
+  font-size: 13px;
+}
+
+.filter-input-group input,
+.filter-input-group select {
+  border: 0;
+  outline: 0;
+  width: 100%;
+  font-family: inherit;
+  font-size: 12px;
+  color: var(--text);
+  background: transparent;
+}
+
+.btn-filter {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 9px;
+  background: var(--sidebar);
+  color: white;
+  border: 0;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+  transition: 0.2s;
+}
+
+.btn-filter:hover {
+  background: var(--primary-dark);
+}
+
+.btn-filter-reset {
+  height: 40px;
+  padding: 0 14px;
+  border-radius: 9px;
+  background: white;
+  color: #64748b;
+  border: 1px solid var(--border);
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-family: inherit;
+  transition: 0.2s;
+}
+
+.btn-filter-reset:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+/* =====================================================
+   TABLA DE VENTAS
+===================================================== */
+.ventas-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ventas-table th {
+  padding: 14px 18px;
+  background: #fafbfc;
+  border-bottom: 1px solid var(--border);
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: left;
+  letter-spacing: 0.3px;
+}
+
+.ventas-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.ventas-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+.sale-code {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sale-total {
+  font-weight: 800;
+  color: #0f172a;
+  font-size: 14px;
+}
+
+.items-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #475569;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* =====================================================
+   BADGES DE ESTADOS DE VENTA
+===================================================== */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status-pill.pagada {
+  background: var(--success-soft);
+  color: #15803d;
+}
+
+.status-pill.pendiente {
+  background: var(--warning-soft);
+  color: #b45309;
+}
+
+.status-pill.cancelada {
+  background: var(--danger-soft);
+  color: #b91c1c;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* =====================================================
+   BOTONES DE ACCIÓN
+===================================================== */
+.action-button.view {
+  color: #0284c7;
+}
+
+.action-button.view:hover {
+  background: #e0f2fe;
+  border-color: #bae6fd;
+}
+
+.action-button.status-change {
+  color: #d97706;
+}
+
+.action-button.status-change:hover {
+  background: #fef3c7;
+  border-color: #fde68a;
+}
+
+/* =====================================================
+   MODAL RECIBO / COMPROBANTE DE DETALLE
+===================================================== */
+.receipt-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(16, 24, 39, 0.6);
+  backdrop-filter: blur(2px);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.receipt-card {
+  background: white;
+  border-radius: var(--radius);
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  padding: 28px;
+}
+
+.receipt-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 18px;
+  margin-bottom: 20px;
+}
+
+.receipt-title h3 {
+  font-size: 20px;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.receipt-title p {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.receipt-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  background: #fafbfc;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.meta-item span {
+  display: block;
+  font-size: 11px;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.meta-item strong {
+  font-size: 13px;
+  color: var(--text);
+}
+
+.receipt-items-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.receipt-items-table th {
+  padding: 8px 10px;
+  font-size: 11px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  color: #64748b;
+}
+
+.receipt-items-table td {
+  padding: 10px;
+  font-size: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.receipt-total-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 14px;
+  border-top: 2px dashed var(--border);
+}
+
+.receipt-total-bar span {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.receipt-total-bar strong {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+@media (max-width: 900px) {
+  .ventas-kpi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 550px) {
+  .ventas-kpi-grid {
+    grid-template-columns: 1fr;
+  }
+  .filters-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}

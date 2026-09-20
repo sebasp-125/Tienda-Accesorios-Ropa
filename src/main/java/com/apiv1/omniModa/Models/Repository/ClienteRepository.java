@@ -1,9 +1,11 @@
 package com.apiv1.omniModa.Models.Repository;
 
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.apiv1.omniModa.Models.Entity.Clientes;
 
 public interface ClienteRepository extends JpaRepository<Clientes, String> {
 
+    Optional<Clientes> findByCorreoIgnoreCase(String correo);
 }
