@@ -56,6 +56,9 @@ public class VentaService {
     public List<Ventas> filtrarVentas(String cliente, String producto, LocalDate fecha, Integer estadoId) {
         String c = (cliente != null && !cliente.isBlank()) ? cliente.trim() : null;
         String p = (producto != null && !producto.isBlank()) ? producto.trim() : null;
+        if (c == null && p == null && fecha == null && estadoId == null) {
+            return listarVentas();
+        }
         return ventaRepository.filtrarVentas(c, p, fecha, estadoId);
     }
 

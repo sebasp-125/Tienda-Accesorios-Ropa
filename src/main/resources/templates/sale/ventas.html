@@ -82,7 +82,7 @@
             </div>
 
             <div class="card-actions">
-              <a th:href="@{/ventas/nueva}" class="btn-primary">
+              <a th:href="@{/ventas/nueva}" class="btn-primary" style="white-space: nowrap;">
                 <i class="fa-solid fa-plus"></i>
                 Nueva venta manual
               </a>
@@ -220,7 +220,8 @@
                         type="button"
                         class="action-button view"
                         title="Ver detalle del comprobante"
-                        th:onclick="'verDetalleVenta(' + ${venta.idVentas} + ')'"
+                        th:data-id="${venta.idVentas}"
+                        onclick="verDetalleVenta(this.getAttribute('data-id'))"
                       >
                         <i class="fa-solid fa-eye"></i>
                       </button>
@@ -230,7 +231,9 @@
                         type="button"
                         class="action-button status-change"
                         title="Cambiar estado"
-                        th:onclick="'cambiarEstadoRapido(' + ${venta.idVentas} + ', \'' + ${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'} + '\')'"
+                        th:data-id="${venta.idVentas}"
+                        th:data-estado="${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'}"
+                        onclick="cambiarEstadoRapido(this.getAttribute('data-id'), this.getAttribute('data-estado'))"
                       >
                         <i class="fa-solid fa-arrows-rotate"></i>
                       </button>

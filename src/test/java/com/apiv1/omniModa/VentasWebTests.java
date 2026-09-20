@@ -10,7 +10,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import com.apiv1.omniModa.Controllers.Clientes.ClientePortalController;
 import com.apiv1.omniModa.Controllers.Ventas.VentasController;
@@ -33,6 +41,11 @@ import com.apiv1.omniModa.Models.Repository.VentaRepository;
 @SpringBootTest
 @Transactional
 class VentasWebTests {
+
+    @Autowired
+    private WebApplicationContext webApplicationContext;
+
+    private MockMvc mockMvc;
 
     @Autowired
     private ClientePortalController clientePortalController;
@@ -66,6 +79,8 @@ class VentasWebTests {
 
     @BeforeEach
     void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+
         TipoCliente tipoCliente = tipoClienteRepository.findAll().stream().findFirst()
                 .orElseGet(() -> tipoClienteRepository.save(new TipoCliente("Natural")));
 
@@ -123,5 +138,22 @@ class VentasWebTests {
 
         Ventas ventaActualizada = ventaRepository.findById(ultima.getIdVentas()).orElseThrow();
         Assertions.assertEquals("CANCELADA", ventaActualizada.getEstado().getTipo());
+    }
+
+    @Test
+    void testVentasHtmlTemplateRender() throws Exception {
+        // Asegurar que hay al menos una venta para probar el bucle de filas
+        MockHttpSession session = new MockHttpSession();
+        session.setAttribute("usuarioLogueado", usuarioCliente);
+        session.setAttribute("rolPrincipal", "ADMINISTRADOR");
+        CompraRequestDTO req = new CompraRequestDTO(List.of(new ItemVentaDTO(productoTest.getCodigo(), null, 1, null, null)));
+        clientePortalController.comprar(req, session);
+
+        mockMvc.perform(get("/ventas").session(session))
+                .andExpect(status().isOk())
+                .andExpect(view().name("sale/ventas"))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("Historial de Ventas")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("verDetalleVenta")))
+                .andExpect(content().string(org.hamcrest.Matchers.containsString("cambiarEstadoRapido")));
     }
 }
