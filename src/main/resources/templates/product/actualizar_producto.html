@@ -114,6 +114,7 @@
                     id="nombre"
                     th:field="*{nombre}"
                     maxlength="40"
+                    oninput="validarTexto(this)"
                     required
                   />
                 </div>
@@ -166,6 +167,7 @@
                         type="text"
                         id="colorSearch"
                         placeholder="Buscar color..."
+                        oninput="validarTexto(this)"
                         autocomplete="off"
                       />
                     </div>
@@ -187,6 +189,7 @@
                     th:field="*{precio}"
                     min="0"
                     step="0.01"
+                    oninput="validarPrecio(this)"
                     required
                   />
                 </div>
@@ -203,6 +206,7 @@
                     id="stockDisponible"
                     th:field="*{stockDisponible}"
                     min="0"
+                    oninput="validarNumeros(this)"
                     required
                   />
                 </div>
@@ -222,6 +226,7 @@
     <script th:inline="javascript">
       const tallaGuardada = /*[[${producto.talla}]]*/ "";
     </script>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/categorias.js}"></script>
     <script th:src="@{/js/talla.js}"></script>
     <script th:src="@{/js/colores.js}"></script>

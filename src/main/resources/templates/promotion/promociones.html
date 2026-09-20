@@ -108,6 +108,7 @@
                 type="text"
                 id="searchPromotion"
                 placeholder="Buscar promoción..."
+                oninput="validarTextoyCaracter(this)"
                 autocomplete="off"
               />
             </div>
@@ -230,6 +231,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const searchInput = document.getElementById("searchPromotion");

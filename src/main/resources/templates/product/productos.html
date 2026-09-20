@@ -61,6 +61,7 @@
                 type="text"
                 id="searchProduct"
                 placeholder="Buscar por código, nombre, color o categoría..."
+                oninput="validarTextoyCaracter(this)"
                 autocomplete="off"
               />
             </div>
@@ -204,6 +205,7 @@
         });
       });
     </script>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

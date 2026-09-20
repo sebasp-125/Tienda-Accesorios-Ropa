@@ -56,6 +56,7 @@
                     type="text"
                     id="documento"
                     th:field="*{documento}"
+                    oninput="validarDocumento(this)"
                     readonly
                   />
                 </div>
@@ -112,6 +113,7 @@
                     id="nombreCompleto"
                     th:field="*{nombreCompleto}"
                     placeholder="Ej. Juan Pérez"
+                    oninput="validarTexto(this)"
                     required
                   />
                 </div>
@@ -128,6 +130,8 @@
                     id="correo"
                     th:field="*{correo}"
                     placeholder="correo@ejemplo.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
                     required
                   />
                 </div>
@@ -155,6 +159,7 @@
                           type="text"
                           id="countrySearch"
                           placeholder="Buscar país..."
+                          oninput="validarTexto(this)"
                         />
                       </div>
                       <div class="country-list" id="countryList"></div>
@@ -166,6 +171,8 @@
                       type="tel"
                       id="telefonoNumero"
                       placeholder="300 000 0000"
+                      oninput="validarTelefono(this)"
+                      maxlength="10"
                       required
                     />
                   </div>
@@ -184,6 +191,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/tipocliente.js}"></script>
     <script th:inline="javascript">
