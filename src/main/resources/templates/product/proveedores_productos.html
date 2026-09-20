@@ -133,6 +133,7 @@
                       type="text"
                       id="productAssociationSearch"
                       placeholder="Buscar producto por código, nombre, color o categoría..."
+                      oninput="validarTextoyCaracter(this)"
                       autocomplete="off"
                     />
                   </div>
@@ -298,6 +299,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/proveedor.js}"></script>

@@ -120,6 +120,7 @@
                     id="nombre"
                     th:field="*{nombre}"
                     placeholder="Ej. Camiseta básica"
+                    oninput="validarTexto(this)"
                     maxlength="40"
                     required
                   />
@@ -171,6 +172,7 @@
                         type="text"
                         id="colorSearch"
                         placeholder="Buscar color..."
+                        oninput="validarTexto(this)"
                         autocomplete="off"
                       />
                     </div>
@@ -193,6 +195,7 @@
                     placeholder="0"
                     min="0"
                     step="0.01"
+                    oninput="validarPrecio(this)"
                     required
                   />
                 </div>
@@ -209,6 +212,7 @@
                     id="stockDisponible"
                     th:field="*{stockDisponible}"
                     placeholder="0"
+                    oninput="validarNumeros(this)"
                     min="0"
                     required
                   />
@@ -226,6 +230,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/consecutivo.js}"></script>
     <script th:src="@{/js/categorias.js}"></script>
     <script th:src="@{/js/talla.js}"></script>

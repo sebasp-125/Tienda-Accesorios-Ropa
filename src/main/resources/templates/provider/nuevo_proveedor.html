@@ -59,6 +59,7 @@
                       maxlength="9"
                       placeholder="900123456"
                       autocomplete="off"
+                      oninput="validarNIT(this)"
                       required
                     />
                   </div>
@@ -87,6 +88,7 @@
                     id="nombre"
                     th:field="*{nombre}"
                     placeholder="Ej. Distribuciones ABC"
+                    oninput="validarTextoyCaracter(this)"
                     maxlength="40"
                     required
                   />
@@ -101,6 +103,8 @@
                     id="correo"
                     th:field="*{correo}"
                     placeholder="Ej. contacto@empresa.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
                     maxlength="40"
                   />
                 </div>
@@ -125,6 +129,7 @@
                           type="text"
                           id="countrySearch"
                           placeholder="Buscar país..."
+                          oninput="validarTexto(this)"
                           autocomplete="off"
                         />
                       </div>
@@ -137,6 +142,7 @@
                       type="tel"
                       id="telefonoNumero"
                       placeholder="300 123 4567"
+                      oninput="validarTelefono(this)"
                       autocomplete="off"
                     />
                   </div>
@@ -155,6 +161,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/nit.js}"></script>
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>

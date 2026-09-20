@@ -41,6 +41,7 @@
                 type="text"
                 id="searchClient"
                 placeholder="Buscar por nombre, correo o teléfono..."
+                oninput="validarBuscador(this)"
                 autocomplete="off"
               />
             </div>
@@ -137,6 +138,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/buscarclientes.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>

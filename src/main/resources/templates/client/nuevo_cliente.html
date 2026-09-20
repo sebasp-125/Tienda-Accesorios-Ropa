@@ -57,6 +57,9 @@
                     id="documento"
                     th:field="*{documento}"
                     placeholder="Ej. 1013338890"
+                    oninput="validarDocumento(this)"
+                    maxlength="10"
+                    minlength="7"
                     required
                   />
                 </div>
@@ -116,6 +119,9 @@
                     id="nombreCompleto"
                     th:field="*{nombreCompleto}"
                     placeholder="Ej. Juan Pérez"
+                    oninput="validarTexto(this)"
+                    maxlength="60"
+                    minlength="5"
                     required
                   />
                 </div>
@@ -132,6 +138,10 @@
                     id="correo"
                     th:field="*{correo}"
                     placeholder="correo@ejemplo.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
+                    maxlength="40"
+                    minlength="14"
                     required
                   />
                 </div>
@@ -159,6 +169,7 @@
                           type="text"
                           id="countrySearch"
                           placeholder="Buscar país..."
+                          oninput="validarTexto(this)"
                         />
                       </div>
                       <div class="country-list" id="countryList"></div>
@@ -170,6 +181,9 @@
                       type="tel"
                       id="telefonoNumero"
                       placeholder="300 000 0000"
+                      oninput="validarTelefono(this)"
+                      maxlength="10"
+                      minlength="10"
                       required
                     />
                   </div>
@@ -188,6 +202,7 @@
         </section>
       </main>
     </div>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/paises.js}"></script>
     <script th:src="@{/js/tipocliente.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
