@@ -9,23 +9,28 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Nuevo cliente</strong>
+            </div>
             <h2>Nuevo cliente</h2>
             <p>Registra un nuevo cliente en el sistema.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a th:href="@{/clientes}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a clientes
+          <i class="fa-solid fa-arrow-left"></i> Volver a clientes
         </a>
         <section class="form-card">
           <div class="form-header">

@@ -1,0 +1,269 @@
+<!doctype html>
+
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Informes y estadísticas | OmniModa</title>
+
+    <!-- FONT AWESOME -->
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+
+    <!-- DASHBOARD -->
+
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+
+    <!-- ESTADÍSTICAS -->
+
+    <link rel="stylesheet" th:href="@{/css/estadisticas.css}" />
+  </head>
+
+  <body>
+    <div class="statistics-page">
+      <!-- =====================================================
+             SIDEBAR
+             ===================================================== -->
+
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <main class="main-content">
+        <!-- =================================================
+                 HEADER
+                 ================================================= -->
+
+        <header class="topbar">
+          <div>
+            <div class="breadcrumb">
+              <span>Administración</span>
+
+              <i class="fa-solid fa-chevron-right"></i>
+
+              <strong> Informes y estadísticas </strong>
+            </div>
+
+            <h1>Informes y estadísticas</h1>
+
+            <p>Analiza el comportamiento de tus ventas e inventario.</p>
+          </div>
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- =================================================
+                 FILTROS
+                 ================================================= -->
+
+        <section class="filters-panel">
+          <div class="filters-title">
+            <div class="filter-icon">
+              <i class="fa-solid fa-filter"></i>
+            </div>
+
+            <div>
+              <strong> Filtros de análisis </strong>
+
+              <span> Selecciona el período y tipo de cliente. </span>
+            </div>
+          </div>
+
+          <form
+            th:action="@{/estadisticas}"
+            method="get"
+            class="statistics-filters"
+          >
+            <!-- FECHA INICIAL -->
+
+            <div class="filter-field">
+              <label for="fechaInicio"> Fecha inicial </label>
+
+              <div class="filter-input">
+                <i class="fa-regular fa-calendar"></i>
+
+                <input
+                  type="date"
+                  id="fechaInicio"
+                  name="fechaInicio"
+                  th:value="${fechaInicio}"
+                />
+              </div>
+            </div>
+
+            <!-- FECHA FINAL -->
+
+            <div class="filter-field">
+              <label for="fechaFin"> Fecha final </label>
+
+              <div class="filter-input">
+                <i class="fa-regular fa-calendar"></i>
+
+                <input
+                  type="date"
+                  id="fechaFin"
+                  name="fechaFin"
+                  th:value="${fechaFin}"
+                />
+              </div>
+            </div>
+
+            <!-- TIPO CLIENTE -->
+
+            <div class="filter-field">
+              <label for="tipoCliente"> Tipo de cliente </label>
+
+              <div class="filter-input">
+                <i class="fa-solid fa-users"></i>
+
+                <select id="tipoCliente" name="tipoCliente">
+                  <option
+                    value=""
+                    th:selected="${tipoCliente == null or tipoCliente == ''}"
+                  >
+                    Todos los clientes
+                  </option>
+
+                  <option
+                    value="Mayorista"
+                    th:selected="${tipoCliente == 'Mayorista'}"
+                  >
+                    Mayorista
+                  </option>
+
+                  <option
+                    value="Minorista"
+                    th:selected="${tipoCliente == 'Minorista'}"
+                  >
+                    Minorista
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <!-- BOTÓN -->
+
+            <button type="submit" class="apply-filters">
+              <i class="fa-solid fa-chart-line"></i>
+
+              Analizar
+            </button>
+          </form>
+        </section>
+
+        <!-- =================================================
+                 INGRESOS
+                 ================================================= -->
+
+        <section class="statistics-section">
+          <div class="section-heading">
+            <div>
+              <h2>Ingresos por período</h2>
+
+              <p>Evolución de los ingresos durante el período seleccionado.</p>
+            </div>
+
+            <span class="section-badge">
+              <i class="fa-solid fa-arrow-trend-up"></i>
+
+              Ventas
+            </span>
+          </div>
+
+          <div class="chart-card large-chart">
+            <canvas id="ingresosChart"></canvas>
+          </div>
+        </section>
+
+        <!-- =================================================
+                 PRODUCTOS + CLIENTES
+                 ================================================= -->
+
+        <div class="statistics-grid">
+          <!-- PRODUCTOS -->
+
+          <section class="statistics-section">
+            <div class="section-heading">
+              <div>
+                <h2>Productos más vendidos</h2>
+
+                <p>Productos con mayor cantidad de unidades vendidas.</p>
+              </div>
+
+              <span class="section-badge">
+                <i class="fa-solid fa-box"></i>
+
+                Productos
+              </span>
+            </div>
+
+            <div class="chart-card">
+              <canvas id="productosChart"></canvas>
+            </div>
+          </section>
+
+          <!-- CLIENTES -->
+
+          <section class="statistics-section">
+            <div class="section-heading">
+              <div>
+                <h2>Clientes frecuentes</h2>
+
+                <p>Clientes con mayor número de compras.</p>
+              </div>
+
+              <span class="section-badge">
+                <i class="fa-solid fa-user-group"></i>
+
+                Clientes
+              </span>
+            </div>
+
+            <div class="chart-card">
+              <canvas id="clientesChart"></canvas>
+            </div>
+          </section>
+        </div>
+
+        <!-- =================================================
+                 TIPO CLIENTE
+                 ================================================= -->
+
+        <section class="statistics-section">
+          <div class="section-heading">
+            <div>
+              <h2>Ingresos por tipo de cliente</h2>
+
+              <p>
+                Comparación de ingresos entre clientes mayoristas y minoristas.
+              </p>
+            </div>
+
+            <span class="section-badge">
+              <i class="fa-solid fa-users"></i>
+
+              Segmentación
+            </span>
+          </div>
+
+          <div class="chart-card client-type-chart">
+            <canvas id="tipoClienteChart"></canvas>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script th:inline="javascript">
+      const productosJson = /*[[${productosJson}]]*/ "[]";
+      const clientesJson = /*[[${clientesJson}]]*/ "[]";
+      const ingresosJson = /*[[${ingresosJson}]]*/ "[]";
+      const tiposJson = /*[[${tiposJson}]]*/ "[]";
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script th:src="@{/js/estadisticas.js}"></script>
+  </body>
+</html>

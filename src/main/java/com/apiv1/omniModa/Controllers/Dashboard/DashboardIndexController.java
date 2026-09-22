@@ -9,6 +9,7 @@ import com.apiv1.omniModa.Models.Repository.ClienteRepository;
 import com.apiv1.omniModa.Models.Repository.ProductoRepository;
 import com.apiv1.omniModa.Models.Repository.ProveedorRepository;
 import com.apiv1.omniModa.Models.Repository.UsuarioRepository;
+import com.apiv1.omniModa.Models.Service.ProductoService;
 import com.apiv1.omniModa.Models.Service.VentaService;
 
 @Controller
@@ -19,18 +20,21 @@ public class DashboardIndexController {
     private final ProveedorRepository proveedorRepository;
     private final UsuarioRepository usuarioRepository;
     private final VentaService ventaService;
+    private final ProductoService productoService;
 
     public DashboardIndexController(
             ClienteRepository clienteRepository,
             ProductoRepository productoRepository,
             ProveedorRepository proveedorRepository,
             UsuarioRepository usuarioRepository,
-            VentaService ventaService) {
+            VentaService ventaService,
+            ProductoService productoService) {
         this.clienteRepository = clienteRepository;
         this.productoRepository = productoRepository;
         this.proveedorRepository = proveedorRepository;
         this.usuarioRepository = usuarioRepository;
         this.ventaService = ventaService;
+        this.productoService = productoService;
     }
 
     @GetMapping("/dashboard")
@@ -51,6 +55,14 @@ public class DashboardIndexController {
         model.addAttribute("ventasRecientes", ventaService.obtenerVentasRecientes(5));
         model.addAttribute("paginaActual", "dashboard");
         model.addAttribute("accesoDenegado", Boolean.TRUE.equals(accesoDenegado));
+
+        model.addAttribute(
+                "productosStockBajo",
+                productoService.contarProductosStockBajo());
+
+        model.addAttribute(
+                "productosBajoStock",
+                productoService.listarProductosStockBajoDashboard());
 
         return "home/dashboard";
     }

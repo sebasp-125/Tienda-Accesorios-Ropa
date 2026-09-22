@@ -9,24 +9,28 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/nueva_promocion.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/nueva_promocion.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
-            <span class="page-kicker"> CAMPAÑAS COMERCIALES </span>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Nueva promoción</strong>
+            </div>
             <h2>Nueva promoción</h2>
             <p>Diseña una promoción especial para tus clientes.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a th:href="@{/promociones}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a promociones
+          <i class="fa-solid fa-arrow-left"></i> Volver a promociones
         </a>
         <form
           th:action="@{/promociones/guardar}"

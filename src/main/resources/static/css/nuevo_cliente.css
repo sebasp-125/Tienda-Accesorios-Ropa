@@ -38,23 +38,41 @@ body {
 }
 
 .main-content {
-  width: calc(100% - 300px);
-  margin-left: 300px;
+  width: calc(100% - 250px);
   min-height: 100vh;
   padding: 38px 42px;
 }
 
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.breadcrumb i {
+  font-size: 9px;
+}
+
+.breadcrumb strong {
+  color: var(--golden);
+}
+
 .page-header {
   display: flex;
-  max-width: 98%;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  margin-bottom: 25px;
+  gap: 30px;
+  margin-bottom: 30px;
 }
 
 .page-header h2 {
-  font-size: 34px;
+  margin: 8px 0 6px;
+  font-size: 30px;
   line-height: 1.2;
+  letter-spacing: -0.5px;
 }
 
 .page-header p {

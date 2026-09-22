@@ -205,11 +205,20 @@
                   <tr th:each="venta : ${ventasRecientes}">
                     <td th:text="'#' + ${venta.idVentas}">#1</td>
 
-                    <td th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}">Cliente</td>
+                    <td
+                      th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}"
+                    >
+                      Cliente
+                    </td>
 
                     <td th:text="${venta.fecha}">2026-09-20</td>
 
-                    <td class="price">$<span th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}">0.00</span></td>
+                    <td class="price">
+                      $<span
+                        th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}"
+                        >0.00</span
+                      >
+                    </td>
 
                     <td>
                       <span
@@ -223,8 +232,13 @@
                   </tr>
 
                   <!-- CUANDO NO HAY VENTAS -->
-                  <tr th:if="${ventasRecientes == null or #lists.isEmpty(ventasRecientes)}">
-                    <td colspan="5" style="text-align: center; color: #94a3b8; padding: 22px;">
+                  <tr
+                    th:if="${ventasRecientes == null or #lists.isEmpty(ventasRecientes)}"
+                  >
+                    <td
+                      colspan="5"
+                      style="text-align: center; color: #94a3b8; padding: 22px"
+                    >
                       No hay ventas recientes registradas.
                     </td>
                   </tr>
@@ -241,79 +255,58 @@
                 <p>Productos que requieren atención</p>
               </div>
 
-              <a href="#" class="view-all"> Ver productos </a>
+              <a th:href="@{/inventario}" class="view-all"> Ver productos </a>
             </div>
 
-            <div class="low-stock-list" th:if="${productosBajoStock != null}">
+            <!-- PRODUCTOS -->
+            <div
+              class="low-stock-list"
+              th:if="${productosBajoStock != null and !#lists.isEmpty(productosBajoStock)}"
+            >
               <div
                 class="stock-item"
                 th:each="producto : ${productosBajoStock}"
               >
                 <div class="product-info">
-                  <div class="product-image">P</div>
+                  <div class="product-image">
+                    <i class="fa-solid fa-box"></i>
+                  </div>
 
                   <div>
                     <strong th:text="${producto.nombre}"> Producto </strong>
 
-                    <span th:text="${producto.codigo}"> COD-001 </span>
+                    <span th:text="${producto.codigo}"> PROD-001 </span>
                   </div>
                 </div>
 
-                <div class="stock-number">
-                  <strong th:text="${producto.stockDisponible}"> 0 </strong>
+                <div
+                  class="stock-number"
+                  th:classappend="${producto.stockDisponible == 0} ? ' stock-empty' : ' warning-text'"
+                >
+                  <strong
+                    th:text="${producto.stockDisponible != null ? producto.stockDisponible : 0}"
+                  >
+                    0
+                  </strong>
 
                   <span>unidades</span>
                 </div>
               </div>
             </div>
 
-            <!-- EJEMPLO -->
-            <div class="low-stock-list" th:if="${productosBajoStock == null}">
-              <div class="stock-item">
-                <div class="product-info">
-                  <div class="product-image">P</div>
-
-                  <div>
-                    <strong>Producto ejemplo</strong>
-                    <span>PROD-001</span>
-                  </div>
+            <!-- CUANDO NO HAY PRODUCTOS CON STOCK BAJO -->
+            <div
+              class="low-stock-list"
+              th:if="${productosBajoStock == null or #lists.isEmpty(productosBajoStock)}"
+            >
+              <div class="stock-empty-message">
+                <div class="empty-stock-icon">
+                  <i class="fa-solid fa-circle-check"></i>
                 </div>
 
-                <div class="stock-number warning-text">
-                  <strong>3</strong>
-                  <span>unidades</span>
-                </div>
-              </div>
-
-              <div class="stock-item">
-                <div class="product-info">
-                  <div class="product-image">P</div>
-
-                  <div>
-                    <strong>Producto ejemplo 2</strong>
-                    <span>PROD-002</span>
-                  </div>
-                </div>
-
-                <div class="stock-number warning-text">
-                  <strong>5</strong>
-                  <span>unidades</span>
-                </div>
-              </div>
-
-              <div class="stock-item">
-                <div class="product-info">
-                  <div class="product-image">P</div>
-
-                  <div>
-                    <strong>Producto ejemplo 3</strong>
-                    <span>PROD-003</span>
-                  </div>
-                </div>
-
-                <div class="stock-number warning-text">
-                  <strong>2</strong>
-                  <span>unidades</span>
+                <div>
+                  <strong>Inventario en buen estado</strong>
+                  <span>No hay productos con stock bajo.</span>
                 </div>
               </div>
             </div>
@@ -330,7 +323,7 @@
           icon: "warning",
           title: "Acceso Denegado",
           text: "No tienes los permisos administrativos necesarios para acceder a ese módulo.",
-          confirmButtonColor: "#9d824f"
+          confirmButtonColor: "#9d824f",
         });
       }
       /*]]>*/

@@ -16,20 +16,25 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link rel="stylesheet" th:href="@{/css/actualizar_producto.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Actualizar producto</strong>
+            </div>
             <h2>Actualizar producto</h2>
             <p>Modifica la información del producto seleccionado.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a href="/productos" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a productos
+          <i class="fa-solid fa-arrow-left"></i> Volver a productos
         </a>
         <section class="form-card">
           <div class="form-header">

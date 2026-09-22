@@ -15,12 +15,18 @@
     <link rel="stylesheet" th:href="@{/css/actualizar_cliente.css}" />
     <link rel="stylesheet" th:href="@{/css/ventas.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Ventas</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Actualizar venta</strong>
+            </div>
             <h2>
               Actualizar Venta #<span th:text="${venta.idVentas}">1</span>
             </h2>
@@ -31,8 +37,7 @@
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a th:href="@{/ventas}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a ventas
+          <i class="fa-solid fa-arrow-left"></i> Volver a ventas
         </a>
         <section class="form-card">
           <div class="form-header">
@@ -110,8 +115,7 @@
             </div>
             <div class="product-picker-card">
               <h4 class="product-picker-title">
-                <i class="fa-solid fa-box"></i>
-                Productos asociados a la venta
+                <i class="fa-solid fa-box"></i> Productos asociados a la venta
               </h4>
               <div class="picker-grid">
                 <div class="form-group picker-form-group">
@@ -244,10 +248,12 @@
         inputCant.value = 1;
         select.selectedIndex = 0;
       }
+
       function removerItem(codigo) {
         itemsVenta = itemsVenta.filter((i) => i.codigo !== codigo);
         renderItems();
       }
+
       function renderItems() {
         const tbody = document.getElementById("itemsTableBody");
         const displayTotal = document.getElementById("displayTotalVenta");

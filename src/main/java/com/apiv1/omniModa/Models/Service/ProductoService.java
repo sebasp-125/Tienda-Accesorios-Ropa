@@ -10,6 +10,8 @@ import com.apiv1.omniModa.Models.Repository.ProductoRepository;
 @Service
 public class ProductoService {
 
+    public static final int STOCK_BAJO_LIMITE = 5;
+
     private final ProductoRepository productoRepository;
 
     public ProductoService(ProductoRepository productoRepository) {
@@ -30,5 +32,34 @@ public class ProductoService {
 
     public void eliminarProducto(String id) {
         productoRepository.deleteById(id);
+    }
+
+    public List<Productos> listarProductosStockBajo() {
+
+        return productoRepository
+                .findByStockDisponibleLessThanEqualOrderByStockDisponibleAsc(
+                        STOCK_BAJO_LIMITE);
+    }
+
+    public List<Productos> listarProductosStockBajoDashboard() {
+
+        return productoRepository
+                .findByStockDisponibleLessThanEqualOrderByStockDisponibleAsc(
+                        STOCK_BAJO_LIMITE)
+                .stream()
+                .limit(3)
+                .toList();
+    }
+
+    public List<Productos> listarInventario() {
+
+        return productoRepository.findAllByOrderByStockDisponibleAsc();
+    }
+
+    public long contarProductosStockBajo() {
+
+        return productoRepository
+                .countByStockDisponibleLessThanEqual(
+                        STOCK_BAJO_LIMITE);
     }
 }

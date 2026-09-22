@@ -16,20 +16,25 @@
     <link rel="stylesheet" th:href="@{/css/nuevo_producto.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Nuevo producto</strong>
+            </div>
             <h2>Nuevo producto</h2>
             <p>Registra un nuevo producto en el inventario.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a href="/productos" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a productos
+          <i class="fa-solid fa-arrow-left"></i> Volver a productos
         </a>
         <section class="form-card">
           <div class="form-header">

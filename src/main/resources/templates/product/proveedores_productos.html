@@ -16,12 +16,18 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link rel="stylesheet" th:href="@{/css/proveedores_productos.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Asociar proveedor</strong>
+            </div>
             <h2>Asociacion de proveedores</h2>
             <p>Administra los productos suministrados por cada proveedor.</p>
           </div>
@@ -123,8 +129,7 @@
                       </p>
                     </div>
                     <div class="selection-counter">
-                      <span id="selectedCount"> 0 </span>
-                      seleccionados
+                      <span id="selectedCount"> 0 </span> seleccionados
                     </div>
                   </div>
                   <div class="product-search">
@@ -309,6 +314,7 @@
     <script>
       const tabs = document.querySelectorAll(".supplier-tab");
       const sections = document.querySelectorAll(".supplier-section");
+
       function activateSection(sectionId) {
         tabs.forEach((tab) => {
           tab.classList.remove("active");
@@ -347,6 +353,7 @@
       });
       const checkboxes = document.querySelectorAll(".product-checkbox");
       const selectedCount = document.getElementById("selectedCount");
+
       function updateSelectedCount() {
         const selected = document.querySelectorAll(
           ".product-checkbox:checked",

@@ -1,0 +1,527 @@
+/* =========================================================
+   OMNIMODA - GESTIÓN DE INVENTARIO
+   ========================================================= */
+
+:root {
+  --background: #f5f6f8;
+  --surface: #ffffff;
+  --surface-soft: #f8f9fb;
+  --sidebar: #101827;
+  --sidebar-hover: #192235;
+  --text: #101827;
+  --text-secondary: #64748b;
+  --primary: #111827;
+  --golden: #b69a6a;
+  --golden-dark: #9d824f;
+  --border: #e5e7eb;
+  --danger: #dc2626;
+  --danger-soft: #fff1f1;
+  --warning: #d97706;
+  --warning-soft: #fff7ed;
+  --success: #16a34a;
+  --success-soft: #ecfdf3;
+  --radius: 14px;
+}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--text);
+  font-family: "Playpen Sans", sans-serif;
+}
+
+/* =========================================================
+   CONTENEDOR
+   ========================================================= */
+
+.inventory-page {
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+   ========================================================= */
+
+.main-content {
+  padding: 34px;
+  min-height: 100vh;
+}
+
+/* =========================================================
+   TOPBAR
+   ========================================================= */
+
+.topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.topbar h1 {
+  margin: 8px 0 6px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.topbar p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+/* =========================================================
+   BREADCRUMB
+   ========================================================= */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #94a3b8;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.breadcrumb i {
+  font-size: 9px;
+}
+
+.breadcrumb strong {
+  color: var(--golden-dark);
+}
+
+/* =========================================================
+   RESUMEN
+   ========================================================= */
+
+.inventory-summary {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+/* =========================================================
+   TARJETAS
+   ========================================================= */
+
+.inventory-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.035);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.inventory-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.07);
+}
+
+.inventory-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.inventory-card-top > span {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.inventory-card > strong {
+  display: block;
+  margin-top: 18px;
+  font-size: 30px;
+  line-height: 1;
+  font-weight: 700;
+}
+
+.inventory-card > p {
+  margin: 9px 0 0;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* =========================================================
+   ICONOS
+   ========================================================= */
+
+.inventory-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  font-size: 17px;
+}
+
+.inventory-icon.products {
+  background: #eef2ff;
+  color: #6366f1;
+}
+
+.inventory-icon.warning {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.inventory-icon.danger {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.inventory-icon.success {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+/* =========================================================
+   ESTADOS DE TARJETAS
+   ========================================================= */
+
+.inventory-card.warning {
+  border-color: #fed7aa;
+}
+
+.inventory-card.danger {
+  border-color: #fecaca;
+}
+
+.inventory-card.success {
+  border-color: #bbf7d0;
+}
+
+/* =========================================================
+   PANEL PRINCIPAL
+   ========================================================= */
+
+.inventory-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 0 8px 25px rgba(15, 23, 42, 0.035);
+}
+
+/* =========================================================
+   HEADER PANEL
+   ========================================================= */
+
+.inventory-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 25px 26px;
+  border-bottom: 1px solid var(--border);
+}
+
+.inventory-panel-header h2 {
+  margin: 0 0 5px;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.inventory-panel-header p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* =========================================================
+   BOTÓN PRODUCTOS
+   ========================================================= */
+
+.products-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: var(--primary);
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.products-button:hover {
+  background: #1f2937;
+  transform: translateY(-1px);
+}
+
+.products-button i {
+  font-size: 12px;
+}
+
+/* =========================================================
+   TABLA
+   ========================================================= */
+
+.inventory-table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.inventory-table {
+  width: 100%;
+  min-width: 900px;
+  border-collapse: collapse;
+}
+
+.inventory-table thead {
+  background: var(--surface-soft);
+}
+
+.inventory-table th {
+  padding: 15px 20px;
+  text-align: center;
+  color: #64748b;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--border);
+}
+
+.inventory-table td {
+  padding: 17px 20px;
+  border-bottom: 1px solid #edf0f3;
+  color: #334155;
+  font-size: 13px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.inventory-table tbody tr {
+  transition: background 0.15s ease;
+}
+
+.inventory-table tbody tr:hover {
+  background: #fafbfc;
+}
+
+.inventory-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================
+   PRODUCTO
+   ========================================================= */
+
+.table-product {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.table-product-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: #f1f3f5;
+  color: #64748b;
+  border-radius: 10px;
+  font-size: 14px;
+}
+
+.table-product strong {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--text);
+  font-size: 13px;
+}
+
+.table-product span {
+  display: block;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
+/* =========================================================
+   CÓDIGO
+   ========================================================= */
+
+.product-code {
+  display: inline-flex;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: #f8fafc;
+  color: #64748b;
+  font-family: monospace;
+  font-size: 11px;
+}
+
+/* =========================================================
+   CATEGORÍA
+   ========================================================= */
+
+.category-badge {
+  display: inline-flex;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: #f5f3ff;
+  color: #6d5bd0;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* =========================================================
+   PRECIO
+   ========================================================= */
+
+.inventory-price {
+  color: var(--text) !important;
+  font-weight: 600;
+}
+
+/* =========================================================
+   STOCK
+   ========================================================= */
+
+.stock-value {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.stock-normal {
+  color: var(--success);
+}
+
+.stock-low {
+  color: var(--warning);
+}
+
+.stock-zero {
+  color: var(--danger);
+}
+
+/* =========================================================
+   ESTADOS
+   ========================================================= */
+
+.inventory-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 92px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.status-available {
+  background: var(--success-soft);
+  color: var(--success);
+}
+
+.status-low {
+  background: var(--warning-soft);
+  color: var(--warning);
+}
+
+.status-empty {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+/* =========================================================
+   INVENTARIO VACÍO
+   ========================================================= */
+
+.empty-inventory {
+  padding: 65px 20px !important;
+  text-align: center;
+}
+
+.empty-inventory-icon {
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #f8fafc;
+  color: #94a3b8;
+  font-size: 21px;
+}
+
+.empty-inventory strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.empty-inventory span {
+  display: block;
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+  .inventory-summary {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 70px;
+  }
+  .main-content {
+    padding: 24px;
+  }
+  .topbar {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 18px;
+  }
+  .inventory-summary {
+    grid-template-columns: 1fr;
+  }
+  .inventory-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .products-button {
+    width: 100%;
+  }
+}

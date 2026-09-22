@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Gestión de inventario | OmniModa</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
+    <link rel="stylesheet" th:href="@{/css/inventario.css}" />
+  </head>
+
+  <body>
+    <div class="inventory-page">
+      <!-- ================= SIDEBAR ================= -->
+
+      <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
+
+      <!-- ================= CONTENIDO ================= -->
+
+      <main class="main-content">
+        <!-- ================= HEADER ================= -->
+
+        <header class="topbar">
+          <div>
+            <div class="breadcrumb">
+              <span>Ventas</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Gestión de inventario</strong>
+            </div>
+
+            <h1>Gestión de inventario</h1>
+
+            <p>
+              Controla las existencias y revisa los productos que necesitan
+              reposición.
+            </p>
+          </div>
+
+          <!-- PERFIL -->
+
+          <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
+        </header>
+
+        <!-- ================= RESUMEN ================= -->
+
+        <section class="inventory-summary">
+          <!-- TOTAL -->
+
+          <article class="inventory-card">
+            <div class="inventory-card-top">
+              <span>Total productos</span>
+
+              <div class="inventory-icon products">
+                <i class="fa-solid fa-boxes-stacked"></i>
+              </div>
+            </div>
+
+            <strong th:text="${totalProductos != null ? totalProductos : 0}">
+              0
+            </strong>
+
+            <p>Productos registrados</p>
+          </article>
+
+          <!-- STOCK BAJO -->
+
+          <article class="inventory-card warning">
+            <div class="inventory-card-top">
+              <span>Stock bajo</span>
+
+              <div class="inventory-icon warning">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+              </div>
+            </div>
+
+            <strong
+              th:text="${productosStockBajo != null ? productosStockBajo : 0}"
+            >
+              0
+            </strong>
+
+            <p>Requieren reposición</p>
+          </article>
+
+          <!-- AGOTADOS -->
+
+          <article class="inventory-card danger">
+            <div class="inventory-card-top">
+              <span>Agotados</span>
+
+              <div class="inventory-icon danger">
+                <i class="fa-solid fa-circle-xmark"></i>
+              </div>
+            </div>
+
+            <strong
+              th:text="${productosAgotados != null ? productosAgotados : 0}"
+            >
+              0
+            </strong>
+
+            <p>Sin unidades disponibles</p>
+          </article>
+
+          <!-- DISPONIBLES -->
+
+          <article class="inventory-card success">
+            <div class="inventory-card-top">
+              <span>Disponibles</span>
+
+              <div class="inventory-icon success">
+                <i class="fa-solid fa-circle-check"></i>
+              </div>
+            </div>
+
+            <strong
+              th:text="${productosDisponibles != null ? productosDisponibles : 0}"
+            >
+              0
+            </strong>
+
+            <p>Stock normal</p>
+          </article>
+        </section>
+
+        <!-- ================= INVENTARIO ================= -->
+
+        <section class="inventory-panel">
+          <!-- HEADER -->
+
+          <div class="inventory-panel-header">
+            <div>
+              <h2>Inventario de productos</h2>
+
+              <p>Consulta el estado actual de todas las existencias.</p>
+            </div>
+
+            <a th:href="@{/productos}" class="products-button">
+              <i class="fa-solid fa-box"></i> Gestionar productos
+            </a>
+          </div>
+
+          <!-- ================= TABLA ================= -->
+
+          <div class="inventory-table-container">
+            <table class="inventory-table">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+
+                  <th>Código</th>
+
+                  <th>Categoría</th>
+
+                  <th>Talla</th>
+
+                  <th>Precio</th>
+
+                  <th>Stock</th>
+
+                  <th>Estado</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <!-- PRODUCTOS -->
+
+                <tr th:each="producto : ${productos}">
+                  <!-- PRODUCTO -->
+
+                  <td>
+                    <div class="table-product">
+                      <div class="table-product-icon">
+                        <i class="fa-solid fa-box"></i>
+                      </div>
+
+                      <div>
+                        <strong th:text="${producto.nombre}"> Producto </strong>
+
+                        <span
+                          th:text="${producto.color != null ? producto.color : 'Sin color'}"
+                        >
+                          Sin color
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+
+                  <!-- CÓDIGO -->
+
+                  <td>
+                    <span class="product-code" th:text="${producto.codigo}">
+                      PROD-001
+                    </span>
+                  </td>
+
+                  <!-- CATEGORÍA -->
+
+                  <td>
+                    <span
+                      class="category-badge"
+                      th:text="${producto.categoria != null ? producto.categoria.tipo : 'Sin categoría'}"
+                    >
+                      Categoría
+                    </span>
+                  </td>
+
+                  <!-- TALLA -->
+
+                  <td
+                    th:text="${producto.talla != null ? producto.talla : 'Única'}"
+                  >
+                    M
+                  </td>
+
+                  <!-- PRECIO -->
+
+                  <td class="inventory-price">
+                    $
+                    <span
+                      th:text="${producto.precio != null ? #numbers.formatDecimal(producto.precio, 1, 0) : '0'}"
+                    >
+                      0
+                    </span>
+                  </td>
+
+                  <!-- STOCK -->
+
+                  <td>
+                    <strong
+                      class="stock-value"
+                      th:classappend="
+                    ${producto.stockDisponible != null and producto.stockDisponible == 0}
+                    ? ' stock-zero'
+                    :
+                    (${producto.stockDisponible != null and producto.stockDisponible <= 5}
+                    ? ' stock-low'
+                    : ' stock-normal')
+                  "
+                      th:text="${producto.stockDisponible != null ? producto.stockDisponible : 0}"
+                    >
+                      0
+                    </strong>
+                  </td>
+
+                  <!-- ESTADO -->
+
+                  <td>
+                    <span
+                      class="inventory-status"
+                      th:classappend="
+                    ${producto.stockDisponible != null and producto.stockDisponible == 0}
+                    ? ' status-empty'
+                    :
+                    (${producto.stockDisponible != null and producto.stockDisponible <= 5}
+                    ? ' status-low'
+                    : ' status-available')
+                  "
+                      th:text="
+                    ${producto.stockDisponible != null and producto.stockDisponible == 0}
+                    ? 'AGOTADO'
+                    :
+                    (${producto.stockDisponible != null and producto.stockDisponible <= 5}
+                    ? 'STOCK BAJO'
+                    : 'DISPONIBLE')
+                  "
+                    >
+                      DISPONIBLE
+                    </span>
+                  </td>
+                </tr>
+
+                <!-- SIN PRODUCTOS -->
+
+                <tr th:if="${productos == null or #lists.isEmpty(productos)}">
+                  <td colspan="7" class="empty-inventory">
+                    <div class="empty-inventory-icon">
+                      <i class="fa-solid fa-box-open"></i>
+                    </div>
+
+                    <strong>No hay productos registrados</strong>
+
+                    <span>
+                      Actualmente no existen productos en el inventario.
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

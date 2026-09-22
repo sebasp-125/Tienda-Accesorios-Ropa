@@ -9,24 +9,28 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/actualizar_proveedor.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
-    ```
+    <link rel="stylesheet" th:href="@{/css/actualizar_proveedor.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
+            <div class="breadcrumb">
+              <span>Gestión</span>
+              <i class="fa-solid fa-chevron-right"></i>
+              <strong>Actualizar proveedor</strong>
+            </div>
             <h2>Actualizar proveedor</h2>
             <p>Actualiza la información del proveedor registrado.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
         <a th:href="@{/proveedores}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a proveedores
+          <i class="fa-solid fa-arrow-left"></i> Volver a proveedores
         </a>
         <section class="form-card">
           <div class="form-header">

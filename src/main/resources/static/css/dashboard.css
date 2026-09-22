@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -103,12 +102,15 @@ body {
   padding: 20px 12px;
   flex: 1;
   overflow-y: auto;
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* Internet Explorer / Edge antiguo */
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* Internet Explorer / Edge antiguo */
 }
 
 .menu::-webkit-scrollbar {
-  display: none; /* Chrome, Edge, Safari */
+  display: none;
+  /* Chrome, Edge, Safari */
 }
 
 .menu-title {
@@ -239,32 +241,23 @@ body {
 
 .notification {
   position: relative;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 44px;
   height: 44px;
-
   padding: 0;
-
   border: 1px solid var(--border);
   border-radius: 12px;
-
   background: var(--white);
-
   color: var(--text-light);
-
   cursor: pointer;
-
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease,
     color 0.2s ease,
     box-shadow 0.2s ease,
     transform 0.2s ease;
-
   box-shadow:
     0 1px 2px rgba(17, 24, 39, 0.03),
     0 4px 12px rgba(17, 24, 39, 0.04);
@@ -277,7 +270,6 @@ body {
 .notification i {
   font-size: 17px;
   color: var(--text-light);
-
   transition:
     color 0.2s ease,
     transform 0.25s ease;
@@ -289,21 +281,16 @@ body {
 
 .notification:hover {
   background: #f9fafb;
-
   border-color: #d9dce2;
-
   color: var(--primary);
-
   box-shadow:
     0 2px 5px rgba(17, 24, 39, 0.05),
     0 8px 18px rgba(17, 24, 39, 0.06);
-
   transform: translateY(-1px);
 }
 
 .notification:hover i {
   color: var(--primary);
-
   transform: rotate(8deg);
 }
 
@@ -321,21 +308,14 @@ body {
 
 .notification span {
   position: absolute;
-
   top: 7px;
   right: 7px;
-
   width: 7px;
   height: 7px;
-
   background: var(--danger);
-
   border: 2px solid var(--white);
-
   border-radius: 50%;
-
   box-sizing: content-box;
-
   box-shadow:
     0 0 0 1px rgba(220, 38, 38, 0.08),
     0 0 7px rgba(220, 38, 38, 0.2);
@@ -398,7 +378,6 @@ body {
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.02),
     0 4px 12px rgba(15, 23, 42, 0.025);
-
   transition:
     transform 0.2s ease,
     box-shadow 0.2s ease,
@@ -763,6 +742,81 @@ td {
   color: var(--warning);
 }
 
+/* =========================================================
+   ESTADO VACÍO - STOCK EN BUEN ESTADO
+   ========================================================= */
+
+.stock-empty-message {
+  min-height: 210px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 25px;
+  text-align: center;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
+  border-radius: 12px;
+}
+
+/* =========================================================
+   ICONO
+   ========================================================= */
+
+.empty-stock-icon {
+  width: 58px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+  border-radius: 50%;
+  background: #ecfdf3;
+  color: #16a34a;
+  font-size: 23px;
+  box-shadow: 0 0 0 7px rgba(22, 163, 74, 0.06);
+}
+
+/* =========================================================
+   TITULO
+   ========================================================= */
+
+.stock-empty-message strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #101827;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* =========================================================
+   DESCRIPCIÓN
+   ========================================================= */
+
+.stock-empty-message span {
+  display: block;
+  max-width: 280px;
+  color: #94a3b8;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   PEQUEÑO DETALLE DE ESTADO
+   ========================================================= */
+
+.stock-empty-message::after {
+  content: "Todo está bajo control";
+  display: inline-flex;
+  margin-top: 16px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #f0fdf4;
+  color: #16a34a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+
 /* =====================================================
    RESPONSIVE
 ===================================================== */
@@ -787,7 +841,6 @@ td {
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-
   .quick-actions {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -797,46 +850,36 @@ td {
   .sidebar {
     width: 70px;
   }
-
   .logo {
     padding: 0;
     justify-content: center;
   }
-
   .logo > div:last-child {
     display: none;
   }
-
   .logo-icon {
     margin: 0;
   }
-
   .menu-item {
     justify-content: center;
   }
-
   .menu-item span:last-child {
     display: none;
   }
-
   .menu-title {
     display: none;
   }
-
   .user-info,
   .logout-button {
     display: none;
   }
-
   .sidebar-user {
     justify-content: center;
   }
-
   .main-content {
     margin-left: 70px;
     width: calc(100% - 70px);
   }
-
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
@@ -846,15 +889,12 @@ td {
   .main-content {
     padding: 20px 15px;
   }
-
   .topbar-right .profile {
     display: none;
   }
-
   .stats-grid {
     grid-template-columns: 1fr;
   }
-
   .quick-actions {
     grid-template-columns: 1fr;
   }

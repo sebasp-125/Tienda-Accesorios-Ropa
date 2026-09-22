@@ -92,6 +92,18 @@
       <span>Ventas</span>
     </a>
 
+    <a
+      th:href="@{/inventario}"
+      class="menu-item"
+      th:classappend="${paginaActual == 'inventario'} ? 'active' : ''"
+    >
+      <span class="icon">
+        <i class="fa-solid fa-warehouse"></i>
+      </span>
+
+      <span>Inventario</span>
+    </a>
+
     <div th:if="${session.esAdmin == true or session.esAdmin == null}">
       <p class="menu-title">ADMINISTRACIÓN</p>
 
@@ -106,31 +118,55 @@
 
         <span>Usuarios</span>
       </a>
+    </div>
+    <div th:if="${session.esAdmin == true or session.esAdmin == null}">
+      <p class="menu-title">INFORMES Y ESTADISTICAS</p>
 
       <a
-        th:href="@{/roles}"
+        th:href="@{/estadisticas}"
         class="menu-item"
-        th:classappend="${paginaActual == 'roles'} ? 'active' : ''"
+        th:classappend="${paginaActual == 'estadisticas'} ? 'active' : ''"
       >
         <span class="icon">
-          <i class="fa-solid fa-gear"></i>
+          <i class="fa-solid fa-chart-pie"></i>
         </span>
 
-        <span>Roles</span>
+        <span>Estadisticas</span>
       </a>
     </div>
   </nav>
 
   <!-- USUARIO -->
   <div class="sidebar-user">
-    <div class="user-avatar" th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}">A</div>
-
-    <div class="user-info">
-      <strong th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}">Administrador</strong>
-      <span th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}">Administrador</span>
+    <div
+      class="user-avatar"
+      th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}"
+    >
+      A
     </div>
 
-    <a th:href="@{/logout}" class="logout-button" title="Cerrar sesión" style="text-decoration: none; display: flex; align-items: center; justify-content: center;">
+    <div class="user-info">
+      <strong
+        th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}"
+        >Administrador</strong
+      >
+      <span
+        th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}"
+        >Administrador</span
+      >
+    </div>
+
+    <a
+      th:href="@{/logout}"
+      class="logout-button"
+      title="Cerrar sesión"
+      style="
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      "
+    >
       <i class="fa-solid fa-right-from-bracket"></i>
     </a>
   </div>
