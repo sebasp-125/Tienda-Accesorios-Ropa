@@ -1,11 +1,17 @@
 package com.apiv1.omniModa.Controllers.Clientes;
 
+import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,9 +23,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.apiv1.omniModa.Models.DTO.CompraRequestDTO;
+import com.apiv1.omniModa.Models.DTO.ItemVentaDTO;
 import com.apiv1.omniModa.Models.DTO.VentaDetalleDTO;
+import com.apiv1.omniModa.Models.Entity.Detalle_venta;
 import com.apiv1.omniModa.Models.Entity.Usuarios;
 import com.apiv1.omniModa.Models.Entity.Ventas;
+import com.apiv1.omniModa.Models.Service.EmailServicio;
+import com.apiv1.omniModa.Models.Service.FacturaPdfService;
+import com.apiv1.omniModa.Models.Service.NumeroALetras;
 import com.apiv1.omniModa.Models.Service.ProductoService;
 import com.apiv1.omniModa.Models.Service.PromocionesService;
 import com.apiv1.omniModa.Models.Service.VentaService;
@@ -30,14 +41,22 @@ public class ClientePortalController {
     private final ProductoService productoService;
     private final PromocionesService promocionesService;
     private final VentaService ventaService;
+    private final FacturaPdfService facturaPdfService;
+    private final EmailServicio emailServicio;
+
+    private static final NumberFormat CURRENCY_FORMAT = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
     public ClientePortalController(
             ProductoService productoService,
             PromocionesService promocionesService,
-            VentaService ventaService) {
+            VentaService ventaService,
+            FacturaPdfService facturaPdfService,
+            EmailServicio emailServicio) {
         this.productoService = productoService;
         this.promocionesService = promocionesService;
         this.ventaService = ventaService;
+        this.facturaPdfService = facturaPdfService;
+        this.emailServicio = emailServicio;
     }
 
     @GetMapping("/cliente/inicio")
@@ -73,14 +92,105 @@ public class ClientePortalController {
                     .body(Map.of("success", false, "message", "El carrito está vacío. Agrega productos antes de comprar."));
         }
 
+        String metodoPago = (request.getMetodoPago() != null && !request.getMetodoPago().isBlank())
+                ? request.getMetodoPago().trim()
+                : "Tarjeta / Pago en Línea";
+
         try {
             Ventas venta = ventaService.procesarCompraCliente(usuario, request.getItems());
+            String numFactura = String.format("FE-%06d", venta.getIdVentas());
+            String codAutorizacion = "AUT-" + (748291 + venta.getIdVentas() * 41);
+            String fechaStr = venta.getFecha() != null ? venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+
+            double totalFinal = venta.getTotal() != null ? venta.getTotal() : 0.0;
+            double baseImponible = totalFinal / 1.19;
+            double iva19 = totalFinal - baseImponible;
+
+            // Construir lista de items formateados
+            List<Map<String, Object>> itemsFormateados = new ArrayList<>();
+            if (venta.getDetalles() != null) {
+                for (Detalle_venta d : venta.getDetalles()) {
+                    Map<String, Object> itemMap = new HashMap<>();
+                    itemMap.put("codigo", d.getProducto() != null ? d.getProducto().getCodigo() : "ART");
+                    itemMap.put("nombre", d.getProducto() != null ? d.getProducto().getNombre() : "Prenda");
+                    itemMap.put("talla", d.getProducto() != null ? d.getProducto().getTalla() : "Única");
+                    itemMap.put("color", d.getProducto() != null ? d.getProducto().getColor() : "N/A");
+                    itemMap.put("cantidad", d.getCantidad());
+                    itemMap.put("precioUnitario", d.getPrecioUnitario());
+                    itemMap.put("precioUnitarioFormatted", CURRENCY_FORMAT.format(d.getPrecioUnitario() != null ? d.getPrecioUnitario() : 0.0));
+                    itemMap.put("subtotal", d.getSubtotal());
+                    itemMap.put("subtotalFormatted", CURRENCY_FORMAT.format(d.getSubtotal() != null ? d.getSubtotal() : 0.0));
+                    itemsFormateados.add(itemMap);
+                }
+            }
+
+            // 1. Generar la factura en PDF
+            byte[] pdfBytes = null;
+            try {
+                pdfBytes = facturaPdfService.generarFacturaPdf(venta, metodoPago);
+            } catch (Exception ex) {
+                System.err.println("Error al generar PDF de factura: " + ex.getMessage());
+            }
+
+            // 2. Enviar correo electrónico con la factura y el archivo PDF adjunto
+            boolean correoEnviado = false;
+            String correoDestino = usuario.getCorreo();
+            if (correoDestino != null && !correoDestino.isBlank()) {
+                Map<String, Object> varsEmail = new HashMap<>();
+                varsEmail.put("nombre", usuario.getNombreUsuario());
+                varsEmail.put("numeroFactura", numFactura);
+                varsEmail.put("fecha", fechaStr);
+                varsEmail.put("metodoPago", metodoPago);
+                varsEmail.put("codigoAutorizacion", codAutorizacion);
+                varsEmail.put("subtotal", CURRENCY_FORMAT.format(baseImponible));
+                varsEmail.put("iva", CURRENCY_FORMAT.format(iva19));
+                varsEmail.put("total", CURRENCY_FORMAT.format(totalFinal));
+                varsEmail.put("items", itemsFormateados);
+
+                correoEnviado = emailServicio.enviarFacturaCliente(
+                        correoDestino,
+                        "Comprobante de Pago y Factura " + numFactura + " - OmniModa",
+                        varsEmail,
+                        pdfBytes,
+                        numFactura + ".pdf"
+                );
+            }
+
+            // Metadatos oficiales DIAN
+            String docCli = venta.getCliente() != null && venta.getCliente().getDocumento() != null ? venta.getCliente().getDocumento() : "222222222222";
+            String cufe = FacturaPdfService.generarCufe(numFactura, fechaStr, totalFinal, "901458789-2", docCli);
+            String totalLetras = "SON: " + NumeroALetras.convertir(totalFinal);
+            String codBarras = String.format("(415)7701234567890(8020)%06d(3900)%09d", venta.getIdVentas(), Math.round(totalFinal));
+
+            // 3. Respuesta JSON completa para renderizar la factura comercial en pantalla
             Map<String, Object> resp = new HashMap<>();
             resp.put("success", true);
             resp.put("idVenta", venta.getIdVentas());
-            resp.put("total", venta.getTotal());
-            resp.put("message", "¡Compra exitosa! Se ha registrado tu pedido con ID #" + venta.getIdVentas());
+            resp.put("numeroFactura", numFactura);
+            resp.put("fecha", fechaStr);
+            resp.put("metodoPago", metodoPago);
+            resp.put("codigoAutorizacion", codAutorizacion);
+            resp.put("estado", venta.getEstado() != null ? venta.getEstado().getTipo() : "PAGADA");
+            resp.put("clienteNombre", venta.getCliente() != null ? venta.getCliente().getNombreCompleto() : usuario.getNombreUsuario());
+            resp.put("clienteDocumento", docCli);
+            resp.put("clienteCorreo", correoDestino);
+            resp.put("clienteTelefono", venta.getCliente() != null ? venta.getCliente().getTelefono() : "N/A");
+            resp.put("subtotal", CURRENCY_FORMAT.format(baseImponible));
+            resp.put("iva", CURRENCY_FORMAT.format(iva19));
+            resp.put("total", totalFinal);
+            resp.put("totalFormatted", CURRENCY_FORMAT.format(totalFinal));
+            resp.put("totalLetras", totalLetras);
+            resp.put("cufe", cufe);
+            resp.put("codigoBarras", codBarras);
+            resp.put("dianResolucion", "Resolución DIAN No. 18764000001 del 15/01/2024");
+            resp.put("dianRango", "Prefijo FE: 000001 al 100000 | Vigencia 24 Meses");
+            resp.put("items", itemsFormateados);
+            resp.put("correoEnviado", correoEnviado);
+            resp.put("correoDestino", correoDestino);
+            resp.put("message", "¡Compra exitosa! Se ha generado tu Factura #" + numFactura + ".");
+
             return ResponseEntity.ok(resp);
+
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest()
                     .body(Map.of("success", false, "message", e.getMessage()));
@@ -88,6 +198,110 @@ public class ClientePortalController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("success", false, "message", "Error al procesar la compra: " + e.getMessage()));
         }
+    }
+
+    @GetMapping("/cliente/api/factura/{id}/pdf")
+    public ResponseEntity<?> descargarFacturaPdf(@PathVariable Integer id, HttpSession session) {
+        Usuarios usuario = (Usuarios) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Ventas venta = ventaService.buscarPorId(id);
+        if (venta == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Validar que la compra pertenece al cliente autenticado
+        if (venta.getCliente() != null && venta.getCliente().getCorreo() != null) {
+            if (!venta.getCliente().getCorreo().equalsIgnoreCase(usuario.getCorreo())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            }
+        }
+
+        byte[] pdf = facturaPdfService.generarFacturaPdf(venta, "Pago Electrónico Aprobado");
+        String filename = String.format("Factura-FE-%06d.pdf", id);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
+    @GetMapping("/cliente/api/factura/{id}/datos")
+    @ResponseBody
+    public ResponseEntity<?> datosFactura(@PathVariable Integer id, HttpSession session) {
+        Usuarios usuario = (Usuarios) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        Ventas venta = ventaService.buscarPorId(id);
+        if (venta == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        if (venta.getCliente() != null && venta.getCliente().getCorreo() != null) {
+            if (!venta.getCliente().getCorreo().equalsIgnoreCase(usuario.getCorreo())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("success", false, "message", "No tienes permisos para ver esta factura."));
+            }
+        }
+
+        String numFactura = String.format("FE-%06d", venta.getIdVentas());
+        String codAutorizacion = "AUT-" + (748291 + venta.getIdVentas() * 41);
+        String fechaStr = venta.getFecha() != null ? venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+
+        double totalFinal = venta.getTotal() != null ? venta.getTotal() : 0.0;
+        double baseImponible = totalFinal / 1.19;
+        double iva19 = totalFinal - baseImponible;
+
+        List<Map<String, Object>> itemsFormateados = new ArrayList<>();
+        if (venta.getDetalles() != null) {
+            for (Detalle_venta d : venta.getDetalles()) {
+                Map<String, Object> itemMap = new HashMap<>();
+                itemMap.put("codigo", d.getProducto() != null ? d.getProducto().getCodigo() : "ART");
+                itemMap.put("nombre", d.getProducto() != null ? d.getProducto().getNombre() : "Prenda");
+                itemMap.put("talla", d.getProducto() != null ? d.getProducto().getTalla() : "Única");
+                itemMap.put("color", d.getProducto() != null ? d.getProducto().getColor() : "N/A");
+                itemMap.put("cantidad", d.getCantidad());
+                itemMap.put("precioUnitario", d.getPrecioUnitario());
+                itemMap.put("precioUnitarioFormatted", CURRENCY_FORMAT.format(d.getPrecioUnitario() != null ? d.getPrecioUnitario() : 0.0));
+                itemMap.put("subtotal", d.getSubtotal());
+                itemMap.put("subtotalFormatted", CURRENCY_FORMAT.format(d.getSubtotal() != null ? d.getSubtotal() : 0.0));
+                itemsFormateados.add(itemMap);
+            }
+        }
+
+        String docCli = venta.getCliente() != null && venta.getCliente().getDocumento() != null ? venta.getCliente().getDocumento() : "222222222222";
+        String cufe = FacturaPdfService.generarCufe(numFactura, fechaStr, totalFinal, "901458789-2", docCli);
+        String totalLetras = "SON: " + NumeroALetras.convertir(totalFinal);
+        String codBarras = String.format("(415)7701234567890(8020)%06d(3900)%09d", venta.getIdVentas(), Math.round(totalFinal));
+
+        Map<String, Object> resp = new HashMap<>();
+        resp.put("success", true);
+        resp.put("idVenta", venta.getIdVentas());
+        resp.put("numeroFactura", numFactura);
+        resp.put("fecha", fechaStr);
+        resp.put("metodoPago", "Pago Registrado / En Línea");
+        resp.put("codigoAutorizacion", codAutorizacion);
+        resp.put("estado", venta.getEstado() != null ? venta.getEstado().getTipo() : "PAGADA");
+        resp.put("clienteNombre", venta.getCliente() != null ? venta.getCliente().getNombreCompleto() : usuario.getNombreUsuario());
+        resp.put("clienteDocumento", docCli);
+        resp.put("clienteCorreo", venta.getCliente() != null ? venta.getCliente().getCorreo() : usuario.getCorreo());
+        resp.put("clienteTelefono", venta.getCliente() != null ? venta.getCliente().getTelefono() : "N/A");
+        resp.put("subtotal", CURRENCY_FORMAT.format(baseImponible));
+        resp.put("iva", CURRENCY_FORMAT.format(iva19));
+        resp.put("total", totalFinal);
+        resp.put("totalFormatted", CURRENCY_FORMAT.format(totalFinal));
+        resp.put("totalLetras", totalLetras);
+        resp.put("cufe", cufe);
+        resp.put("codigoBarras", codBarras);
+        resp.put("dianResolucion", "Resolución DIAN No. 18764000001 del 15/01/2024");
+        resp.put("dianRango", "Prefijo FE: 000001 al 100000 | Vigencia 24 Meses");
+        resp.put("items", itemsFormateados);
+
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping("/cliente/api/mis-compras")
@@ -132,5 +346,100 @@ public class ClientePortalController {
         }
 
         return ResponseEntity.ok(detalle);
+    }
+
+    @PostMapping("/cliente/api/factura/{id}/reenviar-correo")
+    @ResponseBody
+    public ResponseEntity<?> reenviarFacturaCorreo(@PathVariable Integer id, HttpSession session) {
+        Usuarios usuario = (Usuarios) session.getAttribute("usuarioLogueado");
+        if (usuario == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("success", false, "message", "Debes iniciar sesión para realizar esta acción."));
+        }
+
+        Ventas venta = ventaService.buscarPorId(id);
+        if (venta == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Validar propiedad de la factura
+        if (venta.getCliente() != null && venta.getCliente().getCorreo() != null) {
+            if (!venta.getCliente().getCorreo().equalsIgnoreCase(usuario.getCorreo())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                        .body(Map.of("success", false, "message", "No tienes permisos sobre esta factura."));
+            }
+        }
+
+        String correoDestino = (venta.getCliente() != null && venta.getCliente().getCorreo() != null)
+                ? venta.getCliente().getCorreo() : usuario.getCorreo();
+
+        if (correoDestino == null || correoDestino.isBlank()) {
+            return ResponseEntity.badRequest()
+                    .body(Map.of("success", false, "message", "El cliente no posee un correo electrónico registrado."));
+        }
+
+        try {
+            String numFactura = String.format("FE-%06d", venta.getIdVentas());
+            String codAutorizacion = "AUT-" + (748291 + venta.getIdVentas() * 41);
+            String fechaStr = venta.getFecha() != null ? venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+            double totalFinal = venta.getTotal() != null ? venta.getTotal() : 0.0;
+            double baseImponible = totalFinal / 1.19;
+            double iva19 = totalFinal - baseImponible;
+
+            List<Map<String, Object>> itemsFormateados = new ArrayList<>();
+            if (venta.getDetalles() != null) {
+                for (Detalle_venta d : venta.getDetalles()) {
+                    Map<String, Object> itemMap = new HashMap<>();
+                    itemMap.put("codigo", d.getProducto() != null ? d.getProducto().getCodigo() : "ART");
+                    itemMap.put("nombre", d.getProducto() != null ? d.getProducto().getNombre() : "Prenda");
+                    itemMap.put("talla", d.getProducto() != null ? d.getProducto().getTalla() : "Única");
+                    itemMap.put("color", d.getProducto() != null ? d.getProducto().getColor() : "N/A");
+                    itemMap.put("cantidad", d.getCantidad());
+                    itemMap.put("precioUnitario", d.getPrecioUnitario());
+                    itemMap.put("precioUnitarioFormatted", CURRENCY_FORMAT.format(d.getPrecioUnitario() != null ? d.getPrecioUnitario() : 0.0));
+                    itemMap.put("subtotal", d.getSubtotal());
+                    itemMap.put("subtotalFormatted", CURRENCY_FORMAT.format(d.getSubtotal() != null ? d.getSubtotal() : 0.0));
+                    itemsFormateados.add(itemMap);
+                }
+            }
+
+            byte[] pdfBytes = facturaPdfService.generarFacturaPdf(venta, "Pago Electrónico Aprobado");
+
+            Map<String, Object> varsEmail = new HashMap<>();
+            varsEmail.put("nombre", venta.getCliente() != null ? venta.getCliente().getNombreCompleto() : usuario.getNombreUsuario());
+            varsEmail.put("numeroFactura", numFactura);
+            varsEmail.put("fecha", fechaStr);
+            varsEmail.put("metodoPago", "Pago Electrónico Aprobado");
+            varsEmail.put("codigoAutorizacion", codAutorizacion);
+            varsEmail.put("subtotal", CURRENCY_FORMAT.format(baseImponible));
+            varsEmail.put("iva", CURRENCY_FORMAT.format(iva19));
+            varsEmail.put("total", CURRENCY_FORMAT.format(totalFinal));
+            varsEmail.put("items", itemsFormateados);
+
+            boolean enviado = emailServicio.enviarFacturaCliente(
+                    correoDestino,
+                    "Factura Electrónica " + numFactura + " - OmniModa (Copia Solicitada)",
+                    varsEmail,
+                    pdfBytes,
+                    numFactura + ".pdf"
+            );
+
+            if (enviado) {
+                return ResponseEntity.ok(Map.of(
+                        "success", true,
+                        "message", "Factura reenviada exitosamente a " + correoDestino,
+                        "correo", correoDestino
+                ));
+            } else {
+                return ResponseEntity.ok(Map.of(
+                        "success", false,
+                        "message", "El servidor de correo no respondió o las credenciales no son válidas.",
+                        "correo", correoDestino
+                ));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("success", false, "message", "Error al reenviar factura: " + e.getMessage()));
+        }
     }
 }

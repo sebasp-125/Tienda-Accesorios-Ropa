@@ -1511,3 +1511,684 @@ body {
     display: none !important;
   }
 }
+
+/* =====================================================
+   ESTILOS DE PASARELA DE PAGO Y FACTURA REAL
+   ===================================================== */
+.checkout-modal-card {
+  max-width: 780px !important;
+  width: 95% !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+  padding: 0 !important;
+  border-radius: 18px !important;
+  box-shadow: 0 25px 60px rgba(16, 24, 39, 0.3) !important;
+}
+
+.checkout-modal-header {
+  background: #101827;
+  color: white;
+  padding: 20px 26px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid #b69a6a;
+}
+
+.checkout-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: white;
+}
+
+.checkout-modal-body {
+  padding: 24px 28px;
+  background: #ffffff;
+}
+
+/* Resumen rápido de compra */
+.checkout-order-summary {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.checkout-summary-left span {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.checkout-summary-left strong {
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.checkout-summary-total {
+  text-align: right;
+}
+
+.checkout-summary-total span {
+  display: block;
+  font-size: 11px;
+  color: #64748b;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.checkout-summary-total strong {
+  font-size: 24px;
+  font-weight: 800;
+  color: #15803d;
+}
+
+/* Métodos de Pago Grid */
+.payment-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.payment-methods-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.payment-method-card {
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px 14px;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.22s ease-in-out;
+  background: #ffffff;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.payment-method-card:hover {
+  border-color: #cbd5e1;
+  background: #f8fafc;
+  transform: translateY(-2px);
+}
+
+.payment-method-card.active {
+  border-color: #b69a6a;
+  background: #fffdfa;
+  box-shadow: 0 4px 14px rgba(182, 154, 106, 0.18);
+}
+
+.payment-method-card .method-icon {
+  font-size: 26px;
+  color: #101827;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-method-card.active .method-icon {
+  color: #b69a6a;
+}
+
+.payment-method-card .method-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.payment-method-card .method-desc {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.payment-method-card .check-indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #b69a6a;
+  color: white;
+  font-size: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-method-card.active .check-indicator {
+  display: flex;
+}
+
+/* Formularios de métodos de pago */
+.payment-details-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+/* Tarjeta visual simulada */
+.cc-visual-card {
+  background: linear-gradient(135deg, #101827 0%, #1e293b 60%, #334155 100%);
+  color: white;
+  border-radius: 14px;
+  padding: 20px 24px;
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 20px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  border: 1px solid rgba(182, 154, 106, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.cc-visual-card::before {
+  content: "";
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 130px;
+  height: 130px;
+  background: radial-gradient(circle, rgba(182, 154, 106, 0.25) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+.cc-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+.cc-chip {
+  width: 36px;
+  height: 28px;
+  background: linear-gradient(135deg, #e5b958 0%, #d89e24 100%);
+  border-radius: 6px;
+  border: 1px solid #c48b14;
+}
+
+.cc-brand {
+  font-size: 18px;
+  font-weight: 800;
+  color: #b69a6a;
+  letter-spacing: 1px;
+}
+
+.cc-number {
+  font-size: 18px;
+  letter-spacing: 3px;
+  font-family: 'Courier New', monospace;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.cc-bottom-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #94a3b8;
+}
+
+.cc-bottom-row strong {
+  display: block;
+  font-size: 13px;
+  color: white;
+  font-family: sans-serif;
+  letter-spacing: 0.5px;
+}
+
+/* Campos de entrada simulados */
+.sim-form-group {
+  margin-bottom: 14px;
+}
+
+.sim-form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 5px;
+}
+
+.sim-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #0f172a;
+  background: white;
+  box-sizing: border-box;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.sim-input:focus {
+  border-color: #b69a6a;
+  box-shadow: 0 0 0 3px rgba(182, 154, 106, 0.15);
+}
+
+.sim-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Estilo para PayPal */
+.paypal-sim-box {
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.paypal-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #003087;
+  margin-bottom: 12px;
+}
+
+.paypal-badge i {
+  color: #0079C1;
+  font-size: 32px;
+}
+
+.btn-paypal-sim {
+  background: #ffc439;
+  color: #003087;
+  font-weight: 800;
+  font-size: 15px;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 30px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 12px rgba(255, 196, 57, 0.35);
+  transition: background 0.2s;
+}
+
+.btn-paypal-sim:hover {
+  background: #f4b41a;
+}
+
+/* Botones footer de pago */
+.checkout-actions-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.btn-cancel-checkout {
+  padding: 12px 20px;
+  background: #f1f5f9;
+  color: #475569;
+  border: none;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cancel-checkout:hover {
+  background: #e2e8f0;
+}
+
+.btn-confirm-payment {
+  flex: 1;
+  padding: 12px 20px;
+  background: #15803d;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.btn-confirm-payment:hover {
+  background: #166534;
+}
+
+/* =====================================================
+   ESTILOS DE FACTURA SIMPLE Y LIMPIA
+   ===================================================== */
+.invoice-modal-card {
+  max-width: 800px !important;
+  width: 95% !important;
+  max-height: 92vh !important;
+  overflow-y: auto !important;
+  padding: 0 !important;
+  background: #f8fafc !important;
+  border-radius: 8px !important;
+}
+
+.invoice-actions-bar {
+  background: #ffffff;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.invoice-actions-left {
+  color: #0f172a;
+  font-size: 14px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.invoice-actions-right {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-inv-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  color: #334155;
+  transition: all 0.15s ease;
+  text-decoration: none;
+}
+
+.btn-inv-action:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+  border-color: #94a3b8;
+}
+
+.btn-inv-close {
+  background: #f1f5f9;
+  border-color: #e2e8f0;
+}
+
+.btn-inv-close:hover {
+  background: #e2e8f0;
+}
+
+/* Hoja de factura */
+.invoice-sheet-container {
+  padding: 20px;
+}
+
+.invoice-sheet {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 28px;
+  border: 1px solid #e2e8f0;
+}
+
+.inv-simple-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.inv-company-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.inv-company-meta {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.inv-doc-info {
+  text-align: right;
+}
+
+.inv-doc-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.inv-doc-number {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 2px 0;
+}
+
+.inv-doc-meta {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.inv-doc-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  padding: 2px 8px;
+  border-radius: 4px;
+  margin-top: 4px;
+}
+
+.inv-email-alert {
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 6px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #166534;
+  font-size: 12px;
+}
+
+.inv-email-alert i {
+  font-size: 16px;
+  color: #15803d;
+}
+
+.inv-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+}
+
+.inv-info-block h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #475569;
+  margin: 0 0 6px;
+  font-weight: 700;
+}
+
+.inv-info-block p {
+  margin: 3px 0;
+  font-size: 12px;
+  color: #334155;
+}
+
+.inv-info-block p strong {
+  color: #0f172a;
+}
+
+.inv-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.inv-table th {
+  background: #f8fafc;
+  color: #475569;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 10px;
+  text-align: left;
+  border-bottom: 1px solid #cbd5e1;
+  font-weight: 600;
+}
+
+.inv-table td {
+  padding: 8px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.inv-totals-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.inv-totals-box {
+  width: 250px;
+}
+
+.inv-totals-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.inv-totals-row strong {
+  color: #0f172a;
+}
+
+.inv-grand-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0 0;
+  border-top: 2px solid #0f172a;
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.inv-legal-note {
+  font-size: 11px;
+  color: #94a3b8;
+  text-align: center;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 14px;
+}
+
+/* =====================================================
+   SPINNER SIMPLE Y HUMANO
+===================================================== */
+.simple-spinner {
+  width: 36px;
+  height: 36px;
+  margin: 10px auto;
+  border: 3px solid #e2e8f0;
+  border-top-color: #334155;
+  border-radius: 50%;
+  animation: simpleSpin 0.75s linear infinite;
+}
+
+@keyframes simpleSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* REGLAS DE IMPRESIÓN */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #modalFacturaReal,
+  #modalFacturaReal .invoice-sheet-container,
+  #modalFacturaReal .invoice-sheet,
+  #modalFacturaReal .invoice-sheet * {
+    visibility: visible;
+  }
+  #modalFacturaReal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: white;
+    box-shadow: none;
+  }
+  .invoice-actions-bar,
+  .cart-overlay,
+  .portal-nav,
+  .welcome-banner {
+    display: none !important;
+  }
+  .invoice-sheet {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+  }
+}
+
