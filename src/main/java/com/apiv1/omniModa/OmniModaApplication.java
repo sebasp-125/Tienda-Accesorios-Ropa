@@ -10,4 +10,6 @@ public class OmniModaApplication {
 		SpringApplication.run(OmniModaApplication.class, args);
 	}
 
+	
+
 }
