@@ -31,8 +31,7 @@
         </header>
 
         <a th:href="@{/usuarios}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a usuarios
+          <i class="fa-solid fa-arrow-left"></i> Volver a usuarios
         </a>
 
         <section class="form-card">
@@ -43,7 +42,10 @@
 
             <div>
               <h3>Información del usuario</h3>
-              <p>Completa los datos requeridos para crear el usuario en la tienda.</p>
+              <p>
+                Completa los datos requeridos para crear el usuario en la
+                tienda.
+              </p>
             </div>
           </div>
 
@@ -67,6 +69,7 @@
                     id="nombreUsuario"
                     name="nombreUsuario"
                     placeholder="Ej. Laura González"
+                    oninput="validarTextoyCaracter(this)"
                     required
                   />
                 </div>
@@ -85,6 +88,10 @@
                     id="correo"
                     name="correo"
                     placeholder="usuario@omnimoda.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
+                    maxlength="40"
+                    minlength="14"
                     required
                   />
                 </div>
@@ -103,7 +110,9 @@
                     id="password"
                     name="password"
                     placeholder="Mínimo 6 caracteres"
-                    minlength="6"
+                    oninput="validarPassword(this)"
+                    minlength="8"
+                    maxlength="50"
                     required
                   />
                 </div>
@@ -117,8 +126,12 @@
 
                 <div class="input-wrapper">
                   <i class="fa-solid fa-shield-halved"></i>
-                  <select id="rolId" name="rolId" required style="cursor: pointer;">
-                    <option value="" disabled selected>Selecciona un rol</option>
+
+                  <select id="rolId" name="rolId" class="rol-select" required>
+                    <option value="" disabled selected>
+                      Selecciona un rol
+                    </option>
+
                     <option
                       th:each="r : ${roles}"
                       th:value="${r.idRol}"
@@ -136,8 +149,15 @@
 
                 <div class="input-wrapper">
                   <i class="fa-solid fa-toggle-on"></i>
-                  <select id="estado" name="estado" required style="cursor: pointer;">
+
+                  <select
+                    id="estado"
+                    name="estado"
+                    class="estado-cuenta-select"
+                    required
+                  >
                     <option value="ACTIVO" selected>Activo</option>
+
                     <option value="INACTIVO">Inactivo</option>
                   </select>
                 </div>
@@ -145,9 +165,7 @@
             </div>
 
             <div class="form-footer">
-              <a th:href="@{/usuarios}" class="btn-secondary">
-                Cancelar
-              </a>
+              <a th:href="@{/usuarios}" class="btn-secondary"> Cancelar </a>
 
               <button type="submit" class="btn-primary">
                 <i class="fa-solid fa-check"></i>
@@ -158,7 +176,9 @@
         </section>
       </main>
     </div>
-
+    <script th:src="@{/js/validaciones.js}"></script>
+    <script th:src="@{/js/roles.js}"></script>
+    <script th:src="@{/js/estado_cuenta.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

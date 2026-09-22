@@ -34,12 +34,13 @@
           <div class="card-header">
             <div>
               <h3>Usuarios registrados</h3>
-              <p>Administra los roles y accesos para la gestión de la tienda.</p>
+              <p>
+                Administra los roles y accesos para la gestión de la tienda.
+              </p>
             </div>
 
             <a th:href="@{/usuarios/nuevo}" class="btn-primary">
-              <i class="fa-solid fa-plus"></i>
-              Nuevo usuario
+              <i class="fa-solid fa-plus"></i> Nuevo usuario
             </a>
           </div>
 
@@ -50,6 +51,7 @@
                 type="text"
                 id="searchUser"
                 placeholder="Buscar por usuario, correo o rol..."
+                oninput="validarTextoyCaracter(this)"
                 autocomplete="off"
               />
             </div>
@@ -74,14 +76,13 @@
 
                   <td>
                     <div class="client-name">
-                      <div
-                        class="client-avatar"
-                        th:text="${#strings.substring(u.nombreUsuario, 0, 1).toUpperCase()}"
-                      >
-                        A
+                      <div class="client-avatar">
+                        <i class="fa-solid fa-user-shield"></i>
                       </div>
                       <div>
-                        <strong th:text="${u.nombreUsuario}">Nombre Usuario</strong>
+                        <strong th:text="${u.nombreUsuario}"
+                          >Nombre Usuario</strong
+                        >
                       </div>
                     </div>
                   </td>
@@ -121,14 +122,16 @@
                       <form
                         th:action="@{/usuarios/cambiar-estado/{id}(id=${u.idUsuario})}"
                         method="post"
-                        style="display:inline;"
+                        style="display: inline"
                       >
                         <button
                           type="submit"
                           class="action-button toggle-status"
                           th:title="${u.estado == 'ACTIVO' ? 'Desactivar usuario' : 'Activar usuario'}"
                         >
-                          <i th:class="${u.estado == 'ACTIVO' ? 'fa-solid fa-user-slash' : 'fa-solid fa-user-check'}"></i>
+                          <i
+                            th:class="${u.estado == 'ACTIVO' ? 'fa-solid fa-user-slash' : 'fa-solid fa-user-check'}"
+                          ></i>
                         </button>
                       </form>
 
@@ -136,7 +139,7 @@
                         th:action="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"
                         method="post"
                         class="delete-user"
-                        style="display:inline;"
+                        style="display: inline"
                       >
                         <button
                           type="submit"
@@ -151,7 +154,10 @@
                 </tr>
 
                 <tr th:if="${#lists.isEmpty(usuarios)}">
-                  <td colspan="6" style="text-align: center; padding: 30px; color: #94a3b8;">
+                  <td
+                    colspan="6"
+                    style="text-align: center; padding: 30px; color: #94a3b8"
+                  >
                     No hay usuarios registrados en el sistema.
                   </td>
                 </tr>
@@ -161,7 +167,7 @@
         </section>
       </main>
     </div>
-
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/usuarios.js}"></script>

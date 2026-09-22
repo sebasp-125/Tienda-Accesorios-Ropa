@@ -12,13 +12,14 @@
     <link rel="stylesheet" th:href="@{/css/promociones.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
       <main class="main-content">
         <header class="page-header">
           <div>
-            <h2>Gestión de Promociones</h2>
+            <h2>Promociones y descuentos</h2>
             <p>Administra las promociones y descuentos de OmniModa.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
@@ -38,8 +39,7 @@
             </div>
           </div>
           <a th:href="@{/promociones/nueva}" class="hero-button">
-            <i class="fa-solid fa-plus"></i>
-            Nueva promoción
+            <i class="fa-solid fa-plus"></i> Nueva promoción
           </a>
         </section>
         <section class="stats-grid">
@@ -232,21 +232,7 @@
       </main>
     </div>
     <script th:src="@{/js/validaciones.js}"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const searchInput = document.getElementById("searchPromotion");
-        const rows = document.querySelectorAll(".promotion-row");
-        if (searchInput) {
-          searchInput.addEventListener("input", function () {
-            const value = this.value.toLowerCase().trim();
-            rows.forEach((row) => {
-              const text = row.textContent.toLowerCase();
-              row.style.display = text.includes(value) ? "" : "none";
-            });
-          });
-        }
-      });
-    </script>
+    <script th:src="@{/js/buscadorpromociones.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
   </body>

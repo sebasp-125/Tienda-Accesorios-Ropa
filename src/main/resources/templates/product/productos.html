@@ -16,6 +16,7 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link rel="stylesheet" th:href="@{/css/productos.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
@@ -35,22 +36,19 @@
             </div>
             <div class="card-actions">
               <a th:href="@{/productos/nuevo}" class="btn-primary">
-                <i class="fa-solid fa-plus"></i>
-                Nuevo producto
+                <i class="fa-solid fa-plus"></i> Nuevo producto
               </a>
               <a
                 th:href="@{/proveedores-productos#asociar}"
                 class="btn-primary"
               >
-                <i class="fa-solid fa-link"></i>
-                Asociar productos
+                <i class="fa-solid fa-link"></i> Asociar productos
               </a>
               <a
                 th:href="@{/proveedores-productos#consultar}"
                 class="btn-primary"
               >
-                <i class="fa-solid fa-magnifying-glass"></i>
-                Consultar proveedor
+                <i class="fa-solid fa-magnifying-glass"></i> Consultar proveedor
               </a>
             </div>
           </div>
@@ -172,8 +170,7 @@
                       <h4>No hay productos registrados</h4>
                       <p>Comienza agregando tu primer producto.</p>
                       <a href="/productos/nuevo" class="btn-primary">
-                        <i class="fa-solid fa-plus"></i>
-                        Nuevo producto
+                        <i class="fa-solid fa-plus"></i> Nuevo producto
                       </a>
                     </div>
                   </td>
@@ -193,19 +190,8 @@
         </section>
       </main>
     </div>
-    <script>
-      const searchInput = document.getElementById("searchProduct");
-      const table = document.getElementById("productsTable");
-      searchInput.addEventListener("input", function () {
-        const search = this.value.toLowerCase().trim();
-        const rows = table.querySelectorAll("tr");
-        rows.forEach((row) => {
-          const text = row.textContent.toLowerCase();
-          row.style.display = text.includes(search) ? "" : "none";
-        });
-      });
-    </script>
     <script th:src="@{/js/validaciones.js}"></script>
+    <script th:src="@{/js/buscadorproductos.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

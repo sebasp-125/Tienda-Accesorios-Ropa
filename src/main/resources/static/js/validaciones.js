@@ -75,6 +75,18 @@ function validarTextoyCaracter(input) {
     input.value = input.value.replace(/[^a-zA-Z0-9ñÑ\s]/g, '');
 }
 
+function validarCantidad(input) {
+    input.value = input.value.replace(/[^0-9]/g, '');
+
+    if (input.value !== '' && parseInt(input.value) < 1) {
+        input.value = '1';
+    }
+
+    if (input.value !== '' && parseInt(input.value) > 1000) {
+        input.value = '1000';
+    }
+}
+
 function validarTextoPromocion(input) {
     input.value = input.value.replace(/[^a-zA-Z0-9ñÑáéíóúÁÉÍÓÚüÜ\s.,:%!¡¿?()\-]/g, '');
 }
@@ -93,6 +105,39 @@ function validarPorcentaje(input) {
     }
 
     input.value = valor;
+}
+
+function validarPassword(input) {
+
+    const password = input.value;
+
+    // No permitir espacios
+    input.value = password.replace(/\s/g, '');
+
+    const valor = input.value;
+
+    // Validar requisitos
+    const tieneLongitud = valor.length >= 8;
+    const tieneMayuscula = /[A-Z]/.test(valor);
+    const tieneMinuscula = /[a-z]/.test(valor);
+    const tieneNumero = /[0-9]/.test(valor);
+    const tieneEspecial = /[^A-Za-z0-9]/.test(valor);
+
+    if (
+        valor !== '' &&
+        (!tieneLongitud ||
+            !tieneMayuscula ||
+            !tieneMinuscula ||
+            !tieneNumero ||
+            !tieneEspecial
+        )
+    ) {
+        input.setCustomValidity(
+            'La contraseña debe tener mínimo 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial.'
+        );
+    } else {
+        input.setCustomValidity('');
+    }
 }
 
 function limitarCaracteres(input, maximo) {

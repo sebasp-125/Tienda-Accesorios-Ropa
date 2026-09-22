@@ -10,73 +10,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     />
     <link rel="stylesheet" th:href="@{/css/sweetalert2.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/ventas.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link rel="stylesheet" th:href="@{/css/clientes.css}" />
     <link rel="stylesheet" th:href="@{/css/nuevo_cliente.css}" />
-    <link rel="stylesheet" th:href="@{/css/ventas.css}" />
-
-    <style>
-      .product-picker-card {
-        background: #f8fafc;
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 20px;
-        margin-top: 24px;
-        margin-bottom: 24px;
-      }
-
-      .picker-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr auto;
-        gap: 14px;
-        align-items: flex-end;
-      }
-
-      .items-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 16px;
-      }
-
-      .items-table th {
-        background: #fafbfc;
-        padding: 12px 16px;
-        font-size: 11px;
-        text-align: left;
-        color: #64748b;
-        border-bottom: 1px solid var(--border);
-      }
-
-      .items-table td {
-        padding: 14px 16px;
-        font-size: 13px;
-        border-bottom: 1px solid #f1f5f9;
-        vertical-align: middle;
-      }
-
-      .total-checkout-box {
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 18px;
-        padding: 18px 20px;
-        background: #f8fafc;
-        border-radius: 10px;
-        margin-top: 20px;
-      }
-
-      .total-checkout-box span {
-        font-size: 15px;
-        color: #64748b;
-        font-weight: 600;
-      }
-
-      .total-checkout-box strong {
-        font-size: 24px;
-        font-weight: 800;
-        color: #0f172a;
-      }
-    </style>
   </head>
 
   <body>
@@ -86,39 +23,55 @@
       <main class="main-content">
         <header class="page-header">
           <div>
-            <h2>Registrar Venta</h2>
+            <h2>Facturación POS | Ventas</h2>
             <p>Genera una nueva venta física o manual en el sistema.</p>
           </div>
           <aside th:replace="~{fragments/user_profile :: user_profile}"></aside>
         </header>
 
         <a th:href="@{/ventas}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a ventas
+          <i class="fa-solid fa-arrow-left"></i> Volver a ventas
         </a>
 
         <section class="form-card">
           <div class="form-header">
-            <div class="form-icon" style="background: #fdfbf7; color: var(--primary-dark);">
+            <div class="form-icon">
               <i class="fa-solid fa-cart-shopping"></i>
             </div>
             <div>
               <h3>Información de la venta</h3>
-              <p>Selecciona el cliente, fecha, estado y productos a facturar.</p>
+              <p>
+                Selecciona el cliente, fecha, estado y productos a facturar.
+              </p>
             </div>
           </div>
 
-          <form id="formNuevaVenta" th:action="@{/ventas/guardar}" method="post" autocomplete="off">
+          <form
+            id="formNuevaVenta"
+            th:action="@{/ventas/guardar}"
+            method="post"
+            autocomplete="off"
+          >
             <div class="form-grid">
               <!-- CLIENTE -->
               <div class="form-group">
                 <label for="clienteDocumento">
                   Cliente comprador <span>*</span>
                 </label>
+
                 <div class="input-wrapper">
                   <i class="fa-solid fa-user"></i>
-                  <select id="clienteDocumento" name="clienteDocumento" required style="border:0; outline:0; width:100%; background:transparent; font-family:inherit; font-size:13px;">
-                    <option value="" disabled selected>Selecciona un cliente...</option>
+
+                  <select
+                    id="clienteDocumento"
+                    name="clienteDocumento"
+                    class="cliente-select"
+                    required
+                  >
+                    <option value="" disabled selected>
+                      Selecciona un cliente...
+                    </option>
+
                     <option
                       th:each="c : ${clientes}"
                       th:value="${c.documento}"
@@ -130,9 +83,7 @@
 
               <!-- FECHA -->
               <div class="form-group">
-                <label for="fecha">
-                  Fecha de la venta <span>*</span>
-                </label>
+                <label for="fecha"> Fecha de la venta <span>*</span> </label>
                 <div class="input-wrapper">
                   <i class="fa-regular fa-calendar"></i>
                   <input
@@ -147,12 +98,17 @@
 
               <!-- ESTADO -->
               <div class="form-group">
-                <label for="estadoId">
-                  Estado inicial <span>*</span>
-                </label>
+                <label for="estadoId"> Estado inicial <span>*</span> </label>
+
                 <div class="input-wrapper">
                   <i class="fa-solid fa-sliders"></i>
-                  <select id="estadoId" name="estadoId" required style="border:0; outline:0; width:100%; background:transparent; font-family:inherit; font-size:13px;">
+
+                  <select
+                    id="estadoId"
+                    name="estadoId"
+                    class="estado-select"
+                    required
+                  >
                     <option
                       th:each="est : ${estados}"
                       th:value="${est.idEstado}"
@@ -166,18 +122,21 @@
 
             <!-- SELECTOR DINÁMICO DE PRODUCTOS -->
             <div class="product-picker-card">
-              <h4 style="font-size: 15px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
-                <i class="fa-solid fa-box" style="color: var(--primary-dark);"></i>
-                Agregar productos a la venta
+              <h4 class="product-picker-title">
+                <i class="fa-solid fa-box"></i> Agregar productos a la venta
               </h4>
 
               <div class="picker-grid">
-                <div class="form-group" style="margin: 0;">
+                <div class="form-group picker-form-group">
                   <label for="selectProducto">Producto</label>
                   <div class="input-wrapper">
-                    <i class="fa-solid fa-shirt"></i>
-                    <select id="selectProducto" style="border:0; outline:0; width:100%; background:transparent; font-family:inherit; font-size:13px;">
-                      <option value="" disabled selected>Seleccionar producto...</option>
+                    <i class="fa-solid fa-box"></i>
+
+                    <select id="selectProducto" class="producto-select">
+                      <option value="" disabled selected>
+                        Seleccionar producto...
+                      </option>
+
                       <option
                         th:each="prod : ${productos}"
                         th:if="${prod.stockDisponible > 0}"
@@ -191,7 +150,7 @@
                   </div>
                 </div>
 
-                <div class="form-group" style="margin: 0;">
+                <div class="form-group picker-form-group">
                   <label for="inputCantidad">Cantidad</label>
                   <div class="input-wrapper">
                     <i class="fa-solid fa-hashtag"></i>
@@ -200,20 +159,27 @@
                       id="inputCantidad"
                       value="1"
                       min="1"
+                      max="1000"
+                      step="1"
                       placeholder="Cant."
+                      oninput="validarCantidad(this)"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <button type="button" class="btn-primary" onclick="agregarProductoALaLista()" style="height: 46px;">
+                  <button
+                    type="button"
+                    class="btn-primary picker-button"
+                    id="btnAgregarProducto"
+                  >
                     <i class="fa-solid fa-plus"></i> Agregar
                   </button>
                 </div>
               </div>
 
               <!-- TABLA DINÁMICA DE ITEMS -->
-              <table class="items-table" style="margin-top: 20px;">
+              <table class="items-table">
                 <thead>
                   <tr>
                     <th>CÓDIGO</th>
@@ -226,8 +192,9 @@
                 </thead>
                 <tbody id="itemsTableBody">
                   <tr id="emptyItemsRow">
-                    <td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">
-                      No has agregado productos a la venta. Selecciona uno arriba y haz clic en "Agregar".
+                    <td colspan="6" class="empty-items">
+                      No has agregado productos a la venta. Selecciona uno
+                      arriba y haz clic en "Agregar".
                     </td>
                   </tr>
                 </tbody>
@@ -251,146 +218,11 @@
         </section>
       </main>
     </div>
-
+    <script th:src="@{/js/nueva_venta.js}"></script>
+    <script th:src="@{/js/clientes.js}"></script>
+    <script th:src="@{/js/estados.js}"></script>
+    <script th:src="@{/js/productos.js}"></script>
+    <script th:src="@{/js/validaciones.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
-    <script>
-      let itemsVenta = [];
-
-      function agregarProductoALaLista() {
-        const select = document.getElementById("selectProducto");
-        const selectedOpt = select.options[select.selectedIndex];
-        if (!selectedOpt || !selectedOpt.value) {
-          Swal.fire({
-            icon: "warning",
-            title: "Producto requerido",
-            text: "Selecciona un producto para agregar.",
-            confirmButtonColor: "#9d824f"
-          });
-          return;
-        }
-
-        const codigo = selectedOpt.value;
-        const nombre = selectedOpt.getAttribute("data-nombre");
-        const precio = parseFloat(selectedOpt.getAttribute("data-precio")) || 0;
-        const stockMax = parseInt(selectedOpt.getAttribute("data-stock")) || 0;
-
-        const inputCant = document.getElementById("inputCantidad");
-        const cantidad = parseInt(inputCant.value) || 1;
-
-        if (cantidad <= 0) {
-          Swal.fire({
-            icon: "warning",
-            title: "Cantidad inválida",
-            text: "La cantidad debe ser mayor a 0.",
-            confirmButtonColor: "#9d824f"
-          });
-          return;
-        }
-
-        const existente = itemsVenta.find(i => i.codigo === codigo);
-        const cantTotal = (existente ? existente.cantidad : 0) + cantidad;
-
-        if (cantTotal > stockMax) {
-          Swal.fire({
-            icon: "warning",
-            title: "Stock insuficiente",
-            text: `Solo hay ${stockMax} unidades disponibles de este producto.`,
-            confirmButtonColor: "#9d824f"
-          });
-          return;
-        }
-
-        if (existente) {
-          existente.cantidad = cantTotal;
-          existente.subtotal = existente.cantidad * existente.precio;
-        } else {
-          itemsVenta.push({
-            codigo: codigo,
-            nombre: nombre,
-            precio: precio,
-            cantidad: cantidad,
-            subtotal: precio * cantidad
-          });
-        }
-
-        renderItems();
-        inputCant.value = 1;
-        select.selectedIndex = 0;
-      }
-
-      function removerItem(codigo) {
-        itemsVenta = itemsVenta.filter(i => i.codigo !== codigo);
-        renderItems();
-      }
-
-      function renderItems() {
-        const tbody = document.getElementById("itemsTableBody");
-        const displayTotal = document.getElementById("displayTotalVenta");
-
-        if (itemsVenta.length === 0) {
-          tbody.innerHTML = `
-            <tr id="emptyItemsRow">
-              <td colspan="6" style="text-align: center; color: #94a3b8; padding: 24px;">
-                No has agregado productos a la venta. Selecciona uno arriba y haz clic en "Agregar".
-              </td>
-            </tr>
-          `;
-          displayTotal.textContent = "$0.00";
-          return;
-        }
-
-        let html = "";
-        let total = 0;
-
-        itemsVenta.forEach(i => {
-          total += i.subtotal;
-          html += `
-            <tr>
-              <td><strong>${i.codigo}</strong>
-                <input type="hidden" name="codigos" value="${i.codigo}" />
-              </td>
-              <td>${i.nombre}</td>
-              <td>$${i.precio.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</td>
-              <td>
-                ${i.cantidad}
-                <input type="hidden" name="cantidades" value="${i.cantidad}" />
-              </td>
-              <td><strong>$${i.subtotal.toLocaleString('es-CO', { minimumFractionDigits: 2 })}</strong></td>
-              <td>
-                <button type="button" class="action-button delete" onclick="removerItem('${i.codigo}')" title="Eliminar de la venta">
-                  <i class="fa-solid fa-trash"></i>
-                </button>
-              </td>
-            </tr>
-          `;
-        });
-
-        tbody.innerHTML = html;
-        displayTotal.textContent = "$" + total.toLocaleString('es-CO', { minimumFractionDigits: 2 });
-      }
-
-      // Validación antes de submit
-      document.getElementById("formNuevaVenta").addEventListener("submit", function(e) {
-        if (itemsVenta.length === 0) {
-          e.preventDefault();
-          Swal.fire({
-            icon: "warning",
-            title: "Productos requeridos",
-            text: "Debes agregar al menos un producto a la venta.",
-            confirmButtonColor: "#9d824f"
-          });
-          return;
-        }
-
-        Swal.fire({
-          toast: true,
-          position: "top-end",
-          icon: "success",
-          title: "Venta registrada exitosamente",
-          showConfirmButton: false,
-          timer: 1500
-        });
-      });
-    </script>
   </body>
 </html>

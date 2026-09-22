@@ -38,7 +38,9 @@
             </div>
             <div class="kpi-info">
               <span>Total Ventas</span>
-              <strong th:text="${totalVentas != null ? totalVentas : 0}">0</strong>
+              <strong th:text="${totalVentas != null ? totalVentas : 0}"
+                >0</strong
+              >
             </div>
           </div>
 
@@ -48,7 +50,10 @@
             </div>
             <div class="kpi-info">
               <span>Ingresos Pagados</span>
-              <strong>$<span th:text="${totalIngresos != null ? #numbers.formatDecimal(totalIngresos, 1, 2) : '0.00'}">0.00</span></strong>
+              <strong
+                th:text="${totalIngresos != null ? #numbers.formatDecimal(totalIngresos, 1, 2) : '0.00'}"
+              >
+              </strong>
             </div>
           </div>
 
@@ -58,7 +63,9 @@
             </div>
             <div class="kpi-info">
               <span>Ventas Pagadas</span>
-              <strong th:text="${ventasPagadas != null ? ventasPagadas : 0}">0</strong>
+              <strong th:text="${ventasPagadas != null ? ventasPagadas : 0}"
+                >0</strong
+              >
             </div>
           </div>
 
@@ -68,7 +75,10 @@
             </div>
             <div class="kpi-info">
               <span>Ventas Pendientes</span>
-              <strong th:text="${ventasPendientes != null ? ventasPendientes : 0}">0</strong>
+              <strong
+                th:text="${ventasPendientes != null ? ventasPendientes : 0}"
+                >0</strong
+              >
             </div>
           </div>
         </section>
@@ -78,11 +88,18 @@
           <div class="card-header">
             <div>
               <h3>Historial de Ventas</h3>
-              <p>Registro detallado de transacciones realizadas por clientes y tienda.</p>
+              <p>
+                Registro detallado de transacciones realizadas por clientes y
+                tienda.
+              </p>
             </div>
 
             <div class="card-actions">
-              <a th:href="@{/ventas/nueva}" class="btn-primary" style="white-space: nowrap;">
+              <a
+                th:href="@{/ventas/nueva}"
+                class="btn-primary"
+                style="white-space: nowrap"
+              >
                 <i class="fa-solid fa-plus"></i>
                 Nueva venta manual
               </a>
@@ -98,6 +115,8 @@
                   type="text"
                   name="cliente"
                   placeholder="Buscar por cliente o doc..."
+                  autocomplete="off"
+                  oninput="validarTextoyCaracter(this)"
                   th:value="${filtroCliente}"
                 />
               </div>
@@ -108,6 +127,8 @@
                   type="text"
                   name="producto"
                   placeholder="Buscar por producto..."
+                  autocomplete="off"
+                  oninput="validarTextoyCaracter(this)"
                   th:value="${filtroProducto}"
                 />
               </div>
@@ -122,7 +143,7 @@
                 />
               </div>
 
-              <div class="filter-input-group" style="max-width: 180px;">
+              <div class="filter-input-group" style="max-width: 180px">
                 <i class="fa-solid fa-sliders"></i>
                 <select name="estadoId">
                   <option value="">Todos los estados</option>
@@ -140,7 +161,11 @@
                 Filtrar
               </button>
 
-              <a th:href="@{/ventas}" class="btn-filter-reset" title="Limpiar filtros">
+              <a
+                th:href="@{/ventas}"
+                class="btn-filter-reset"
+                title="Limpiar filtros"
+              >
                 <i class="fa-solid fa-rotate-left"></i>
                 Limpiar
               </a>
@@ -165,25 +190,39 @@
               <tbody>
                 <tr th:each="venta : ${ventas}">
                   <td>
-                    <span class="sale-code" th:text="'#' + ${venta.idVentas}">#1</span>
+                    <span class="sale-code" th:text="'#' + ${venta.idVentas}"
+                      >#1</span
+                    >
                   </td>
 
                   <td>
-                    <span style="color: #64748b; font-size: 13px;" th:text="${venta.fecha}">
+                    <span
+                      style="color: #64748b; font-size: 13px"
+                      th:text="${venta.fecha}"
+                    >
                       2026-09-20
                     </span>
                   </td>
 
                   <td>
                     <div class="client-name">
-                      <div class="client-avatar" th:text="${venta.cliente != null and #strings.length(venta.cliente.nombreCompleto) > 0 ? #strings.substring(venta.cliente.nombreCompleto, 0, 1).toUpperCase() : 'C'}">
-                        C
+                      <div class="client-avatar">
+                        <i class="fa-solid fa-user-tie"></i>
                       </div>
                       <div>
-                        <strong th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}">
+                        <strong
+                          th:text="${venta.cliente != null ? venta.cliente.nombreCompleto : 'Cliente General'}"
+                        >
                           Nombre Cliente
                         </strong>
-                        <small style="display: block; color: #94a3b8; font-size: 11px;" th:text="${venta.cliente != null ? venta.cliente.documento : 'N/A'}">
+                        <small
+                          style="
+                            display: block;
+                            color: #94a3b8;
+                            font-size: 11px;
+                          "
+                          th:text="${venta.cliente != null ? venta.cliente.documento : 'N/A'}"
+                        >
                           1010101
                         </small>
                       </div>
@@ -193,13 +232,19 @@
                   <td>
                     <span class="items-tag">
                       <i class="fa-solid fa-bag-shopping"></i>
-                      <span th:text="${venta.detalles != null ? venta.detalles.size() + ' prod.' : '1 prod.'}">1 prod.</span>
+                      <span
+                        th:text="${venta.detalles != null ? venta.detalles.size() + ' prod.' : '1 prod.'}"
+                        >1 prod.</span
+                      >
                     </span>
                   </td>
 
                   <td>
                     <span class="sale-total">
-                      $<span th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}">0.00</span>
+                      $<span
+                        th:text="${venta.total != null ? #numbers.formatDecimal(venta.total, 1, 2) : '0.00'}"
+                        >0.00</span
+                      >
                     </span>
                   </td>
 
@@ -209,7 +254,10 @@
                       th:classappend="${venta.estado != null ? #strings.toLowerCase(venta.estado.tipo) : 'pendiente'}"
                     >
                       <span class="status-dot"></span>
-                      <span th:text="${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'}">PENDIENTE</span>
+                      <span
+                        th:text="${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'}"
+                        >PENDIENTE</span
+                      >
                     </span>
                   </td>
 
@@ -233,7 +281,12 @@
                         title="Cambiar estado"
                         th:data-id="${venta.idVentas}"
                         th:data-estado="${venta.estado != null ? venta.estado.tipo : 'PENDIENTE'}"
-                        onclick="cambiarEstadoRapido(this.getAttribute('data-id'), this.getAttribute('data-estado'))"
+                        onclick="
+                          cambiarEstadoRapido(
+                            this.getAttribute('data-id'),
+                            this.getAttribute('data-estado'),
+                          )
+                        "
                       >
                         <i class="fa-solid fa-arrows-rotate"></i>
                       </button>
@@ -252,7 +305,7 @@
                         th:action="@{/ventas/eliminar/{id}(id=${venta.idVentas})}"
                         method="post"
                         class="delete-sale-form"
-                        style="display: inline;"
+                        style="display: inline"
                       >
                         <button
                           type="submit"
@@ -274,10 +327,12 @@
                         <i class="fa-solid fa-receipt"></i>
                       </div>
                       <h4>No se encontraron ventas registradas</h4>
-                      <p>Intenta ajustar los filtros de búsqueda o registra una nueva venta.</p>
+                      <p>
+                        Intenta ajustar los filtros de búsqueda o registra una
+                        nueva venta.
+                      </p>
                       <a th:href="@{/ventas/nueva}" class="btn-primary">
-                        <i class="fa-solid fa-plus"></i>
-                        Nueva venta
+                        <i class="fa-solid fa-plus"></i> Nueva venta
                       </a>
                     </div>
                   </td>
@@ -307,8 +362,13 @@
             <h3>Comprobante de Venta #<span id="modalVentaId"></span></h3>
             <p>OmniModa Store - Sistema de Facturación y Ventas</p>
           </div>
-          <button type="button" class="cart-close-btn" onclick="cerrarModalDetalle()" title="Cerrar">
-            <i class="fa-solid fa-xmark"></i>
+          <button
+            type="button"
+            class="cart-close-btn"
+            onclick="cerrarModalDetalle()"
+            title="Cerrar"
+          >
+            <i class="fa-regular fa-circle-xmark"></i>
           </button>
         </div>
 
@@ -359,7 +419,8 @@
         </div>
       </div>
     </div>
-
+    <script th:src="@{/js/validaciones.js}"></script>
+    <script th:src="@{/js/estados.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/ventas.js}"></script>
   </body>
