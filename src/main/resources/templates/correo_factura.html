@@ -3,280 +3,208 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Factura de Compra OmniModa</title>
+  <title>Comprobante de Compra - OmniModa</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background-color: #f1f5f9;
-      font-family: 'Segoe UI', Arial, sans-serif;
-      color: #1e293b;
-      -webkit-font-smoothing: antialiased;
-    }
-    .email-wrapper {
-      width: 100%;
-      background-color: #f1f5f9;
-      padding: 30px 10px;
+      padding: 20px;
+      background-color: #f8fafc;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #334155;
+      line-height: 1.5;
     }
     .email-container {
-      max-width: 620px;
+      max-width: 580px;
       margin: 0 auto;
       background: #ffffff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
       border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 32px 30px;
     }
     .email-header {
-      background: #101827;
-      color: #ffffff;
-      padding: 30px 24px;
-      text-align: center;
-      border-bottom: 3px solid #b69a6a;
+      border-bottom: 1px solid #e2e8f0;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
     }
     .brand-title {
-      font-size: 26px;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-size: 22px;
+      font-weight: 700;
+      color: #0f172a;
       margin: 0;
-      color: #ffffff;
     }
     .brand-subtitle {
       font-size: 13px;
-      color: #b69a6a;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      color: #64748b;
       margin-top: 4px;
-      font-weight: 600;
-    }
-    .email-body {
-      padding: 32px 28px;
     }
     .greeting {
-      font-size: 18px;
-      font-weight: 700;
+      font-size: 16px;
       color: #0f172a;
-      margin-bottom: 8px;
+      margin-bottom: 14px;
     }
     .intro-text {
       font-size: 14px;
       color: #475569;
-      line-height: 1.6;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
-    .invoice-card {
+    .order-details {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 8px;
-      padding: 16px 20px;
-      margin-bottom: 24px;
+      border-radius: 6px;
+      padding: 14px 18px;
+      margin-bottom: 22px;
+      font-size: 13px;
     }
-    .invoice-card table {
+    .order-details table {
       width: 100%;
       border-collapse: collapse;
     }
-    .invoice-card td {
-      padding: 5px 0;
-      font-size: 13px;
+    .order-details td {
+      padding: 4px 0;
     }
-    .invoice-card .label {
+    .order-details .label {
       color: #64748b;
-      font-weight: 600;
       width: 40%;
     }
-    .invoice-card .value {
+    .order-details .value {
       color: #0f172a;
-      font-weight: 700;
+      font-weight: 600;
       text-align: right;
-    }
-    .badge-approved {
-      display: inline-block;
-      padding: 3px 10px;
-      background: #dcfce7;
-      color: #15803d;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
     }
     .table-items {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
+      font-size: 13px;
     }
     .table-items th {
-      background: #101827;
-      color: #ffffff;
-      padding: 10px 12px;
-      font-size: 12px;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 8px 10px;
       text-align: left;
+      font-size: 12px;
+      color: #475569;
       font-weight: 600;
     }
-    .table-items th:last-child {
-      text-align: right;
-    }
     .table-items td {
-      padding: 12px;
-      font-size: 13px;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .table-items td:last-child {
-      text-align: right;
-      font-weight: 700;
+      border-bottom: 1px solid #f1f5f9;
+      padding: 10px;
+      color: #334155;
     }
     .total-box {
       margin-left: auto;
-      width: 260px;
-      margin-bottom: 28px;
+      width: 240px;
+      margin-bottom: 24px;
+      font-size: 13px;
     }
     .total-box table {
       width: 100%;
       border-collapse: collapse;
     }
     .total-box td {
-      padding: 6px 0;
+      padding: 4px 0;
+    }
+    .total-row td {
+      border-top: 1px solid #e2e8f0;
+      padding-top: 8px;
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .attachment-note {
       font-size: 13px;
-    }
-    .total-box .total-row td {
-      border-top: 2px solid #101827;
-      padding-top: 10px;
-      font-size: 16px;
-      font-weight: 800;
-      color: #101827;
-    }
-    .attachment-notice {
-      background: #fefce8;
-      border-left: 4px solid #b69a6a;
-      padding: 14px 18px;
-      border-radius: 4px;
+      color: #475569;
+      background: #f1f5f9;
+      padding: 10px 14px;
+      border-radius: 6px;
       margin-bottom: 24px;
-      font-size: 13px;
-      color: #854d0e;
-    }
-    .attachment-notice strong {
-      display: block;
-      margin-bottom: 4px;
-      color: #713f12;
     }
     .email-footer {
-      background: #f8fafc;
-      padding: 20px 24px;
-      text-align: center;
-      border-top: 1px solid #e2e8f0;
+      border-top: 1px solid #f1f5f9;
+      padding-top: 18px;
       font-size: 12px;
       color: #94a3b8;
-      line-height: 1.5;
-    }
-    .email-footer strong {
-      color: #475569;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="email-wrapper">
-    <div class="email-container">
-      
-      <!-- HEADER -->
-      <div class="email-header">
-        <h1 class="brand-title">OMNIMODA</h1>
-        <div class="brand-subtitle">Comprobante Oficial de Compra</div>
-      </div>
-
-      <!-- BODY -->
-      <div class="email-body">
-        <div class="greeting">
-          ¡Hola, <span th:text="${nombre}">Cliente</span>!
-        </div>
-        <p class="intro-text">
-          Queremos agradecerte por elegir a <strong>OmniModa</strong>. Tu orden ha sido procesada y aprobada con éxito. A continuación encontrarás el resumen de tu compra:
-        </p>
-
-        <!-- DATOS FACTURA -->
-        <div class="invoice-card">
-          <table>
-            <tr>
-              <td class="label">N° de Factura:</td>
-              <td class="value"><span th:text="${numeroFactura}">FAC-000001</span></td>
-            </tr>
-            <tr>
-              <td class="label">Fecha y Hora:</td>
-              <td class="value"><span th:text="${fecha}">22/09/2026</span></td>
-            </tr>
-            <tr>
-              <td class="label">Método de Pago:</td>
-              <td class="value"><span th:text="${metodoPago}">PayPal</span></td>
-            </tr>
-            <tr>
-              <td class="label">Estado de Transacción:</td>
-              <td class="value"><span class="badge-approved">APROBADO</span></td>
-            </tr>
-            <tr>
-              <td class="label">Cód. Autorización:</td>
-              <td class="value"><span th:text="${codigoAutorizacion}">AUT-928192</span></td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- TABLA PRODUCTOS -->
-        <table class="table-items">
-          <thead>
-            <tr>
-              <th>Art. / Descripción</th>
-              <th style="text-align: center; width: 60px;">Cant.</th>
-              <th style="text-align: right; width: 100px;">Subtotal</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr th:each="item : ${items}">
-              <td>
-                <strong th:text="${item.nombre}">Prenda</strong>
-                <div style="font-size: 11px; color: #64748b;" th:if="${item.talla != null or item.color != null}">
-                  <span th:if="${item.talla != null}" th:text="'Talla: ' + ${item.talla}"></span>
-                  <span th:if="${item.color != null}" th:text="' | Color: ' + ${item.color}"></span>
-                </div>
-              </td>
-              <td style="text-align: center;" th:text="${item.cantidad}">1</td>
-              <td th:text="${item.subtotalFormatted}">$0.00</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <!-- TOTALES -->
-        <div class="total-box">
-          <table>
-            <tr>
-              <td style="color: #64748b;">Subtotal (sin IVA):</td>
-              <td style="text-align: right; font-weight: 600;" th:text="${subtotal}">$0.00</td>
-            </tr>
-            <tr>
-              <td style="color: #64748b;">IVA (19% discriminado):</td>
-              <td style="text-align: right; font-weight: 600;" th:text="${iva}">$0.00</td>
-            </tr>
-            <tr class="total-row">
-              <td>Total Pagado:</td>
-              <td style="text-align: right; color: #b69a6a;" th:text="${total}">$0.00</td>
-            </tr>
-          </table>
-        </div>
-
-        <!-- AVISO DE FACTURA ADJUNTA EN PDF -->
-        <div class="attachment-notice">
-          <strong>📎 Factura Electrónica Adjunta</strong>
-          Adjunto a este correo encontrarás el archivo formal en formato <strong>PDF</strong> con la Factura Electrónica legal de tu compra, con plena validez comercial y tributaria.
-        </div>
-
-      </div>
-
-      <!-- FOOTER -->
-      <div class="email-footer">
-        <p><strong>OmniModa S.A.S.</strong> — NIT: 901.458.789-1</p>
-        <p>Cra. 7 # 123-45, Bogotá D.C., Colombia | Tel: (+57) 601 320 0000</p>
-        <p style="margin-top: 10px; font-size: 11px; color: #94a3b8;">
-          Este es un correo generado automáticamente por la plataforma OmniModa. Si tienes dudas, contáctanos a soporte@omnimoda.com.
-        </p>
-      </div>
-
+  <div class="email-container">
+    
+    <div class="email-header">
+      <h1 class="brand-title">OmniModa</h1>
+      <div class="brand-subtitle">Comprobante de compra</div>
     </div>
+
+    <div class="greeting">
+      Hola, <strong th:text="${nombre}">Cliente</strong>:
+    </div>
+
+    <p class="intro-text">
+      Gracias por tu compra. Te confirmamos que tu orden ha sido recibida y procesada correctamente. A continuación puedes consultar el resumen de la transacción:
+    </p>
+
+    <div class="order-details">
+      <table>
+        <tr>
+          <td class="label">N° de Factura:</td>
+          <td class="value"><span th:text="${numeroFactura}">FE-000001</span></td>
+        </tr>
+        <tr>
+          <td class="label">Fecha:</td>
+          <td class="value"><span th:text="${fecha}">22/09/2026</span></td>
+        </tr>
+        <tr>
+          <td class="label">Método de Pago:</td>
+          <td class="value"><span th:text="${metodoPago}">Tarjeta</span></td>
+        </tr>
+      </table>
+    </div>
+
+    <table class="table-items">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th style="text-align: center; width: 60px;">Cant.</th>
+          <th style="text-align: right; width: 90px;">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="item : ${items}">
+          <td>
+            <span th:text="${item.nombre}">Prenda</span>
+            <span style="font-size: 11px; color: #64748b;" th:if="${item.talla != null}" th:text="' (Talla ' + ${item.talla} + ')'"></span>
+          </td>
+          <td style="text-align: center;" th:text="${item.cantidad}">1</td>
+          <td style="text-align: right;" th:text="${item.subtotalFormatted}">$0.00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="total-box">
+      <table>
+        <tr>
+          <td style="color: #64748b;">Subtotal:</td>
+          <td style="text-align: right;" th:text="${subtotal}">$0.00</td>
+        </tr>
+        <tr>
+          <td style="color: #64748b;">IVA (19%):</td>
+          <td style="text-align: right;" th:text="${iva}">$0.00</td>
+        </tr>
+        <tr class="total-row">
+          <td>Total Pagado:</td>
+          <td style="text-align: right;" th:text="${total}">$0.00</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="attachment-note">
+      📎 Tu factura formal en formato PDF se encuentra adjunta a este correo electrónico.
+    </div>
+
+    <div class="email-footer">
+      <p style="margin: 0;">OmniModa S.A.S. - Cra. 7 # 123-45, Bogotá D.C. | Tel: (+57) 601 320 0000</p>
+    </div>
+
   </div>
 </body>
 </html>

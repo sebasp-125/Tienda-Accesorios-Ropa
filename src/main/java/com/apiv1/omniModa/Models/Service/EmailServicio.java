@@ -162,37 +162,36 @@ public class EmailServicio {
                 <head>
                   <meta charset="UTF-8">
                   <style>
-                    body { font-family: Arial, sans-serif; background: #f8fafc; color: #1e293b; padding: 20px; }
-                    .card { max-width: 600px; margin: auto; background: white; border-radius: 8px; border: 1px solid #e2e8f0; overflow: hidden; }
-                    .header { background: #101827; color: white; padding: 24px; text-align: center; border-bottom: 3px solid #b69a6a; }
-                    .content { padding: 24px; }
-                    .total { text-align: right; font-size: 16px; font-weight: bold; color: #101827; margin-top: 15px; }
+                    body { font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif; background: #f8fafc; color: #334155; padding: 20px; }
+                    .card { max-width: 580px; margin: auto; background: white; border-radius: 8px; border: 1px solid #e2e8f0; padding: 28px; }
+                    .header { border-bottom: 1px solid #e2e8f0; padding-bottom: 14px; margin-bottom: 20px; }
+                    .total { font-size: 15px; font-weight: bold; color: #0f172a; margin-top: 14px; }
+                    .note { margin-top: 20px; background: #f1f5f9; padding: 10px 14px; border-radius: 6px; font-size: 13px; color: #475569; }
                   </style>
                 </head>
                 <body>
                   <div class="card">
                     <div class="header">
-                      <h2 style="margin:0; letter-spacing: 1px;">OMNIMODA</h2>
-                      <span style="font-size: 12px; color: #b69a6a;">Comprobante Oficial de Factura</span>
+                      <h2 style="margin:0; font-size: 20px; color: #0f172a;">OmniModa</h2>
+                      <span style="font-size: 13px; color: #64748b;">Comprobante de compra</span>
                     </div>
-                    <div class="content">
-                      <h3>¡Hola, %s!</h3>
-                      <p>Tu compra ha sido procesada con éxito en <strong>OmniModa</strong>.</p>
+                    <div>
+                      <p>Hola, <strong>%s</strong>:</p>
+                      <p>Gracias por tu compra. Tu orden ha sido procesada con éxito.</p>
                       <p><strong>N° Factura:</strong> %s<br>
                          <strong>Fecha:</strong> %s<br>
                          <strong>Método de Pago:</strong> %s<br>
-                         <strong>Código Aprobación:</strong> %s<br>
                          <strong>Subtotal:</strong> %s<br>
                          <strong>IVA (19%%):</strong> %s</p>
                       <div class="total">Total Pagado: %s</div>
-                      <p style="margin-top:20px; background: #fefce8; padding: 10px; border-left: 3px solid #b69a6a; font-size: 12px;">
-                        📎 Tu factura oficial completa en formato <strong>PDF</strong> se encuentra adjunta a este correo.
-                      </p>
+                      <div class="note">
+                        📎 Tu factura formal en formato PDF se encuentra adjunta a este correo.
+                      </div>
                     </div>
                   </div>
                 </body>
                 </html>
-                """.formatted(nombre, numFac, fecha, metodo, codAut, subtotal, iva, total);
+                """.formatted(nombre, numFac, fecha, metodo, subtotal, iva, total);
         }
     }
 }

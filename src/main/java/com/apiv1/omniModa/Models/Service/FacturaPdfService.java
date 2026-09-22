@@ -32,63 +32,40 @@ public class FacturaPdfService {
         // Dimensiones estándar A4: 595.28 x 841.89 pt
         double pageWidth = 595.0;
         double pageHeight = 842.0;
+        double marginX = 40.0;
+        double contentWidth = pageWidth - (2 * marginX);
 
-        // 1. BANNER SUPERIOR OSCURO INSTITUCIONAL (OmniModa Brand)
-        canvas.setFillColor(0.063, 0.094, 0.153); // #101827
-        canvas.fillRect(0, pageHeight - 105, pageWidth, 105);
-
-        // Línea dorada decorativa debajo del banner
-        canvas.setFillColor(0.714, 0.604, 0.416); // #b69a6a
-        canvas.fillRect(0, pageHeight - 108, pageWidth, 3);
-
-        // Título de la Empresa Emisora
-        canvas.setTextColor(1.0, 1.0, 1.0);
-        canvas.drawText("OMNIMODA S.A.S.", 36, pageHeight - 40, "F2", 18);
-        canvas.setTextColor(0.714, 0.604, 0.416);
-        canvas.drawText("MODA & ACCESORIOS EXCLUSIVOS - FACTURACION ELECTRONICA", 36, pageHeight - 54, "F2", 8.5);
-        canvas.setTextColor(0.85, 0.88, 0.92);
-        canvas.drawText("NIT: 901.458.789-2 | Regimen Ordinario - Responsable de IVA (Act. 4771)", 36, pageHeight - 67, "F1", 7.5);
-        canvas.drawText("Cra. 7 # 123-45, Edif. Moda Plaza, Bogota D.C. | Tel: (+57) 601 320 0000", 36, pageHeight - 78, "F1", 7.5);
-        canvas.setTextColor(0.68, 0.72, 0.78);
-        canvas.drawText("Resolucion DIAN No. 18764000001 de 15/01/2024 | Prefijo FE: 000001 a 100000", 36, pageHeight - 89, "F1", 7.0);
-        canvas.drawText("Vigencia: 24 Meses | www.omnimoda.com | facturacion@omnimoda.com", 36, pageHeight - 99, "F1", 7.0);
-
-        // Recuadro de Factura Electrónica (Superior Derecho)
         int idVenta = venta.getIdVentas() != null ? venta.getIdVentas() : 1;
         String consecutivo = String.format("FE-%06d", idVenta);
-        canvas.setFillColor(0.12, 0.17, 0.25);
-        canvas.fillRect(pageWidth - 215, pageHeight - 98, 180, 68);
-        canvas.setStrokeColor(0.714, 0.604, 0.416);
-        canvas.strokeRect(pageWidth - 215, pageHeight - 98, 180, 68, 1.2);
-
-        canvas.setTextColor(0.714, 0.604, 0.416);
-        canvas.drawText("FACTURA ELECTRONICA DE VENTA", pageWidth - 205, pageHeight - 42, "F2", 8.5);
-        canvas.setTextColor(1.0, 1.0, 1.0);
-        canvas.drawText(consecutivo, pageWidth - 205, pageHeight - 58, "F2", 14);
-
         String fechaStr = venta.getFecha() != null ? venta.getFecha().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-        canvas.setTextColor(0.8, 0.85, 0.9);
-        canvas.drawText("Fecha Emision: " + fechaStr, pageWidth - 205, pageHeight - 71, "F1", 7.5);
-        canvas.drawText("Vencimiento: " + fechaStr + " (Contado)", pageWidth - 205, pageHeight - 81, "F1", 7.5);
+        String metodo = (metodoPago != null && !metodoPago.isBlank()) ? metodoPago : "Pago en Linea";
 
-        // Badge DIAN verde
-        canvas.setFillColor(0.08, 0.5, 0.24);
-        canvas.fillRect(pageWidth - 205, pageHeight - 95, 125, 11);
-        canvas.setTextColor(1.0, 1.0, 1.0);
-        canvas.drawText("VALIDADA DIAN / PAGADA", pageWidth - 198, pageHeight - 93, "F2", 6.5);
+        // 1. ENCABEZADO SIMPLE (Estilo documento natural / limpio)
+        double curY = pageHeight - 50;
 
-        // 2. SECCIÓN: DATOS DEL CLIENTE (ADQUIRENTE) Y DEL PAGO
-        double yInfo = pageHeight - 120;
-        double infoBoxHeight = 85;
+        canvas.setTextColor(0.0, 0.0, 0.0);
+        canvas.drawText("OMNIMODA S.A.S.", marginX, curY, "F2", 14);
+        curY -= 16;
 
-        // Caja izquierda: Adquirente
-        canvas.setFillColor(0.97, 0.98, 0.99); // #f8fafc
-        canvas.fillRect(36, yInfo - infoBoxHeight, 255, infoBoxHeight);
-        canvas.setStrokeColor(0.88, 0.91, 0.94); // #e2e8f0
-        canvas.strokeRect(36, yInfo - infoBoxHeight, 255, infoBoxHeight, 1.0);
+        canvas.setTextColor(0.1, 0.1, 0.1);
+        canvas.drawText("Factura de Venta No. " + consecutivo, marginX, curY, "F2", 11);
+        curY -= 14;
 
-        canvas.setTextColor(0.063, 0.094, 0.153);
-        canvas.drawText("DATOS DEL ADQUIRENTE / CLIENTE", 46, yInfo - 16, "F2", 8.5);
+        canvas.setTextColor(0.35, 0.35, 0.35);
+        canvas.drawText("NIT: 901.458.789-2   |   Cra. 7 # 123-45, Bogota D.C.   |   Tel: (+57) 601 320 0000", marginX, curY, "F1", 8.0);
+        curY -= 12;
+        canvas.drawText("Fecha: " + fechaStr + "   |   Medio de Pago: " + truncar(metodo, 30) + "   |   Estado: PAGADA", marginX, curY, "F1", 8.0);
+        curY -= 10;
+
+        // Línea divisoria simple
+        canvas.setStrokeColor(0.7, 0.7, 0.7);
+        canvas.strokeLine(marginX, curY, pageWidth - marginX, curY, 0.8);
+        curY -= 20;
+
+        // 2. DATOS DEL CLIENTE
+        canvas.setTextColor(0.0, 0.0, 0.0);
+        canvas.drawText("Datos del Cliente", marginX, curY, "F2", 10.0);
+        curY -= 15;
 
         String nomCliente = (venta.getCliente() != null && venta.getCliente().getNombreCompleto() != null)
                 ? venta.getCliente().getNombreCompleto() : "Cliente General";
@@ -99,196 +76,94 @@ public class FacturaPdfService {
         String telCliente = (venta.getCliente() != null && venta.getCliente().getTelefono() != null)
                 ? venta.getCliente().getTelefono() : "Sin registrar";
 
-        canvas.setTextColor(0.2, 0.25, 0.3);
-        canvas.drawText("Nombre: " + truncar(nomCliente, 30), 46, yInfo - 30, "F1", 8.0);
-        canvas.drawText("CC / NIT: " + docCliente + " | Tipo: Persona Natural", 46, yInfo - 43, "F1", 8.0);
-        canvas.drawText("Resp. Fiscal: R-99-PN (No Responsable IVA)", 46, yInfo - 56, "F1", 8.0);
-        canvas.drawText("Correo: " + truncar(correoCliente, 34), 46, yInfo - 69, "F1", 8.0);
-        canvas.drawText("Telefono: " + telCliente + " | Ciudad: Bogota D.C.", 46, yInfo - 81, "F1", 8.0);
+        canvas.setTextColor(0.2, 0.2, 0.2);
+        canvas.drawText("- Nombre / Razon Social: " + truncar(nomCliente, 35) + "       - Identificacion: " + docCliente, marginX + 8, curY, "F1", 8.5);
+        curY -= 13;
+        canvas.drawText("- Correo: " + truncar(correoCliente, 35) + "       - Telefono: " + telCliente, marginX + 8, curY, "F1", 8.5);
+        curY -= 22;
 
-        // Caja derecha: Información de la Operación y Pago
-        canvas.setFillColor(0.97, 0.98, 0.99);
-        canvas.fillRect(305, yInfo - infoBoxHeight, 254, infoBoxHeight);
-        canvas.setStrokeColor(0.88, 0.91, 0.94);
-        canvas.strokeRect(305, yInfo - infoBoxHeight, 254, infoBoxHeight, 1.0);
+        // 3. TABLA DE ARTÍCULOS
+        canvas.setTextColor(0.0, 0.0, 0.0);
+        canvas.drawText("Detalle de la Compra", marginX, curY, "F2", 10.0);
+        curY -= 16;
 
-        canvas.setTextColor(0.063, 0.094, 0.153);
-        canvas.drawText("INFORMACION DE LA OPERACION Y PAGO", 315, yInfo - 16, "F2", 8.5);
+        // Cabecera simple con línea
+        canvas.setTextColor(0.1, 0.1, 0.1);
+        canvas.drawText("CANT", marginX + 8, curY, "F2", 7.5);
+        canvas.drawText("CODIGO", marginX + 55, curY, "F2", 7.5);
+        canvas.drawText("DESCRIPCION", marginX + 130, curY, "F2", 7.5);
+        canvas.drawText("PRECIO UNIT.", marginX + 360, curY, "F2", 7.5);
+        canvas.drawText("SUBTOTAL", marginX + 450, curY, "F2", 7.5);
+        curY -= 5;
+        canvas.setStrokeColor(0.6, 0.6, 0.6);
+        canvas.strokeLine(marginX, curY, pageWidth - marginX, curY, 0.7);
 
-        String metodo = (metodoPago != null && !metodoPago.isBlank()) ? metodoPago : "Pago en Linea";
-        String codAut = "AUT-" + (748291 + idVenta * 41);
-        String estadoStr = (venta.getEstado() != null && venta.getEstado().getTipo() != null)
-                ? venta.getEstado().getTipo() : "PAGADA";
-
-        canvas.setTextColor(0.2, 0.25, 0.3);
-        canvas.drawText("Medio de Pago: " + truncar(metodo, 28), 315, yInfo - 30, "F1", 8.0);
-        canvas.drawText("Forma de Pago: 1 - Contado", 315, yInfo - 43, "F1", 8.0);
-        canvas.drawText("Cod. Autorizacion: " + codAut, 315, yInfo - 56, "F1", 8.0);
-        canvas.drawText("Canal: Portal Transaccional OmniModa Online", 315, yInfo - 69, "F1", 8.0);
-        canvas.drawText("Moneda: COP (Peso Colombiano) | Estado: " + estadoStr, 315, yInfo - 81, "F1", 8.0);
-
-        // 3. TABLA DE ÍTEMS / DETALLE DE COMPRA
-        double yTable = yInfo - infoBoxHeight - 16;
-
-        // Cabecera de la tabla
-        canvas.setFillColor(0.063, 0.094, 0.153); // #101827
-        canvas.fillRect(36, yTable - 20, 523, 20);
-
-        canvas.setTextColor(1.0, 1.0, 1.0);
-        canvas.drawText("CANT", 42, yTable - 14, "F2", 8.0);
-        canvas.drawText("CODIGO", 76, yTable - 14, "F2", 8.0);
-        canvas.drawText("DESCRIPCION DEL ARTICULO", 145, yTable - 14, "F2", 8.0);
-        canvas.drawText("VR. UNITARIO", 370, yTable - 14, "F2", 8.0);
-        canvas.drawText("IVA 19%", 445, yTable - 14, "F2", 8.0);
-        canvas.drawText("SUBTOTAL", 505, yTable - 14, "F2", 8.0);
-
-        double yRow = yTable - 20;
-        boolean alternate = false;
         double totalCalculado = 0.0;
-
         if (venta.getDetalles() != null && !venta.getDetalles().isEmpty()) {
             for (Detalle_venta det : venta.getDetalles()) {
-                double rowHeight = 22;
-                yRow -= rowHeight;
-
-                if (alternate) {
-                    canvas.setFillColor(0.97, 0.98, 0.99);
-                    canvas.fillRect(36, yRow, 523, rowHeight);
-                }
-                alternate = !alternate;
-
-                // Línea inferior de la fila
-                canvas.setStrokeColor(0.9, 0.92, 0.94);
-                canvas.strokeLine(36, yRow, 559, yRow, 0.5);
-
-                // Cantidad
-                canvas.setTextColor(0.1, 0.15, 0.2);
-                canvas.drawText(String.valueOf(det.getCantidad()), 48, yRow + 7, "F1", 8.0);
-
-                // Código
+                curY -= 15;
                 String cod = (det.getProducto() != null && det.getProducto().getCodigo() != null)
                         ? det.getProducto().getCodigo() : "ART";
-                canvas.drawText(cod, 76, yRow + 7, "F1", 8.0);
-
-                // Descripción
                 String desc = (det.getProducto() != null && det.getProducto().getNombre() != null)
                         ? det.getProducto().getNombre() : "Prenda OmniModa";
                 if (det.getProducto() != null && det.getProducto().getTalla() != null) {
                     desc += " (Talla: " + det.getProducto().getTalla() + ")";
                 }
-                canvas.drawText(truncar(desc, 36), 145, yRow + 7, "F1", 8.0);
 
                 double precioU = det.getPrecioUnitario() != null ? det.getPrecioUnitario() : 0.0;
                 double sub = det.getSubtotal() != null ? det.getSubtotal() : (precioU * det.getCantidad());
-                double ivaItem = sub - (sub / 1.19);
                 totalCalculado += sub;
 
-                canvas.drawText(formatearMonedaSimple(precioU), 370, yRow + 7, "F1", 8.0);
-                canvas.drawText(formatearMonedaSimple(ivaItem), 445, yRow + 7, "F1", 8.0);
-                canvas.drawText(formatearMonedaSimple(sub), 505, yRow + 7, "F2", 8.0);
+                canvas.setTextColor(0.2, 0.2, 0.2);
+                canvas.drawText(String.valueOf(det.getCantidad()), marginX + 8, curY, "F1", 7.5);
+                canvas.drawText(cod, marginX + 55, curY, "F1", 7.5);
+                canvas.drawText(truncar(desc, 36), marginX + 130, curY, "F1", 7.5);
+                canvas.drawText(formatearMonedaSimple(precioU), marginX + 360, curY, "F1", 7.5);
+                canvas.drawText(formatearMonedaSimple(sub), marginX + 450, curY, "F2", 7.5);
             }
         }
+        curY -= 4;
+        canvas.setStrokeColor(0.8, 0.8, 0.8);
+        canvas.strokeLine(marginX, curY, pageWidth - marginX, curY, 0.5);
+        curY -= 20;
 
-        // Borde exterior de la tabla
-        canvas.setStrokeColor(0.8, 0.85, 0.9);
-        canvas.strokeRect(36, yRow, 523, (yTable - yRow), 1.0);
-
-        // 4. LIQUIDACIÓN FINANCIERA (TOTALES Y VALOR EN LETRAS)
+        // 4. TOTALES
         double totalFinal = (venta.getTotal() != null && venta.getTotal() > 0) ? venta.getTotal() : totalCalculado;
         double baseImponible = totalFinal / 1.19;
         double iva19 = totalFinal - baseImponible;
 
-        double yTotales = yRow - 18;
+        canvas.setTextColor(0.2, 0.2, 0.2);
+        canvas.drawText("Subtotal: " + formatearMonedaSimple(baseImponible) +
+                "       IVA (19%): " + formatearMonedaSimple(iva19), marginX + 8, curY, "F1", 8.5);
+        curY -= 14;
 
-        // Caja izquierda: Valor en letras y notas mercantiles
-        canvas.setFillColor(0.98, 0.98, 0.99);
-        canvas.fillRect(36, yTotales - 75, 290, 75);
-        canvas.setStrokeColor(0.88, 0.91, 0.94);
-        canvas.strokeRect(36, yTotales - 75, 290, 75, 1.0);
-
-        canvas.setTextColor(0.063, 0.094, 0.153);
-        canvas.drawText("VALOR EN LETRAS:", 46, yTotales - 14, "F2", 8.0);
+        canvas.setTextColor(0.0, 0.0, 0.0);
+        canvas.drawText("TOTAL PAGADO: " + formatearMonedaSimple(totalFinal), marginX + 8, curY, "F2", 10.0);
+        curY -= 14;
 
         String valorEnLetras = "SON: " + NumeroALetras.convertir(totalFinal);
-        canvas.setTextColor(0.2, 0.25, 0.3);
-        canvas.drawText(truncar(valorEnLetras, 50), 46, yTotales - 28, "F1", 7.5);
-        if (valorEnLetras.length() > 50) {
-            canvas.drawText(truncar(valorEnLetras.substring(50), 50), 46, yTotales - 40, "F1", 7.5);
-        }
+        canvas.setTextColor(0.4, 0.4, 0.4);
+        canvas.drawText(truncar(valorEnLetras, 60), marginX + 8, curY, "F1", 7.5);
+        curY -= 30;
 
-        canvas.setTextColor(0.45, 0.5, 0.55);
-        canvas.drawText("Esta factura constituye titulo valor segun Art. 774 del Codigo", 46, yTotales - 55, "F1", 7.0);
-        canvas.drawText("de Comercio. Documento expedido conforme a Resolucion 000042 DIAN.", 46, yTotales - 66, "F1", 7.0);
+        // 5. PIE DE PÁGINA SIMPLE
+        double yFooter = 55;
+        canvas.setStrokeColor(0.8, 0.8, 0.8);
+        canvas.strokeLine(marginX, yFooter + 40, pageWidth - marginX, yFooter + 40, 0.5);
 
-        // Caja derecha: Totales numéricos
-        double xTotales = 345;
-        double totalesBoxWidth = 214;
+        canvas.setTextColor(0.4, 0.4, 0.4);
+        canvas.drawText("Documento soporte de venta expedido por OmniModa S.A.S.", marginX, yFooter + 22, "F1", 7.5);
+        canvas.drawText("Gracias por su compra en nuestra tienda.", marginX, yFooter + 10, "F1", 7.5);
 
-        canvas.setFillColor(0.98, 0.98, 0.99);
-        canvas.fillRect(xTotales, yTotales - 75, totalesBoxWidth, 75);
-        canvas.setStrokeColor(0.88, 0.91, 0.94);
-        canvas.strokeRect(xTotales, yTotales - 75, totalesBoxWidth, 75, 1.0);
+        // Línea de firma a la derecha
+        double xSign = pageWidth - marginX - 170;
+        canvas.setStrokeColor(0.2, 0.2, 0.2);
+        canvas.strokeLine(xSign, yFooter + 20, xSign + 160, yFooter + 20, 0.7);
 
-        canvas.setTextColor(0.3, 0.35, 0.4);
-        canvas.drawText("Subtotal (Base Imponible 19%):", xTotales + 10, yTotales - 14, "F1", 8.0);
-        canvas.drawText(formatearMonedaSimple(baseImponible), xTotales + 135, yTotales - 14, "F1", 8.0);
-
-        canvas.drawText("IVA (19% discriminado):", xTotales + 10, yTotales - 28, "F1", 8.0);
-        canvas.drawText(formatearMonedaSimple(iva19), xTotales + 135, yTotales - 28, "F1", 8.0);
-
-        canvas.drawText("Descuento Comercial (0%):", xTotales + 10, yTotales - 42, "F1", 8.0);
-        canvas.drawText("$0", xTotales + 135, yTotales - 42, "F1", 8.0);
-
-        // TOTAL A PAGAR DESTACADO
-        canvas.setFillColor(0.063, 0.094, 0.153); // #101827
-        canvas.fillRect(xTotales, yTotales - 75, totalesBoxWidth, 24);
-
-        canvas.setTextColor(1.0, 1.0, 1.0);
-        canvas.drawText("TOTAL FACTURA:", xTotales + 10, yTotales - 60, "F2", 9.0);
-        canvas.setTextColor(0.714, 0.604, 0.416); // #b69a6a
-        canvas.drawText(formatearMonedaSimple(totalFinal), xTotales + 115, yTotales - 60, "F2", 10.5);
-
-        // 5. CAJA DE CUFE (Código Único de Factura Electrónica)
-        double yCufe = yTotales - 108;
-        String cufe = generarCufe(consecutivo, fechaStr, totalFinal, "901458789-2", docCliente);
-
-        canvas.setFillColor(0.95, 0.96, 0.98);
-        canvas.fillRect(36, yCufe, 523, 24);
-        canvas.setStrokeColor(0.85, 0.88, 0.92);
-        canvas.strokeRect(36, yCufe, 523, 24, 0.8);
-
-        canvas.setTextColor(0.063, 0.094, 0.153);
-        canvas.drawText("CUFE:", 44, yCufe + 8, "F2", 7.5);
-        canvas.setTextColor(0.25, 0.3, 0.35);
-        canvas.drawText(cufe, 80, yCufe + 8, "F1", 6.8);
-
-        // 6. PIE DE PÁGINA DE SEGURIDAD (QR CODE + BARCODE + FIRMA DIGITAL)
-        double yFooter = 42;
-        double hFooter = 78;
-
-        canvas.setFillColor(0.98, 0.99, 1.0);
-        canvas.fillRect(36, yFooter, 523, hFooter);
-        canvas.setStrokeColor(0.88, 0.91, 0.94);
-        canvas.strokeRect(36, yFooter, 523, hFooter, 1.0);
-
-        // A. Código QR Vectorial de la DIAN (esquina inferior izquierda)
-        canvas.drawQrCode(46, yFooter + 9, 58);
-
-        // B. Código de Barras (Centro)
-        String codBarras = String.format("(415)7701234567890(8020)%06d(3900)%09d", idVenta, Math.round(totalFinal));
-        canvas.drawBarcode(125, yFooter + 35, 170, 24, codBarras);
-        canvas.setTextColor(0.4, 0.45, 0.5);
-        canvas.drawText("Valide su factura escaneando el codigo QR o en www.dian.gov.co", 125, yFooter + 14, "F1", 6.5);
-
-        // C. Sello y Firma Digital (Derecha)
-        double xFirma = 320;
-        canvas.setTextColor(0.063, 0.094, 0.153);
-        canvas.drawText("FIRMA DIGITAL Y CERTIFICACION", xFirma, yFooter + 60, "F2", 7.5);
-        canvas.setTextColor(0.3, 0.35, 0.4);
-        canvas.drawText("Firmado digitalmente por: OMNIMODA S.A.S.", xFirma, yFooter + 48, "F1", 6.8);
-        canvas.drawText("Entidad Certificadora: ANDES SCD S.A. CA Abierta", xFirma, yFooter + 37, "F1", 6.8);
-        canvas.drawText("Proveedor Tecnologico: OmniModa Facturacion Cloud Tech S.A.S.", xFirma, yFooter + 26, "F1", 6.5);
-        canvas.drawText("Ambiente: Produccion DIAN | Software Validado v2.4", xFirma, yFooter + 15, "F1", 6.5);
+        canvas.setTextColor(0.1, 0.1, 0.1);
+        canvas.drawText("Firma Autorizada", xSign + 35, yFooter + 10, "F2", 7.5);
+        canvas.setTextColor(0.4, 0.4, 0.4);
+        canvas.drawText("OmniModa S.A.S.", xSign + 35, yFooter, "F1", 7.0);
 
         return canvas.buildPdf();
     }

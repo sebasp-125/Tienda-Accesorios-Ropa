@@ -171,6 +171,79 @@
           </div>
         </section>
 
+        <!-- ================= CENTRO DE REPORTES (ACORDEÓN EXCLUSIVO ADMINISTRADOR) ================= -->
+        <section class="section reports-section" th:if="${session.esAdmin == true or session.rolPrincipal == 'ADMINISTRADOR'}">
+          <div class="section-title">
+            <div>
+              <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                <h2>Reportes del Sistema</h2>
+                <span class="admin-badge-simple"><i class="fa-solid fa-lock"></i> Exclusivo Administrador</span>
+              </div>
+              <p>Genera y descarga informes administrativos en formato PDF.</p>
+            </div>
+          </div>
+
+          <!-- ACORDEÓN DE REPORTES SIMPLE -->
+          <div class="simple-accordion" id="reportsAccordion">
+            <!-- ITEM 1: REPORTE GENERAL CONSOLIDADO -->
+            <div class="simple-accordion-item active">
+              <button type="button" class="simple-accordion-header" onclick="toggleAccordionItem(this)">
+                <span class="accordion-header-title">
+                  <i class="fa-regular fa-file-lines"></i>
+                  <strong>Reporte General Consolidado</strong>
+                </span>
+                <i class="fa-solid fa-chevron-down accordion-arrow"></i>
+              </button>
+              <div class="simple-accordion-body">
+                <p>Resumen general del sistema: indicadores clave de clientes, productos y proveedores, balance de ventas, estado de existencias en bodega y registro de transacciones recientes.</p>
+                <div>
+                  <a th:href="@{/dashboard/reportes/pdf(tipo='general')}" target="_blank" class="btn-download-simple">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 2: REPORTE DE VENTAS Y FACTURACIÓN -->
+            <div class="simple-accordion-item">
+              <button type="button" class="simple-accordion-header" onclick="toggleAccordionItem(this)">
+                <span class="accordion-header-title">
+                  <i class="fa-solid fa-receipt"></i>
+                  <strong>Reporte de Ventas y Facturación</strong>
+                </span>
+                <i class="fa-solid fa-chevron-down accordion-arrow"></i>
+              </button>
+              <div class="simple-accordion-body">
+                <p>Detalle financiero enfocado en ventas pagadas, base gravable 19%, IVA liquidado y listado de transacciones comerciales.</p>
+                <div>
+                  <a th:href="@{/dashboard/reportes/pdf(tipo='ventas')}" target="_blank" class="btn-download-simple">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <!-- ITEM 3: REPORTE DE CONTROL DE INVENTARIO -->
+            <div class="simple-accordion-item">
+              <button type="button" class="simple-accordion-header" onclick="toggleAccordionItem(this)">
+                <span class="accordion-header-title">
+                  <i class="fa-solid fa-boxes-stacked"></i>
+                  <strong>Reporte de Control de Inventario</strong>
+                </span>
+                <i class="fa-solid fa-chevron-down accordion-arrow"></i>
+              </button>
+              <div class="simple-accordion-body">
+                <p>Control de existencias en almacén, total de unidades disponibles, valorización del stock y alerta de artículos con stock bajo para reposición.</p>
+                <div>
+                  <a th:href="@{/dashboard/reportes/pdf(tipo='inventario')}" target="_blank" class="btn-download-simple">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar PDF
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <!-- ================= DOS COLUMNAS ================= -->
         <div class="dashboard-grid">
           <!-- VENTAS RECIENTES -->
@@ -332,6 +405,21 @@
           text: "No tienes los permisos administrativos necesarios para acceder a ese módulo.",
           confirmButtonColor: "#9d824f"
         });
+      }
+
+      function toggleAccordionItem(btn) {
+        const item = btn.closest('.simple-accordion-item');
+        if (!item) return;
+        const wasActive = item.classList.contains('active');
+
+        // Cerrar los demás para mantener orden
+        document.querySelectorAll('.simple-accordion-item').forEach(el => {
+          el.classList.remove('active');
+        });
+
+        if (!wasActive) {
+          item.classList.add('active');
+        }
       }
       /*]]>*/
     </script>
