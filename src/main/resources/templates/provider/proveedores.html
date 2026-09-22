@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
     <link rel="stylesheet" th:href="@{/css/proveedores.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
@@ -30,8 +31,7 @@
               <p>Administra la información de los proveedores.</p>
             </div>
             <a th:href="@{/proveedores/nuevo}" class="btn-primary">
-              <i class="fa-solid fa-plus"></i>
-              Nuevo proveedor
+              <i class="fa-solid fa-plus"></i> Nuevo proveedor
             </a>
           </div>
           <div class="search-container">
@@ -124,8 +124,7 @@
                       <h4>No hay proveedores registrados</h4>
                       <p>Comienza agregando tu primer proveedor.</p>
                       <a th:href="@{/proveedores/nuevo}" class="btn-primary">
-                        <i class="fa-solid fa-plus"></i>
-                        Nuevo proveedor
+                        <i class="fa-solid fa-plus"></i> Nuevo proveedor
                       </a>
                     </div>
                   </td>
@@ -146,18 +145,7 @@
       </main>
     </div>
     <script th:src="@{/js/validaciones.js}"></script>
-    <script>
-      const searchInput = document.getElementById("searchProvider");
-      const table = document.getElementById("providersTable");
-      searchInput.addEventListener("input", function () {
-        const search = this.value.toLowerCase().trim();
-        const rows = table.querySelectorAll("tr");
-        rows.forEach((row) => {
-          const text = row.textContent.toLowerCase();
-          row.style.display = text.includes(search) ? "" : "none";
-        });
-      });
-    </script>
+    <script th:src="@{/js/buscarproveedores.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

@@ -1,15 +1,26 @@
 <div th:fragment="user_profile" class="topbar-right">
-  <button class="notification">
+  <!-- <button class="notification">
     <i class="fa-solid fa-bell"></i>
     <span></span>
-  </button>
+  </button> -->
 
   <div class="profile">
-    <div class="profile-avatar" th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}">A</div>
+    <div
+      class="profile-avatar"
+      th:text="${session.usuarioLogueado != null ? #strings.substring(session.usuarioLogueado.nombreUsuario, 0, 1).toUpperCase() : 'A'}"
+    >
+      A
+    </div>
 
     <div>
-      <strong th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}">Administrador</strong>
-      <small th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}">Administrador</small>
+      <strong
+        th:text="${session.usuarioLogueado != null ? session.usuarioLogueado.nombreUsuario : 'Administrador'}"
+        >Administrador</strong
+      >
+      <small
+        th:text="${session.rolPrincipal != null ? session.rolPrincipal : 'Administrador'}"
+        >Administrador</small
+      >
     </div>
   </div>
 </div>

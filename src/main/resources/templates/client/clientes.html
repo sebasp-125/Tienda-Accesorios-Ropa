@@ -12,6 +12,7 @@
     <link rel="stylesheet" th:href="@{/css/clientes.css}" />
     <link rel="stylesheet" th:href="@{/css/dashboard.css}" />
   </head>
+
   <body>
     <div class="app">
       <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
@@ -30,8 +31,7 @@
               <p>Administra la información de tus clientes.</p>
             </div>
             <a th:href="@{/clientes/nuevo}" class="btn-primary">
-              <i class="fa-solid fa-plus"></i>
-              Nuevo cliente
+              <i class="fa-solid fa-plus"></i> Nuevo cliente
             </a>
           </div>
           <div class="search-container">
@@ -117,8 +117,7 @@
                       <h4>No hay clientes registrados</h4>
                       <p>Comienza agregando tu primer cliente.</p>
                       <a th:href="@{/clientes/nuevo}" class="btn-primary">
-                        <i class="fa-solid fa-plus"></i>
-                        Nuevo cliente
+                        <i class="fa-solid fa-plus"></i> Nuevo cliente
                       </a>
                     </div>
                   </td>
@@ -139,7 +138,7 @@
       </main>
     </div>
     <script th:src="@{/js/validaciones.js}"></script>
-    <script th:src="@{/js/buscarclientes.js}"></script>
+    <script th:src="@{/js/buscadorclientes.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
   </body>

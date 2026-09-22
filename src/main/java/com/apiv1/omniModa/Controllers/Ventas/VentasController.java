@@ -42,9 +42,6 @@ public class VentasController {
         this.productoService = productoService;
     }
 
-    // =====================================================
-    // LISTADO Y CONSULTA DE VENTAS (CON FILTROS)
-    // =====================================================
     @GetMapping
     public String listarVentas(
             @RequestParam(name = "cliente", required = false) String cliente,
@@ -71,9 +68,6 @@ public class VentasController {
         return "sale/ventas";
     }
 
-    // =====================================================
-    // FORMULARIO NUEVA VENTA
-    // =====================================================
     @GetMapping("/nueva")
     public String nuevaVenta(Model model) {
         model.addAttribute("clientes", clienteService.listarClientes());
@@ -85,9 +79,6 @@ public class VentasController {
         return "sale/nueva_venta";
     }
 
-    // =====================================================
-    // GUARDAR NUEVA VENTA
-    // =====================================================
     @PostMapping("/guardar")
     public String guardarVenta(
             @RequestParam("clienteDocumento") String clienteDocumento,
@@ -117,9 +108,6 @@ public class VentasController {
         return "redirect:/ventas";
     }
 
-    // =====================================================
-    // FORMULARIO ACTUALIZAR VENTA
-    // =====================================================
     @GetMapping("/actualizar/{id}")
     public String actualizarVentaForm(@PathVariable("id") Integer id, Model model) {
         Ventas venta = ventaService.buscarPorId(id);
@@ -139,9 +127,6 @@ public class VentasController {
         return "sale/actualizar_venta";
     }
 
-    // =====================================================
-    // GUARDAR ACTUALIZACIÓN DE VENTA
-    // =====================================================
     @PostMapping("/actualizar")
     public String guardarActualizacionVenta(
             @RequestParam("idVentas") Integer idVentas,
@@ -172,9 +157,6 @@ public class VentasController {
         return "redirect:/ventas";
     }
 
-    // =====================================================
-    // CAMBIO RÁPIDO DE ESTADO (AJAX)
-    // =====================================================
     @PostMapping("/cambiar-estado")
     @ResponseBody
     public ResponseEntity<?> cambiarEstado(
@@ -182,17 +164,16 @@ public class VentasController {
             @RequestParam("estadoId") Integer estadoId) {
         try {
             ventaService.cambiarEstado(idVenta, estadoId);
-            return ResponseEntity.ok(Map.of("success", true, "message", "Estado de la venta actualizado exitosamente."));
+            return ResponseEntity
+                    .ok(Map.of("success", true, "message", "Estado de la venta actualizado exitosamente."));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(Map.of("success", false, "message", e.getMessage()));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().body(Map.of("success", false, "message", "Error al actualizar estado."));
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("success", false, "message", "Error al actualizar estado."));
         }
     }
 
-    // =====================================================
-    // DETALLE DE VENTA (JSON PARA MODAL)
-    // =====================================================
     @GetMapping("/api/detalle/{id}")
     @ResponseBody
     public ResponseEntity<?> obtenerDetalle(@PathVariable("id") Integer id) {
@@ -203,9 +184,6 @@ public class VentasController {
         return ResponseEntity.ok(detalle);
     }
 
-    // =====================================================
-    // ELIMINAR VENTA
-    // =====================================================
     @PostMapping("/eliminar/{id}")
     public String eliminarVenta(@PathVariable("id") Integer id) {
         ventaService.eliminarVenta(id);

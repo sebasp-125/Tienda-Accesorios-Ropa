@@ -31,8 +31,7 @@
         </header>
 
         <a th:href="@{/usuarios}" class="back-link">
-          <i class="fa-solid fa-arrow-left"></i>
-          Volver a usuarios
+          <i class="fa-solid fa-arrow-left"></i> Volver a usuarios
         </a>
 
         <section class="form-card">
@@ -53,7 +52,11 @@
             class="update-user"
             autocomplete="off"
           >
-            <input type="hidden" name="idUsuario" th:value="${usuario.idUsuario}" />
+            <input
+              type="hidden"
+              name="idUsuario"
+              th:value="${usuario.idUsuario}"
+            />
 
             <div class="form-grid">
               <div class="form-group">
@@ -69,6 +72,8 @@
                     id="nombreUsuario"
                     name="nombreUsuario"
                     th:value="${usuario.nombreUsuario}"
+                    placeholder="Ej. Laura González"
+                    oninput="validarTextoyCaracter(this)"
                     required
                   />
                 </div>
@@ -87,6 +92,11 @@
                     id="correo"
                     name="correo"
                     th:value="${usuario.correo}"
+                    placeholder="usuario@omnimoda.com"
+                    oninput="validarCorreo(this)"
+                    onblur="validarFormatoCorreo(this)"
+                    maxlength="40"
+                    minlength="14"
                     required
                   />
                 </div>
@@ -95,7 +105,11 @@
               <div class="form-group">
                 <label for="password">
                   Nueva contraseña
-                  <span style="font-weight: normal; color: #94a3b8; font-size: 11px;">(dejar en blanco para mantener actual)</span>
+                  <span
+                    style="font-weight: normal; color: #94a3b8; font-size: 11px"
+                  >
+                    (dejar en blanco para mantener actual)
+                  </span>
                 </label>
 
                 <div class="input-wrapper">
@@ -105,7 +119,9 @@
                     id="password"
                     name="password"
                     placeholder="Escribe si deseas cambiarla"
-                    minlength="6"
+                    oninput="validarPassword(this)"
+                    minlength="8"
+                    maxlength="50"
                   />
                 </div>
               </div>
@@ -118,7 +134,7 @@
 
                 <div class="input-wrapper">
                   <i class="fa-solid fa-shield-halved"></i>
-                  <select id="rolId" name="rolId" required style="cursor: pointer;">
+                  <select id="rolId" name="rolId" class="rol-select" required>
                     <option
                       th:each="r : ${roles}"
                       th:value="${r.idRol}"
@@ -137,18 +153,31 @@
 
                 <div class="input-wrapper">
                   <i class="fa-solid fa-toggle-on"></i>
-                  <select id="estado" name="estado" required style="cursor: pointer;">
-                    <option value="ACTIVO" th:selected="${usuario.estado == 'ACTIVO'}">Activo</option>
-                    <option value="INACTIVO" th:selected="${usuario.estado == 'INACTIVO'}">Inactivo</option>
+                  <select
+                    id="estado"
+                    name="estado"
+                    class="estado-cuenta-select"
+                    required
+                  >
+                    <option
+                      value="ACTIVO"
+                      th:selected="${usuario.estado == 'ACTIVO'}"
+                    >
+                      Activo
+                    </option>
+                    <option
+                      value="INACTIVO"
+                      th:selected="${usuario.estado == 'INACTIVO'}"
+                    >
+                      Inactivo
+                    </option>
                   </select>
                 </div>
               </div>
             </div>
 
             <div class="form-footer">
-              <a th:href="@{/usuarios}" class="btn-secondary">
-                Cancelar
-              </a>
+              <a th:href="@{/usuarios}" class="btn-secondary"> Cancelar </a>
 
               <button type="submit" class="btn-primary">
                 <i class="fa-solid fa-check"></i>
@@ -160,6 +189,9 @@
       </main>
     </div>
 
+    <script th:src="@{/js/validaciones.js}"></script>
+    <script th:src="@{/js/roles.js}"></script>
+    <script th:src="@{/js/estado_cuenta.js}"></script>
     <script th:src="@{/js/sweetalert2.all.min.js}"></script>
     <script th:src="@{/js/alertas.js}"></script>
   </body>

@@ -53,7 +53,7 @@ function cerrarModalDetalle() {
 }
 
 // Cerrar modal al hacer clic afuera
-window.addEventListener("click", function(event) {
+window.addEventListener("click", function (event) {
   const modal = document.getElementById("receiptModal");
   if (event.target === modal) {
     modal.style.display = "none";
@@ -62,72 +62,312 @@ window.addEventListener("click", function(event) {
 
 // Cambiar estado de venta directamente desde la tabla con SweetAlert2
 function cambiarEstadoRapido(idVenta, estadoActual) {
+
   Swal.fire({
+
     title: `Cambiar Estado - Venta #${idVenta}`,
-    text: `Estado actual: ${estadoActual}`,
-    icon: "question",
-    input: "select",
-    inputOptions: {
-      "1": "PENDIENTE",
-      "2": "PAGADA",
-      "3": "CANCELADA"
-    },
-    inputPlaceholder: "Selecciona el nuevo estado",
+
+    html: `
+            <div class="swal-status-content">
+
+                <div class="swal-status-current">
+                    <span>Estado actual</span>
+                    <strong>${estadoActual}</strong>
+                </div>
+
+                <div class="swal-status-select">
+
+                    <div class="swal-status-trigger" tabindex="0">
+
+                        <span class="swal-status-text">
+                            Selecciona el nuevo estado
+                        </span>
+
+                        <i class="fa-solid fa-chevron-down swal-status-arrow"></i>
+
+                    </div>
+
+                    <div class="swal-status-dropdown">
+
+                        <button
+                            type="button"
+                            class="swal-status-option"
+                            data-value="1"
+                        >
+                            <span>
+                                <strong>PENDIENTE</strong>
+                                <small>La venta está pendiente</small>
+                            </span>
+
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="swal-status-option"
+                            data-value="2"
+                        >
+                            <span>
+                                <strong>PAGADA</strong>
+                                <small>La venta fue pagada</small>
+                            </span>
+
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="swal-status-option"
+                            data-value="3"
+                        >
+                            <span>
+                                <strong>CANCELADA</strong>
+                                <small>La venta fue cancelada</small>
+                            </span>
+
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+        `,
+
     showCancelButton: true,
+
     confirmButtonText: "Actualizar",
+
     cancelButtonText: "Cancelar",
+
     confirmButtonColor: "#9d824f",
+
     cancelButtonColor: "#101827",
-    inputValidator: (value) => {
-      if (!value) {
-        return "Debes seleccionar un estado";
+
+    customClass: {
+      popup: "omnimoda-status-popup",
+      title: "omnimoda-status-title",
+      htmlContainer: "omnimoda-status-container",
+      confirmButton: "omnimoda-status-confirm",
+      cancelButton: "omnimoda-status-cancel"
+    },
+
+    didOpen: () => {
+
+      const popup =
+        Swal.getPopup();
+
+      const select =
+        popup.querySelector(
+          ".swal-status-select"
+        );
+
+      const trigger =
+        popup.querySelector(
+          ".swal-status-trigger"
+        );
+
+      const texto =
+        popup.querySelector(
+          ".swal-status-text"
+        );
+
+      const opciones =
+        popup.querySelectorAll(
+          ".swal-status-option"
+        );
+
+      let estadoSeleccionado = "";
+
+      opciones.forEach((opcion) => {
+
+        opcion.addEventListener("click", () => {
+
+          estadoSeleccionado =
+            opcion.dataset.value;
+
+          texto.textContent =
+            opcion.querySelector(
+              "strong"
+            ).textContent;
+
+          opciones.forEach((otra) => {
+            otra.classList.remove(
+              "selected"
+            );
+          });
+
+          opcion.classList.add(
+            "selected"
+          );
+
+          select.classList.remove(
+            "status-select-open"
+          );
+
+        });
+
+      });
+
+      trigger.addEventListener("click", (event) => {
+
+        event.stopPropagation();
+
+        select.classList.toggle(
+          "status-select-open"
+        );
+
+      });
+
+      trigger.addEventListener("keydown", (event) => {
+
+        if (
+          event.key === "Enter" ||
+          event.key === " "
+        ) {
+
+          event.preventDefault();
+
+          select.classList.toggle(
+            "status-select-open"
+          );
+
+        }
+
+        if (event.key === "Escape") {
+
+          select.classList.remove(
+            "status-select-open"
+          );
+
+        }
+
+      });
+
+    },
+
+    preConfirm: () => {
+
+      const popup =
+        Swal.getPopup();
+
+      const opcionSeleccionada =
+        popup.querySelector(
+          ".swal-status-option.selected"
+        );
+
+      if (!opcionSeleccionada) {
+
+        Swal.showValidationMessage(
+          "Debes seleccionar un estado"
+        );
+
+        return false;
       }
+
+      return opcionSeleccionada.dataset.value;
     }
+
   }).then(async (result) => {
-    if (result.isConfirmed && result.value) {
-      const nuevoEstadoId = result.value;
+
+    if (
+      result.isConfirmed &&
+      result.value
+    ) {
+
+      const nuevoEstadoId =
+        result.value;
 
       try {
-        const formData = new FormData();
-        formData.append("idVenta", idVenta);
-        formData.append("estadoId", nuevoEstadoId);
 
-        const res = await fetch("/ventas/cambiar-estado", {
-          method: "POST",
-          body: formData
-        });
+        const formData =
+          new FormData();
 
-        const data = await res.json();
+        formData.append(
+          "idVenta",
+          idVenta
+        );
 
-        if (res.ok && data.success) {
+        formData.append(
+          "estadoId",
+          nuevoEstadoId
+        );
+
+        const res =
+          await fetch(
+            "/ventas/cambiar-estado", {
+            method: "POST",
+            body: formData
+          }
+          );
+
+        const data =
+          await res.json();
+
+        if (
+          res.ok &&
+          data.success
+        ) {
+
           Swal.fire({
+
             toast: true,
+
             position: "top-end",
+
             icon: "success",
-            title: data.message || "Estado actualizado exitosamente",
+
+            title: data.message ||
+              "Estado actualizado exitosamente",
+
             showConfirmButton: false,
+
             timer: 1500
+
           }).then(() => {
+
             window.location.reload();
+
           });
+
         } else {
+
           Swal.fire({
+
             icon: "error",
+
             title: "No se pudo actualizar",
-            text: data.message || "Error al actualizar estado.",
+
+            text: data.message ||
+              "Error al actualizar estado.",
+
             confirmButtonColor: "#9d824f"
+
           });
+
         }
+
       } catch (e) {
+
         Swal.fire({
+
           icon: "error",
+
           title: "Error de conexión",
+
           text: "No fue posible comunicarse con el servidor.",
+
           confirmButtonColor: "#9d824f"
+
         });
+
       }
+
     }
+
   });
+
 }
 
 // Alerta de confirmación de eliminación de venta
