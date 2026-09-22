@@ -55,4 +55,24 @@ public class FacturaPdfServiceTest {
         String header = new String(pdfBytes, 0, 4);
         Assertions.assertEquals("%PDF", header, "El archivo debe iniciar con la cabecera estándar de PDF");
     }
+
+    @Test
+    void testNumeroALetras() {
+        String texto1 = com.apiv1.omniModa.Models.Service.NumeroALetras.convertir(150000.0);
+        Assertions.assertEquals("CIENTO CINCUENTA MIL PESOS M/CTE", texto1);
+
+        String texto2 = com.apiv1.omniModa.Models.Service.NumeroALetras.convertir(1000000.0);
+        Assertions.assertEquals("UN MILLON DE PESOS M/CTE", texto2);
+
+        String texto3 = com.apiv1.omniModa.Models.Service.NumeroALetras.convertir(235900.0);
+        Assertions.assertEquals("DOSCIENTOS TREINTA Y CINCO MIL NOVECIENTOS PESOS M/CTE", texto3);
+    }
+
+    @Test
+    void testGenerarCufe() {
+        String cufe = FacturaPdfService.generarCufe("FE-000101", "22/09/2026", 150000.0, "901458789-2", "1020304050");
+        Assertions.assertNotNull(cufe);
+        Assertions.assertEquals(64, cufe.length(), "El CUFE en SHA-256 debe tener 64 caracteres hexadecimales");
+        Assertions.assertTrue(cufe.matches("^[0-9a-f]{64}$"), "El CUFE debe ser una cadena hexadecimal válida");
+    }
 }
