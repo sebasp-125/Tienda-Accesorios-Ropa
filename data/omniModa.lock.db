@@ -1,6 +1,6 @@
 #FileLock
-#Tue Sep 22 13:21:42 COT 2026
+#Tue Sep 22 14:54:56 COT 2026
 hostName=omarchy
-id=1a0ca5a2a9ad16768e72c7ce8f3f2a6d4200392efe1
+id=1a0caaf8613bb12572dab090179ac706efdff19ef2d
 method=file
-server=192.168.25.176\:40987
+server=192.168.25.176\:35173
