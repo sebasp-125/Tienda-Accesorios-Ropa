@@ -1,34 +1,26 @@
 package com.apiv1.omniModa.Models.Service;
 
-/**
- * Utilitario para convertir valores numéricos a su representación en letras en español,
- * siguiendo el estándar mercantil y tributario de Colombia (PESOS M/CTE).
- */
 public class NumeroALetras {
 
     private static final String[] UNIDADES = {
-        "", "UN ", "DOS ", "TRES ", "CUATRO ", "CINCO ", "SEIS ", "SIETE ", "OCHO ", "NUEVE "
+            "", "UN ", "DOS ", "TRES ", "CUATRO ", "CINCO ", "SEIS ", "SIETE ", "OCHO ", "NUEVE "
     };
 
     private static final String[] ESPECIALES = {
-        "DIEZ ", "ONCE ", "DOCE ", "TRECE ", "CATORCE ", "QUINCE ",
-        "DIECISEIS ", "DIECISIETE ", "DIECIOCHO ", "DIECINUEVE "
+            "DIEZ ", "ONCE ", "DOCE ", "TRECE ", "CATORCE ", "QUINCE ",
+            "DIECISEIS ", "DIECISIETE ", "DIECIOCHO ", "DIECINUEVE "
     };
 
     private static final String[] DECENAS = {
-        "", "", "VEINTE ", "TREINTA ", "CUARENTA ", "CINCUENTA ",
-        "SESENTA ", "SETENTA ", "OCHENTA ", "NOVENTA "
+            "", "", "VEINTE ", "TREINTA ", "CUARENTA ", "CINCUENTA ",
+            "SESENTA ", "SETENTA ", "OCHENTA ", "NOVENTA "
     };
 
     private static final String[] CENTENAS = {
-        "", "CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ",
-        "QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS "
+            "", "CIENTO ", "DOSCIENTOS ", "TRESCIENTOS ", "CUATROCIENTOS ",
+            "QUINIENTOS ", "SEISCIENTOS ", "SETECIENTOS ", "OCHOCIENTOS ", "NOVECIENTOS "
     };
 
-    /**
-     * Convierte un monto numérico a formato formal:
-     * Ejemplo: 150000 -> "CIENTO CINCUENTA MIL PESOS M/CTE"
-     */
     public static String convertir(double monto) {
         long entero = Math.round(monto);
         if (entero <= 0) {
@@ -40,7 +32,8 @@ public class NumeroALetras {
 
         String letras = convertirNumero(entero).trim();
 
-        // En español: Si termina exactamente en millón/millones se añade "DE" (ej: UN MILLÓN DE PESOS)
+        // En español: Si termina exactamente en millón/millones se añade "DE" (ej: UN
+        // MILLÓN DE PESOS)
         if (entero >= 1000000 && entero % 1000000 == 0) {
             return letras + " DE PESOS M/CTE";
         }
@@ -49,23 +42,29 @@ public class NumeroALetras {
     }
 
     private static String convertirNumero(long n) {
-        if (n == 100) return "CIEN ";
-        if (n < 10) return UNIDADES[(int) n];
-        if (n < 20) return ESPECIALES[(int) (n - 10)];
+        if (n == 100)
+            return "CIEN ";
+        if (n < 10)
+            return UNIDADES[(int) n];
+        if (n < 20)
+            return ESPECIALES[(int) (n - 10)];
         if (n < 30) {
-            if (n == 20) return "VEINTE ";
+            if (n == 20)
+                return "VEINTE ";
             return "VEINTI" + UNIDADES[(int) (n - 20)].trim() + " ";
         }
         if (n < 100) {
             int d = (int) (n / 10);
             int u = (int) (n % 10);
-            if (u == 0) return DECENAS[d];
+            if (u == 0)
+                return DECENAS[d];
             return DECENAS[d].trim() + " Y " + UNIDADES[u];
         }
         if (n < 1000) {
             int c = (int) (n / 100);
             int resto = (int) (n % 100);
-            if (resto == 0 && c == 1) return "CIEN ";
+            if (resto == 0 && c == 1)
+                return "CIEN ";
             return CENTENAS[c] + convertirNumero(resto);
         }
         if (n < 1000000) {

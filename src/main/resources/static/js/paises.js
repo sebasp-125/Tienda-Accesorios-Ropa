@@ -27,7 +27,9 @@ const countries = [
     { name: "Brasil", flag: "🇧🇷", code: "+55" },
     { name: "Brunéi", flag: "🇧🇳", code: "+673" },
     {
-        name: "Bulgaria", flag: "🇧🇬", code: "+359",
+        name: "Bulgaria",
+        flag: "🇧🇬",
+        code: "+359",
     },
     { name: "Burkina Faso", flag: "🇧🇫", code: "+226" },
     { name: "Burundi", flag: "🇧🇮", code: "+257" },
@@ -118,7 +120,9 @@ const countries = [
     { name: "Libia", flag: "🇱🇾", code: "+218" },
     { name: "Liechtenstein", flag: "🇱🇮", code: "+423" },
     {
-        name: "Lituania", flag: "🇱🇹", code: "+370",
+        name: "Lituania",
+        flag: "🇱🇹",
+        code: "+370",
     },
     { name: "Luxemburgo", flag: "🇱🇺", code: "+352" },
 
@@ -240,7 +244,7 @@ let selectedCountry = countries.find(
     country => country.name === "Colombia"
 );
 
-/* RENDER */
+
 
 function renderCountries(filter = "") {
     countryList.innerHTML = "";
@@ -289,7 +293,7 @@ function renderCountries(filter = "") {
     });
 }
 
-/* SELECCIONAR PAIS */
+
 
 function selectCountry(country) {
     selectedCountry = country;
@@ -309,7 +313,7 @@ function selectCountry(country) {
     telefonoNumero.focus();
 }
 
-/* ACTUALIZAR TELEFONO COMPLETO */
+
 
 function updateFullPhone() {
     const number = telefonoNumero.value.trim();
@@ -323,7 +327,7 @@ function updateFullPhone() {
     telefono.value = `${selectedCountry.code} ${number}`;
 }
 
-/* ABRIR / CERRAR */
+
 
 countrySelector.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -335,35 +339,34 @@ countrySelector.addEventListener("click", (event) => {
     }
 });
 
-/* BUSQUEDA */
+
 
 countrySearch.addEventListener("input", () => {
     renderCountries(countrySearch.value);
 });
 
-/* CERRAR AL HACER CLICK AFUERA */
+
 
 document.addEventListener("click", (event) => {
-    if (
-        !countryDropdown.contains(event.target) &&
+    if (!countryDropdown.contains(event.target) &&
         !countrySelector.contains(event.target)
     ) {
         countryDropdown.classList.remove("open");
     }
 });
 
-/* TELEFONO */
+
 
 telefonoNumero.addEventListener("input", () => {
     updateFullPhone();
 });
 
-/* ANTES DE ENVIAR */
+
 
 document.querySelector("form").addEventListener("submit", () => {
     updateFullPhone();
 });
 
-/* INICIALIZAR */
+
 
 renderCountries();

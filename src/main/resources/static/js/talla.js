@@ -19,9 +19,9 @@ const categoriaSelect =
     document.getElementById("categoria");
 
 
-// =====================================================
-// TALLAS
-// =====================================================
+
+
+
 
 const tallas = {
 
@@ -50,9 +50,9 @@ const tallas = {
 };
 
 
-// =====================================================
-// OBTENER CATEGORÍA
-// =====================================================
+
+
+
 
 function obtenerCategoria() {
 
@@ -76,9 +76,9 @@ function obtenerCategoria() {
 }
 
 
-// =====================================================
-// OBTENER TALLAS
-// =====================================================
+
+
+
 
 function obtenerTallas() {
 
@@ -89,9 +89,9 @@ function obtenerTallas() {
 }
 
 
-// =====================================================
-// TEXTO VISUAL
-// =====================================================
+
+
+
 
 function actualizarTextoTalla() {
 
@@ -124,9 +124,9 @@ function actualizarTextoTalla() {
 }
 
 
-// =====================================================
-// RENDER TALLAS
-// =====================================================
+
+
+
 
 function renderTallas(tallaSeleccionada = "") {
 
@@ -212,9 +212,9 @@ function renderTallas(tallaSeleccionada = "") {
 }
 
 
-// =====================================================
-// SELECCIONAR TALLA
-// =====================================================
+
+
+
 
 function seleccionarTalla(talla) {
 
@@ -252,9 +252,9 @@ function seleccionarTalla(talla) {
 }
 
 
-// =====================================================
-// CAMBIO DE CATEGORÍA
-// =====================================================
+
+
+
 
 categoriaSelect.addEventListener(
     "change",
@@ -266,9 +266,9 @@ categoriaSelect.addEventListener(
 );
 
 
-// =====================================================
-// ABRIR / CERRAR
-// =====================================================
+
+
+
 
 tallaTrigger.addEventListener(
     "click",
@@ -286,19 +286,17 @@ tallaTrigger.addEventListener(
 );
 
 
-// =====================================================
-// CERRAR AFUERA
-// =====================================================
+
+
+
 
 document.addEventListener(
     "click",
     (event) => {
 
-        if (
-            !tallaCustom.contains(
-                event.target
-            )
-        ) {
+        if (!tallaCustom.contains(
+            event.target
+        )) {
 
             tallaCustom.classList.remove(
                 "open"
@@ -310,8 +308,8 @@ document.addEventListener(
 );
 
 
-// =====================================================
-// INICIALIZAR
-// =====================================================
+
+
+
 
 renderTallas(tallaGuardada);

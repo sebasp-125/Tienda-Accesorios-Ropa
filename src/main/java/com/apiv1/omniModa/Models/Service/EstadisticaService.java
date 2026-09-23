@@ -10,71 +10,55 @@ import com.apiv1.omniModa.Models.Repository.EstadisticaRepository;
 @Service
 public class EstadisticaService {
 
-    private final EstadisticaRepository estadisticaRepository;
+        private final EstadisticaRepository estadisticaRepository;
 
-    public EstadisticaService(
-            EstadisticaRepository estadisticaRepository) {
+        public EstadisticaService(
+                        EstadisticaRepository estadisticaRepository) {
 
-        this.estadisticaRepository = estadisticaRepository;
-    }
+                this.estadisticaRepository = estadisticaRepository;
+        }
 
-    // =========================================================
-    // PRODUCTOS MÁS VENDIDOS
-    // =========================================================
+        public List<Object[]> obtenerProductosMasVendidos(
+                        LocalDate fechaInicio,
+                        LocalDate fechaFin,
+                        String tipoCliente) {
 
-    public List<Object[]> obtenerProductosMasVendidos(
-            LocalDate fechaInicio,
-            LocalDate fechaFin,
-            String tipoCliente) {
+                return estadisticaRepository.obtenerProductosMasVendidos(
+                                fechaInicio,
+                                fechaFin,
+                                tipoCliente);
+        }
 
-        return estadisticaRepository.obtenerProductosMasVendidos(
-                fechaInicio,
-                fechaFin,
-                tipoCliente);
-    }
+        public List<Object[]> obtenerClientesFrecuentes(
+                        LocalDate fechaInicio,
+                        LocalDate fechaFin,
+                        String tipoCliente) {
 
-    // =========================================================
-    // CLIENTES FRECUENTES
-    // =========================================================
+                return estadisticaRepository.obtenerClientesFrecuentes(
+                                fechaInicio,
+                                fechaFin,
+                                tipoCliente);
+        }
 
-    public List<Object[]> obtenerClientesFrecuentes(
-            LocalDate fechaInicio,
-            LocalDate fechaFin,
-            String tipoCliente) {
+        public List<Object[]> obtenerIngresosPorMes(
+                        LocalDate fechaInicio,
+                        LocalDate fechaFin,
+                        String tipoCliente) {
 
-        return estadisticaRepository.obtenerClientesFrecuentes(
-                fechaInicio,
-                fechaFin,
-                tipoCliente);
-    }
+                return estadisticaRepository.obtenerIngresosPorMes(
+                                fechaInicio,
+                                fechaFin,
+                                tipoCliente);
+        }
 
-    // =========================================================
-    // INGRESOS POR MES
-    // =========================================================
+        public List<Object[]> obtenerIngresosPorTipoCliente(
+                        LocalDate fechaInicio,
+                        LocalDate fechaFin,
+                        String tipoCliente) {
 
-    public List<Object[]> obtenerIngresosPorMes(
-            LocalDate fechaInicio,
-            LocalDate fechaFin,
-            String tipoCliente) {
-
-        return estadisticaRepository.obtenerIngresosPorMes(
-                fechaInicio,
-                fechaFin,
-                tipoCliente);
-    }
-
-    // =========================================================
-    // INGRESOS POR TIPO DE CLIENTE
-    // =========================================================
-
-    public List<Object[]> obtenerIngresosPorTipoCliente(
-            LocalDate fechaInicio,
-            LocalDate fechaFin,
-            String tipoCliente) {
-
-        return estadisticaRepository.obtenerIngresosPorTipoCliente(
-                fechaInicio,
-                fechaFin,
-                tipoCliente);
-    }
+                return estadisticaRepository.obtenerIngresosPorTipoCliente(
+                                fechaInicio,
+                                fechaFin,
+                                tipoCliente);
+        }
 }

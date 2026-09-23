@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@100..800&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -7,9 +6,6 @@
 }
 
 :root {
-  /* =====================================================
-     BRAND — COLORES PRINCIPALES
-  ===================================================== */
   --primary: #101827;
   --primary-light: #172235;
   --primary-dark: #080d16;
@@ -18,71 +14,32 @@
   --secondary-dark: #7f693f;
   --parrafo: rgba(255, 255, 255, 0.68);
   --parrafo-light: rgba(255, 255, 255, 0.48);
-
-  /* =====================================================
-     BACKGROUNDS
-  ===================================================== */
-
   --background: #ffffff;
   --surface: #fafbfb;
   --surface-secondary: #f5f7f7;
   --surface-dark: #f0f0f0;
   --white: #ffffff;
-
-  /* =====================================================
-     TEXTOS
-  ===================================================== */
-
   --text: #101827;
   --text-secondary: #5f6672;
   --text-light: #8b929d;
   --text-muted: #a8adb5;
   --text-white: #ffffff;
-
-  /* =====================================================
-     BORDES
-  ===================================================== */
-
   --border: #e2e8e8;
   --border-input: #d5dbe4;
   --border-light: #edf1f1;
   --border-focus: #101827;
-
-  /* =====================================================
-     ACCENT / DORADO
-  ===================================================== */
-
   --accent: #b69a6a;
   --accent-dark: #998051;
   --accent-light: #f5f0e7;
-
-  /* =====================================================
-     ESTADOS
-  ===================================================== */
-
   --success: #4d8a6f;
   --success-light: #edf6f1;
-
   --danger: #c94a4a;
   --danger-light: #fdf0f0;
-
   --warning: #b69a6a;
   --warning-light: #faf6ed;
-
-  /* =====================================================
-     SOMBRAS
-  ===================================================== */
-
   --shadow: 0 20px 60px rgba(29, 65, 73, 0.08);
-
   --shadow-sm: 0 4px 16px rgba(29, 65, 73, 0.06);
-
   --shadow-md: 0 10px 30px rgba(29, 65, 73, 0.1);
-
-  /* =====================================================
-     RADIOS
-  ===================================================== */
-
   --radius: 14px;
   --radius-sm: 10px;
   --radius-md: 12px;
@@ -104,21 +61,11 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* =====================================================
-   PAGE
-===================================================== */
-
 .login-page {
   min-height: 100vh;
-
   display: grid;
-
   grid-template-columns: 45% 55%;
 }
-
-/* =====================================================
-   BRAND PANEL
-===================================================== */
 
 .brand-panel {
   position: relative;
@@ -131,8 +78,6 @@ body {
   padding: 70px;
 }
 
-/* Contenido */
-
 .brand-content {
   position: relative;
   z-index: 3;
@@ -140,10 +85,6 @@ body {
   max-width: 570px;
   margin: auto;
 }
-
-/* =====================================================
-   BRAND HEADER
-===================================================== */
 
 .brand-header {
   display: flex;
@@ -167,10 +108,6 @@ body {
     0 0 18px rgba(217, 168, 63, 0.35),
     0 12px 35px rgba(0, 0, 0, 0.35);
 }
-
-/* =========================
-   IMAGEN DEL LOGO
-========================= */
 
 .brand-logo img {
   background: var(--primary);
@@ -196,10 +133,6 @@ body {
   font-size: 12px;
   font-weight: 400;
 }
-
-/* =====================================================
-   BRAND MESSAGE
-===================================================== */
 
 .brand-message {
   margin-top: 100px;
@@ -241,10 +174,6 @@ body {
   line-height: 1.8;
   font-weight: 400;
 }
-
-/* =====================================================
-   MINI STATS
-===================================================== */
 
 .mini-stats {
   display: flex;
@@ -288,10 +217,6 @@ body {
   margin-top: 2px;
 }
 
-/* =====================================================
-   DECORATION
-===================================================== */
-
 .decoration {
   position: absolute;
   border: 1px solid rgba(255, 255, 255, 0.035);
@@ -320,10 +245,6 @@ body {
   top: -100px;
 }
 
-/* =====================================================
-   FORM PANEL
-===================================================== */
-
 .form-panel {
   min-height: 100vh;
   display: flex;
@@ -332,26 +253,14 @@ body {
   padding: 50px;
 }
 
-/* =====================================================
-   LOGIN CONTAINER
-===================================================== */
-
 .login-container {
   width: 100%;
   max-width: 470px;
 }
 
-/* =====================================================
-   MOBILE BRAND
-===================================================== */
-
 .mobile-brand {
   display: none;
 }
-
-/* =====================================================
-   LOGIN HEADER
-===================================================== */
 
 .login-header {
   margin-bottom: 38px;
@@ -379,10 +288,6 @@ body {
   font-size: 14px;
   line-height: 1.6;
 }
-
-/* =====================================================
-   FORM
-===================================================== */
 
 .form-group {
   margin-bottom: 24px;
@@ -419,10 +324,6 @@ body {
   opacity: 0.7;
 }
 
-/* =====================================================
-   INPUT
-===================================================== */
-
 .input-wrapper {
   position: relative;
   width: 100%;
@@ -458,8 +359,6 @@ body {
   box-shadow: 0 0 0 4px rgba(16, 24, 39, 0.06);
 }
 
-/* Icono */
-
 .input-icon {
   position: absolute;
   left: 18px;
@@ -474,8 +373,6 @@ body {
 .input-wrapper:focus-within .input-icon {
   color: var(--primary);
 }
-
-/* Password toggle */
 
 .password-toggle {
   position: absolute;
@@ -502,10 +399,6 @@ body {
   background: var(--background-light);
 }
 
-/* =====================================================
-   ERRORS
-===================================================== */
-
 .error-message {
   display: none;
   color: var(--danger);
@@ -525,10 +418,6 @@ body {
 .form-group.has-error input:focus {
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.08);
 }
-
-/* =====================================================
-   OPTIONS
-===================================================== */
 
 .options {
   margin-top: -2px;
@@ -581,10 +470,6 @@ body {
   transform: scale(1);
 }
 
-/* =====================================================
-   LOGIN BUTTON
-===================================================== */
-
 .login-button {
   position: relative;
   width: 100%;
@@ -633,8 +518,6 @@ body {
   display: none;
 }
 
-/* Loading */
-
 .login-button.loading .button-text,
 .login-button.loading .button-arrow {
   display: none;
@@ -643,10 +526,6 @@ body {
 .login-button.loading .button-loader {
   display: block;
 }
-
-/* =====================================================
-   FOOTER
-===================================================== */
 
 .login-footer {
   margin-top: 28px;
@@ -674,16 +553,10 @@ body {
   letter-spacing: 0.2px;
 }
 
-/* =====================================================
-   AUTH FORMS
-===================================================== */
-
 .forms-wrapper {
   position: relative;
   width: 100%;
 }
-
-/* Ambos formularios */
 
 .auth-form {
   width: 100%;
@@ -692,25 +565,17 @@ body {
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Login visible */
-
 .login-form {
   display: block;
   opacity: 1;
   transform: translateX(0);
 }
 
-/* Registro */
-
 .register-form {
   display: none;
   opacity: 0;
   transform: translateX(25px);
 }
-
-/* =====================================================
-   CAMBIO ENTRE LOGIN / REGISTRO
-===================================================== */
 
 .forms-wrapper.register-active .login-form {
   display: none;
@@ -728,16 +593,11 @@ body {
     opacity: 0;
     transform: translateX(25px);
   }
-
   to {
     opacity: 1;
     transform: translateX(0);
   }
 }
-
-/* =====================================================
-   REGISTRO
-===================================================== */
 
 .register-form .login-header {
   margin-bottom: 28px;
@@ -746,10 +606,6 @@ body {
 .register-form .form-group {
   margin-bottom: 18px;
 }
-
-/* =====================================================
-   SWITCH BUTTON
-===================================================== */
 
 .switch-button {
   border: none;
@@ -769,10 +625,6 @@ body {
 .switch-button:hover {
   color: var(--blue);
 }
-
-/* =====================================================
-   FOOTER
-===================================================== */
 
 .login-footer {
   display: flex;
@@ -799,15 +651,9 @@ body {
   text-decoration: underline;
 }
 
-/* Separador */
-
 .register-text {
   border-top: 1px solid var(--border);
 }
-
-/* =====================================================
-   TERMS
-===================================================== */
 
 .terms {
   margin-top: -2px;
@@ -824,33 +670,21 @@ body {
   text-decoration: underline;
 }
 
-/* =====================================================
-   AJUSTE COPYRIGHT
-===================================================== */
-
 .copyright {
   margin-top: 45px;
 }
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
 
 @media (max-width: 1000px) {
   .login-page {
     grid-template-columns: 1fr;
   }
-
   .brand-panel {
     display: none;
   }
-
   .form-panel {
     min-height: 100vh;
-
     padding: 30px;
   }
-
   .mobile-brand {
     display: flex;
     align-items: center;
@@ -858,17 +692,10 @@ body {
     gap: 10px;
     margin-bottom: 65px;
   }
-
   .mobile-brand .brand-logo {
-    /* width: 42px;
-    height: 42px;
-    border-radius: 11px;
-    font-size: 23px; */
     display: none;
   }
-
   .mobile-brand strong {
-    /* font-size: 20px; */
     display: none;
   }
 }
@@ -877,47 +704,36 @@ body {
   .form-panel {
     padding: 25px 20px;
   }
-
   .login-container {
     max-width: 100%;
   }
-
   .mobile-brand {
     margin-bottom: 50px;
   }
-
   .login-header {
     margin-bottom: 30px;
   }
-
   .login-header h2 {
     font-size: 30px;
   }
-
   .login-header p {
     font-size: 13px;
   }
-
   .input-wrapper input {
     height: 54px;
   }
-
   .login-button {
     height: 55px;
   }
-
   .register-form .form-group {
     margin-bottom: 17px;
   }
-
   .register-form .login-header {
     margin-bottom: 25px;
   }
-
   .login-footer {
     margin-top: 22px;
   }
-
   .copyright {
     margin-top: 45px;
   }

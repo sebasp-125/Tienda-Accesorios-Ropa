@@ -25,18 +25,10 @@ body {
   color: var(--text);
 }
 
-/* =====================================================
-   DASHBOARD
-===================================================== */
-
 .dashboard {
   display: flex;
   min-height: 100vh;
 }
-
-/* =====================================================
-   SIDEBAR
-===================================================== */
 
 .sidebar {
   width: var(--sidebar-width);
@@ -50,8 +42,6 @@ body {
   top: 0;
   bottom: 0;
 }
-
-/* LOGO */
 
 .logo {
   height: 85px;
@@ -94,23 +84,16 @@ body {
   font-size: 11px;
 }
 
-/* =====================================================
-   MENÚ
-===================================================== */
-
 .menu {
   padding: 20px 12px;
   flex: 1;
   overflow-y: auto;
   scrollbar-width: none;
-  /* Firefox */
   -ms-overflow-style: none;
-  /* Internet Explorer / Edge antiguo */
 }
 
 .menu::-webkit-scrollbar {
   display: none;
-  /* Chrome, Edge, Safari */
 }
 
 .menu-title {
@@ -150,10 +133,6 @@ body {
   text-align: center;
   margin-right: 5px;
 }
-
-/* =====================================================
-   USUARIO SIDEBAR
-===================================================== */
 
 .sidebar-user {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -198,19 +177,11 @@ body {
   cursor: pointer;
 }
 
-/* =====================================================
-   CONTENIDO PRINCIPAL
-===================================================== */
-
 .main-content {
   margin-left: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
   padding: 30px 35px;
 }
-
-/* =====================================================
-   TOPBAR
-===================================================== */
 
 .topbar {
   display: flex;
@@ -234,10 +205,6 @@ body {
   align-items: center;
   gap: 20px;
 }
-
-/* =====================================================
-   NOTIFICACIÓN
-===================================================== */
 
 .notification {
   position: relative;
@@ -263,10 +230,6 @@ body {
     0 4px 12px rgba(17, 24, 39, 0.04);
 }
 
-/* =====================================================
-   ICONO
-===================================================== */
-
 .notification i {
   font-size: 17px;
   color: var(--text-light);
@@ -274,10 +237,6 @@ body {
     color 0.2s ease,
     transform 0.25s ease;
 }
-
-/* =====================================================
-   HOVER
-===================================================== */
 
 .notification:hover {
   background: #f9fafb;
@@ -294,17 +253,9 @@ body {
   transform: rotate(8deg);
 }
 
-/* =====================================================
-   CLICK
-===================================================== */
-
 .notification:active {
   transform: translateY(0) scale(0.97);
 }
-
-/* =====================================================
-   INDICADOR DE NOTIFICACIÓN
-===================================================== */
 
 .notification span {
   position: absolute;
@@ -320,8 +271,6 @@ body {
     0 0 0 1px rgba(220, 38, 38, 0.08),
     0 0 7px rgba(220, 38, 38, 0.2);
 }
-
-/* PERFIL */
 
 .profile {
   display: flex;
@@ -350,20 +299,12 @@ body {
   font-size: 10px;
 }
 
-/* =====================================================
-   ESTADÍSTICAS
-===================================================== */
-
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
   margin-bottom: 28px;
 }
-
-/* =====================================================
-   TARJETA KPI
-===================================================== */
 
 .stat-card {
   position: relative;
@@ -384,10 +325,6 @@ body {
     border-color 0.2s ease;
 }
 
-/* =====================================================
-   HOVER
-===================================================== */
-
 .stat-card:hover {
   transform: translateY(-2px);
   border-color: #dfe3e8;
@@ -396,10 +333,6 @@ body {
     0 10px 24px rgba(15, 23, 42, 0.06);
 }
 
-/* =====================================================
-   ENCABEZADO
-===================================================== */
-
 .stat-header {
   display: flex;
   align-items: center;
@@ -407,10 +340,6 @@ body {
   width: 100%;
   margin-bottom: 14px;
 }
-
-/* =====================================================
-   ICONOS
-===================================================== */
 
 .stat-icon {
   order: 2;
@@ -444,10 +373,6 @@ body {
   color: #f97316;
 }
 
-/* =====================================================
-   ETIQUETA
-===================================================== */
-
 .stat-label {
   order: 1;
   color: #64748b;
@@ -456,19 +381,11 @@ body {
   letter-spacing: 0;
 }
 
-/* =====================================================
-   CONTENIDO
-===================================================== */
-
 .stat-content {
   display: flex;
   flex-direction: column;
   flex: 1;
 }
-
-/* =====================================================
-   VALOR
-===================================================== */
 
 .stat-value {
   margin-bottom: 6px;
@@ -479,10 +396,6 @@ body {
   letter-spacing: -0.6px;
 }
 
-/* =====================================================
-   DESCRIPCIÓN
-===================================================== */
-
 .stat-description {
   margin: auto 0 0;
   color: #94a3b8;
@@ -491,10 +404,6 @@ body {
   font-weight: 500;
 }
 
-/* =====================================================
-   STOCK BAJO
-===================================================== */
-
 .warning-card {
   border-color: #f5e3d8;
 }
@@ -502,10 +411,6 @@ body {
 .warning-card:hover {
   border-color: #f1cdb8;
 }
-
-/* =====================================================
-   SECCIONES
-===================================================== */
 
 .section {
   margin-bottom: 28px;
@@ -524,10 +429,6 @@ body {
   color: var(--text-light);
   font-size: 12px;
 }
-
-/* =====================================================
-   ACCIONES RÁPIDAS
-===================================================== */
 
 .quick-actions {
   display: grid;
@@ -577,19 +478,11 @@ body {
   font-size: 10px;
 }
 
-/* =====================================================
-   GRID PRINCIPAL
-===================================================== */
-
 .dashboard-grid {
   display: grid;
   grid-template-columns: 1.6fr 1fr;
   gap: 20px;
 }
-
-/* =====================================================
-   PANELES
-===================================================== */
 
 .panel {
   background: white;
@@ -622,10 +515,6 @@ body {
   font-size: 11px;
   font-weight: 600;
 }
-
-/* =====================================================
-   TABLA
-===================================================== */
 
 .table-container {
   overflow-x: auto;
@@ -660,8 +549,6 @@ td {
   font-weight: 600;
 }
 
-/* ESTADO */
-
 .status {
   padding: 5px 8px;
   border-radius: 20px;
@@ -673,10 +560,6 @@ td {
   background: #dcfce7;
   color: #15803d;
 }
-
-/* =====================================================
-   STOCK
-===================================================== */
 
 .low-stock-list {
   padding: 5px 20px;
@@ -742,10 +625,6 @@ td {
   color: var(--warning);
 }
 
-/* =========================================================
-   ESTADO VACÍO - STOCK EN BUEN ESTADO
-   ========================================================= */
-
 .stock-empty-message {
   min-height: 210px;
   display: flex;
@@ -757,10 +636,6 @@ td {
   background: linear-gradient(180deg, #ffffff 0%, #fbfdfc 100%);
   border-radius: 12px;
 }
-
-/* =========================================================
-   ICONO
-   ========================================================= */
 
 .empty-stock-icon {
   width: 58px;
@@ -776,10 +651,6 @@ td {
   box-shadow: 0 0 0 7px rgba(22, 163, 74, 0.06);
 }
 
-/* =========================================================
-   TITULO
-   ========================================================= */
-
 .stock-empty-message strong {
   display: block;
   margin-bottom: 6px;
@@ -788,10 +659,6 @@ td {
   font-weight: 700;
 }
 
-/* =========================================================
-   DESCRIPCIÓN
-   ========================================================= */
-
 .stock-empty-message span {
   display: block;
   max-width: 280px;
@@ -799,10 +666,6 @@ td {
   font-size: 12px;
   line-height: 1.6;
 }
-
-/* =========================================================
-   PEQUEÑO DETALLE DE ESTADO
-   ========================================================= */
 
 .stock-empty-message::after {
   content: "Todo está bajo control";
@@ -817,10 +680,6 @@ td {
   letter-spacing: 0.2px;
 }
 
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
 @media (max-width: 1100px) {
   .stats-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -832,10 +691,6 @@ td {
     grid-template-columns: 1fr;
   }
 }
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
 
 @media (max-width: 1200px) {
   .stats-grid {
@@ -900,9 +755,6 @@ td {
   }
 }
 
-/* =====================================================
-   CENTRO DE REPORTES (ACORDEÓN ADMINISTRATIVO)
-===================================================== */
 .reports-section {
   margin-top: 10px;
   margin-bottom: 28px;

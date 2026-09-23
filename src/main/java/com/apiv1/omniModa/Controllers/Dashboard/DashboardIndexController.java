@@ -79,11 +79,6 @@ public class DashboardIndexController {
                 return "home/dashboard";
         }
 
-        /**
-         * Endpoint protegido exclusivo para ADMINISTRADOR que genera el reporte en PDF
-         * con formato sobrio, profesional en blanco y negro y estructurado por
-         * conceptos.
-         */
         @GetMapping("/dashboard/reportes/pdf")
         public ResponseEntity<?> generarReportePdf(
                         @RequestParam(value = "tipo", defaultValue = "general") String tipo,

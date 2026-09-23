@@ -13,16 +13,16 @@ console.log("Clientes es array:", Array.isArray(clientesData));
 console.log("Ingresos es array:", Array.isArray(ingresosData));
 console.log("Tipos es array:", Array.isArray(tiposData));
 
-// =============================================================
-// DOM
-// =============================================================
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
 
 
-    // =========================================================
-    // COMPROBAR CHART.JS
-    // =========================================================
+
+
+
 
     if (typeof Chart === "undefined") {
 
@@ -39,9 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
     );
 
 
-    // =========================================================
-    // CONFIGURACIÓN GENERAL
-    // =========================================================
+
+
+
 
     Chart.defaults.font.family =
         "Playpen Sans, sans-serif";
@@ -50,9 +50,9 @@ document.addEventListener("DOMContentLoaded", () => {
         "#64748b";
 
 
-    // =========================================================
-    // INGRESOS POR PERÍODO
-    // =========================================================
+
+
+
 
     const ingresosCanvas =
         document.getElementById("ingresosChart");
@@ -179,9 +179,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================================================
-    // PRODUCTOS MÁS VENDIDOS
-    // =========================================================
+
+
+
 
     const productosCanvas =
         document.getElementById("productosChart");
@@ -259,9 +259,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================================================
-    // CLIENTES FRECUENTES
-    // =========================================================
+
+
+
 
     const clientesCanvas =
         document.getElementById("clientesChart");
@@ -341,9 +341,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =========================================================
-    // INGRESOS POR TIPO DE CLIENTE
-    // =========================================================
+
+
+
 
     const tipoClienteCanvas =
         document.getElementById(

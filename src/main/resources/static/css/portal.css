@@ -1512,9 +1512,6 @@ body {
   }
 }
 
-/* =====================================================
-   ESTILOS DE PASARELA DE PAGO Y FACTURA REAL
-   ===================================================== */
 .checkout-modal-card {
   max-width: 780px !important;
   width: 95% !important;
@@ -1549,7 +1546,6 @@ body {
   background: #ffffff;
 }
 
-/* Resumen rápido de compra */
 .checkout-order-summary {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -1595,7 +1591,6 @@ body {
   color: #15803d;
 }
 
-/* Métodos de Pago Grid */
 .payment-section-title {
   font-size: 14px;
   font-weight: 700;
@@ -1684,7 +1679,6 @@ body {
   display: flex;
 }
 
-/* Formularios de métodos de pago */
 .payment-details-box {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -1693,7 +1687,6 @@ body {
   margin-bottom: 24px;
 }
 
-/* Tarjeta visual simulada */
 .cc-visual-card {
   background: linear-gradient(135deg, #101827 0%, #1e293b 60%, #334155 100%);
   color: white;
@@ -1702,7 +1695,7 @@ body {
   width: 100%;
   max-width: 380px;
   margin: 0 auto 20px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(182, 154, 106, 0.35);
   position: relative;
   overflow: hidden;
@@ -1715,7 +1708,11 @@ body {
   right: -40px;
   width: 130px;
   height: 130px;
-  background: radial-gradient(circle, rgba(182, 154, 106, 0.25) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(182, 154, 106, 0.25) 0%,
+    transparent 70%
+  );
   border-radius: 50%;
 }
 
@@ -1744,7 +1741,7 @@ body {
 .cc-number {
   font-size: 18px;
   letter-spacing: 3px;
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-weight: 700;
   margin-bottom: 16px;
 }
@@ -1765,7 +1762,6 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Campos de entrada simulados */
 .sim-form-group {
   margin-bottom: 14px;
 }
@@ -1802,7 +1798,6 @@ body {
   gap: 12px;
 }
 
-/* Estilo para PayPal */
 .paypal-sim-box {
   text-align: center;
   padding: 20px 10px;
@@ -1819,7 +1814,7 @@ body {
 }
 
 .paypal-badge i {
-  color: #0079C1;
+  color: #0079c1;
   font-size: 32px;
 }
 
@@ -1843,7 +1838,6 @@ body {
   background: #f4b41a;
 }
 
-/* Botones footer de pago */
 .checkout-actions-row {
   display: flex;
   align-items: center;
@@ -1886,9 +1880,6 @@ body {
   background: #166534;
 }
 
-/* =====================================================
-   ESTILOS DE FACTURA SIMPLE Y LIMPIA
-   ===================================================== */
 .invoice-modal-card {
   max-width: 800px !important;
   width: 95% !important;
@@ -1957,7 +1948,6 @@ body {
   background: #e2e8f0;
 }
 
-/* Hoja de factura */
 .invoice-sheet-container {
   padding: 20px;
 }
@@ -2141,9 +2131,6 @@ body {
   padding-top: 14px;
 }
 
-/* =====================================================
-   SPINNER SIMPLE Y HUMANO
-===================================================== */
 .simple-spinner {
   width: 36px;
   height: 36px;
@@ -2155,10 +2142,11 @@ body {
 }
 
 @keyframes simpleSpin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-/* REGLAS DE IMPRESIÓN */
 @media print {
   body * {
     visibility: hidden;
@@ -2191,4 +2179,3 @@ body {
     padding: 0;
   }
 }
-

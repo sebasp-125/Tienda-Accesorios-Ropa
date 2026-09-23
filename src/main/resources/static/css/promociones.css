@@ -276,7 +276,7 @@ thead {
 
 th {
   padding: 14px 18px;
-  text-align: left;
+  text-align: center;
   color: #64748b;
   font-size: 10px;
   text-transform: uppercase;
@@ -288,6 +288,7 @@ td {
   padding: 16px 18px;
   border-top: 1px solid #edf0f3;
   font-size: 12px;
+  text-align: center;
   vertical-align: middle;
 }
 

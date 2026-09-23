@@ -5,14 +5,10 @@ import java.util.List;
 import com.apiv1.omniModa.Models.Entity.Productos;
 import com.apiv1.omniModa.Models.Entity.Ventas;
 
-/**
- * DTO para concentrar los datos de métricas y auditoría
- * requeridos en los reportes administrativos en PDF.
- */
 public class ReporteDatosDTO {
 
     private String adminNombre;
-    private String tipoReporte; // "general", "ventas", "inventario"
+    private String tipoReporte;
     private long totalClientes;
     private long totalProductos;
     private long totalProveedores;

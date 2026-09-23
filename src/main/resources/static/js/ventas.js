@@ -1,8 +1,3 @@
-// =====================================================
-// GESTIÓN DE VENTAS - OMNIMODA
-// =====================================================
-
-// Ver Comprobante / Detalle de la Venta en Modal
 async function verDetalleVenta(idVenta) {
   try {
     const res = await fetch(`/ventas/api/detalle/${idVenta}`);
@@ -52,7 +47,7 @@ function cerrarModalDetalle() {
   document.getElementById("receiptModal").style.display = "none";
 }
 
-// Cerrar modal al hacer clic afuera
+
 window.addEventListener("click", function (event) {
   const modal = document.getElementById("receiptModal");
   if (event.target === modal) {
@@ -60,7 +55,7 @@ window.addEventListener("click", function (event) {
   }
 });
 
-// Cambiar estado de venta directamente desde la tabla con SweetAlert2
+
 function cambiarEstadoRapido(idVenta, estadoActual) {
 
   Swal.fire({
@@ -370,7 +365,7 @@ function cambiarEstadoRapido(idVenta, estadoActual) {
 
 }
 
-// Alerta de confirmación de eliminación de venta
+
 document.querySelectorAll(".delete-sale-form").forEach((form) => {
   form.addEventListener("submit", function (event) {
     event.preventDefault();

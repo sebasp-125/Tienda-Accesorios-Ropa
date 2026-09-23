@@ -8,9 +8,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
     }
 
-    // =====================================================
-    // CALCULAR DÍGITO DE VERIFICACIÓN DEL NIT
-    // =====================================================
+
+
+
 
     function calcularDV(nit) {
 
@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // =====================================================
-    // ACTUALIZAR DV
-    // =====================================================
+
+
+
 
     function actualizarDV() {
 
@@ -46,8 +46,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         nitBase.value = nit;
 
-        // Si todavía no tiene 9 dígitos,
-        // limpiamos el DV
+
+
         if (nit.length !== 9) {
 
             nitDv.value = "";
@@ -60,21 +60,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         nitDv.value = dv;
 
-        // Guardamos el NIT completo
+
         nitHidden.value = `${nit}-${dv}`;
     }
 
 
-    // =====================================================
-    // CUANDO EL USUARIO ESCRIBE
-    // =====================================================
+
+
+
 
     nitBase.addEventListener("input", actualizarDV);
 
 
-    // =====================================================
-    // VALIDAR ANTES DE ENVIAR
-    // =====================================================
+
+
+
 
     const form = nitBase.closest("form");
 

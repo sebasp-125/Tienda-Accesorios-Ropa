@@ -19,16 +19,12 @@ public class TipoCliente {
     @Column(name = "Tipo", nullable = false, length = 40)
     private String tipo;
 
-    // Constructor vacío
     public TipoCliente() {
     }
 
-    // Constructor
     public TipoCliente(String tipo) {
         this.tipo = tipo;
     }
-
-    // Getters y Setters
 
     public Integer getIdTipoCliente() {
         return idTipoCliente;
