@@ -16,10 +16,6 @@ import com.apiv1.omniModa.Models.DTO.ReporteDatosDTO;
 import com.apiv1.omniModa.Models.Entity.Productos;
 import com.apiv1.omniModa.Models.Entity.Ventas;
 
-/**
- * Servicio generador de Reportes Administrativos en PDF en escala de grises / blanco y negro,
- * implementado en Java puro estándar para garantizar máxima compatibilidad y sobriedad ejecutiva.
- */
 @Service
 public class ReportePdfService {
 
@@ -36,16 +32,15 @@ public class ReportePdfService {
         String tipo = datos.getTipoReporte() != null ? datos.getTipoReporte().toLowerCase() : "general";
         String fechaHoraActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
         String adminNombre = (datos.getAdminNombre() != null && !datos.getAdminNombre().isBlank())
-                ? datos.getAdminNombre() : "Administrador del Sistema";
+                ? datos.getAdminNombre()
+                : "Administrador del Sistema";
 
-        // 1. ENCABEZADO SIMPLE (Estilo documento natural / humano)
         double curY = pageHeight - 50;
 
         canvas.setTextColor(0.0, 0.0, 0.0);
         canvas.drawText("OMNIMODA S.A.S.", marginX, curY, "F2", 14);
         curY -= 16;
 
-        // Título del documento según el tipo de reporte
         String tituloDocumento;
         if ("ventas".equals(tipo)) {
             tituloDocumento = "Reporte de Ventas, Ingresos y Facturacion";
@@ -60,15 +55,14 @@ public class ReportePdfService {
         curY -= 14;
 
         canvas.setTextColor(0.35, 0.35, 0.35);
-        canvas.drawText("Fecha de emision: " + fechaHoraActual + "   |   Generado por: " + adminNombre + "   |   NIT: 901.458.789-2", marginX, curY, "F1", 8.0);
+        canvas.drawText("Fecha de emision: " + fechaHoraActual + "   |   Generado por: " + adminNombre
+                + "   |   NIT: 901.458.789-2", marginX, curY, "F1", 8.0);
         curY -= 10;
 
-        // Línea divisoria simple
         canvas.setStrokeColor(0.7, 0.7, 0.7);
         canvas.strokeLine(marginX, curY, pageWidth - marginX, curY, 0.8);
         curY -= 20;
 
-        // SECCIONES / CONCEPTOS ESTRUCTURADOS (Sin cajas pesadas, estilo informe humano)
         if ("ventas".equals(tipo)) {
             curY = renderizarConceptoVentasDetalladas(canvas, datos, marginX, contentWidth, curY, pageWidth);
         } else if ("inventario".equals(tipo)) {
@@ -77,7 +71,6 @@ public class ReportePdfService {
             curY = renderizarReporteConsolidado(canvas, datos, marginX, contentWidth, curY, pageWidth);
         }
 
-        // SECCIÓN FINAL: FIRMA SIMPLE
         renderizarFirmaAuditoria(canvas, adminNombre, fechaHoraActual, marginX, contentWidth, pageWidth);
 
         return canvas.buildPdf();
@@ -86,10 +79,10 @@ public class ReportePdfService {
     /**
      * Renderiza el reporte consolidado con formato limpio y humano.
      */
-    private double renderizarReporteConsolidado(PdfCanvas canvas, ReporteDatosDTO d, double x, double w, double startY, double pageWidth) {
+    private double renderizarReporteConsolidado(PdfCanvas canvas, ReporteDatosDTO d, double x, double w, double startY,
+            double pageWidth) {
         double curY = startY;
 
-        // 1. RESUMEN GENERAL DEL SISTEMA
         canvas.setTextColor(0.0, 0.0, 0.0);
         canvas.drawText("1. Resumen General del Sistema", x, curY, "F2", 10.0);
         curY -= 16;
@@ -103,7 +96,6 @@ public class ReportePdfService {
                 "       - Total de ventas registradas: " + d.getTotalVentas(), x + 8, curY, "F1", 8.5);
         curY -= 24;
 
-        // 2. BALANCE FINANCIERO Y VENTAS
         canvas.setTextColor(0.0, 0.0, 0.0);
         canvas.drawText("2. Balance Financiero y Ventas", x, curY, "F2", 10.0);
         curY -= 16;
@@ -113,7 +105,8 @@ public class ReportePdfService {
         double ticketPromedio = d.getVentasPagadas() > 0 ? (d.getTotalIngresos() / d.getVentasPagadas()) : 0.0;
 
         canvas.setTextColor(0.2, 0.2, 0.2);
-        canvas.drawText("- Total ingresos recaudados (ventas pagadas): " + formatearMoneda(d.getTotalIngresos()), x + 8, curY, "F1", 8.5);
+        canvas.drawText("- Total ingresos recaudados (ventas pagadas): " + formatearMoneda(d.getTotalIngresos()), x + 8,
+                curY, "F1", 8.5);
         curY -= 13;
         canvas.drawText("- Base gravable (19%): " + formatearMoneda(baseImponible) +
                 "       - IVA recaudado (19%): " + formatearMoneda(iva19), x + 8, curY, "F1", 8.5);
@@ -125,7 +118,6 @@ public class ReportePdfService {
                 d.getVentasCanceladas() + " canceladas.", x + 8, curY, "F1", 8.5);
         curY -= 24;
 
-        // 3. CONTROL DE INVENTARIO Y ALERTA DE STOCK
         canvas.setTextColor(0.0, 0.0, 0.0);
         canvas.drawText("3. Control de Inventario y Alertas de Stock", x, curY, "F2", 10.0);
         curY -= 16;
@@ -133,10 +125,12 @@ public class ReportePdfService {
         List<Productos> bajoStock = d.getProductosBajoStock() != null ? d.getProductosBajoStock() : List.of();
         if (bajoStock.isEmpty()) {
             canvas.setTextColor(0.3, 0.3, 0.3);
-            canvas.drawText("- Estado del inventario: Actualmente no se registran articulos con stock bajo (<= 5 unidades).", x + 8, curY, "F1", 8.5);
+            canvas.drawText(
+                    "- Estado del inventario: Actualmente no se registran articulos con stock bajo (<= 5 unidades).",
+                    x + 8, curY, "F1", 8.5);
             curY -= 24;
         } else {
-            // Encabezado de tabla simple sin fondo negro
+
             canvas.setTextColor(0.1, 0.1, 0.1);
             canvas.drawText("CODIGO", x + 8, curY, "F2", 7.5);
             canvas.drawText("DESCRIPCION DE PRENDA", x + 85, curY, "F2", 7.5);
@@ -155,7 +149,8 @@ public class ReportePdfService {
                 canvas.drawText(p.getCodigo() != null ? p.getCodigo() : "S/C", x + 8, curY, "F1", 7.5);
                 canvas.drawText(truncar(p.getNombre(), 36), x + 85, curY, "F1", 7.5);
                 canvas.drawText(p.getTalla() != null ? p.getTalla() : "U", x + 310, curY, "F1", 7.5);
-                canvas.drawText((p.getStockDisponible() != null ? p.getStockDisponible() : 0) + " unds", x + 375, curY, "F2", 7.5);
+                canvas.drawText((p.getStockDisponible() != null ? p.getStockDisponible() : 0) + " unds", x + 375, curY,
+                        "F2", 7.5);
                 canvas.drawText(formatearMoneda(p.getPrecio() != null ? p.getPrecio() : 0.0), x + 440, curY, "F1", 7.5);
             }
             curY -= 4;
@@ -164,7 +159,6 @@ public class ReportePdfService {
             curY -= 20;
         }
 
-        // 4. HISTORIAL DE VENTAS RECIENTES
         canvas.setTextColor(0.0, 0.0, 0.0);
         canvas.drawText("4. Registro de Transacciones Recientes", x, curY, "F2", 10.0);
         curY -= 16;
@@ -191,13 +185,16 @@ public class ReportePdfService {
                 curY -= 14;
 
                 String clienteNom = (v.getCliente() != null && v.getCliente().getNombreCompleto() != null)
-                        ? v.getCliente().getNombreCompleto() : "Cliente General";
+                        ? v.getCliente().getNombreCompleto()
+                        : "Cliente General";
                 String estadoStr = (v.getEstado() != null && v.getEstado().getTipo() != null)
-                        ? v.getEstado().getTipo() : "PAGADA";
+                        ? v.getEstado().getTipo()
+                        : "PAGADA";
                 String fechaStr = v.getFecha() != null ? v.getFecha().toString() : "";
 
                 canvas.setTextColor(0.2, 0.2, 0.2);
-                canvas.drawText("#" + String.format("%06d", v.getIdVentas() != null ? v.getIdVentas() : 0), x + 8, curY, "F1", 7.5);
+                canvas.drawText("#" + String.format("%06d", v.getIdVentas() != null ? v.getIdVentas() : 0), x + 8, curY,
+                        "F1", 7.5);
                 canvas.drawText(fechaStr, x + 70, curY, "F1", 7.5);
                 canvas.drawText(truncar(clienteNom, 32), x + 150, curY, "F1", 7.5);
                 canvas.drawText(estadoStr, x + 360, curY, "F1", 7.5);
@@ -212,10 +209,8 @@ public class ReportePdfService {
         return curY;
     }
 
-    /**
-     * Renderiza el reporte específico de ventas.
-     */
-    private double renderizarConceptoVentasDetalladas(PdfCanvas canvas, ReporteDatosDTO d, double x, double w, double startY, double pageWidth) {
+    private double renderizarConceptoVentasDetalladas(PdfCanvas canvas, ReporteDatosDTO d, double x, double w,
+            double startY, double pageWidth) {
         double curY = startY;
 
         canvas.setTextColor(0.0, 0.0, 0.0);
@@ -256,13 +251,16 @@ public class ReportePdfService {
             curY -= 15;
 
             String clienteNom = (v.getCliente() != null && v.getCliente().getNombreCompleto() != null)
-                    ? v.getCliente().getNombreCompleto() : "Cliente General";
+                    ? v.getCliente().getNombreCompleto()
+                    : "Cliente General";
             String estadoStr = (v.getEstado() != null && v.getEstado().getTipo() != null)
-                    ? v.getEstado().getTipo() : "PAGADA";
+                    ? v.getEstado().getTipo()
+                    : "PAGADA";
             String fechaStr = v.getFecha() != null ? v.getFecha().toString() : "";
 
             canvas.setTextColor(0.2, 0.2, 0.2);
-            canvas.drawText("FE-" + String.format("%06d", v.getIdVentas() != null ? v.getIdVentas() : 0), x + 8, curY, "F1", 7.5);
+            canvas.drawText("FE-" + String.format("%06d", v.getIdVentas() != null ? v.getIdVentas() : 0), x + 8, curY,
+                    "F1", 7.5);
             canvas.drawText(fechaStr, x + 80, curY, "F1", 7.5);
             canvas.drawText(truncar(clienteNom, 34), x + 160, curY, "F1", 7.5);
             canvas.drawText(estadoStr, x + 360, curY, "F1", 7.5);
@@ -276,10 +274,8 @@ public class ReportePdfService {
         return curY;
     }
 
-    /**
-     * Renderiza el reporte específico de inventario.
-     */
-    private double renderizarConceptoInventarioDetallado(PdfCanvas canvas, ReporteDatosDTO d, double x, double w, double startY, double pageWidth) {
+    private double renderizarConceptoInventarioDetallado(PdfCanvas canvas, ReporteDatosDTO d, double x, double w,
+            double startY, double pageWidth) {
         double curY = startY;
 
         canvas.setTextColor(0.0, 0.0, 0.0);
@@ -300,8 +296,11 @@ public class ReportePdfService {
         canvas.drawText("- Total referencias: " + d.getTotalProductos() +
                 "       - Unidades fisicas en bodega: " + totalStock, x + 8, curY, "F1", 8.5);
         curY -= 13;
-        canvas.drawText("- Articulos con stock critico (<= 5): " + (d.getProductosBajoStock() != null ? d.getProductosBajoStock().size() : 0) +
-                "       - Valor estimado inventario: " + formatearMoneda(valorInventario), x + 8, curY, "F1", 8.5);
+        canvas.drawText(
+                "- Articulos con stock critico (<= 5): "
+                        + (d.getProductosBajoStock() != null ? d.getProductosBajoStock().size() : 0) +
+                        "       - Valor estimado inventario: " + formatearMoneda(valorInventario),
+                x + 8, curY, "F1", 8.5);
         curY -= 24;
 
         canvas.setTextColor(0.0, 0.0, 0.0);
@@ -311,7 +310,8 @@ public class ReportePdfService {
         List<Productos> bajo = d.getProductosBajoStock() != null ? d.getProductosBajoStock() : List.of();
         if (bajo.isEmpty()) {
             canvas.setTextColor(0.3, 0.3, 0.3);
-            canvas.drawText("- Todas las referencias en catalogo cuentan con existencias superiores a 5 unidades.", x + 8, curY, "F1", 8.5);
+            canvas.drawText("- Todas las referencias en catalogo cuentan con existencias superiores a 5 unidades.",
+                    x + 8, curY, "F1", 8.5);
             curY -= 24;
         } else {
             canvas.setTextColor(0.1, 0.1, 0.1);
@@ -334,7 +334,8 @@ public class ReportePdfService {
                 canvas.drawText(truncar(p.getNombre(), 28), x + 85, curY, "F1", 7.5);
                 canvas.drawText(p.getColor() != null ? truncar(p.getColor(), 12) : "N/A", x + 260, curY, "F1", 7.5);
                 canvas.drawText(p.getTalla() != null ? p.getTalla() : "U", x + 340, curY, "F1", 7.5);
-                canvas.drawText((p.getStockDisponible() != null ? p.getStockDisponible() : 0) + " unds", x + 390, curY, "F2", 7.5);
+                canvas.drawText((p.getStockDisponible() != null ? p.getStockDisponible() : 0) + " unds", x + 390, curY,
+                        "F2", 7.5);
                 canvas.drawText(formatearMoneda(p.getPrecio() != null ? p.getPrecio() : 0.0), x + 450, curY, "F1", 7.5);
             }
             curY -= 4;
@@ -346,18 +347,17 @@ public class ReportePdfService {
         return curY;
     }
 
-    private void renderizarFirmaAuditoria(PdfCanvas canvas, String adminNombre, String fechaHora, double x, double w, double pageWidth) {
+    private void renderizarFirmaAuditoria(PdfCanvas canvas, String adminNombre, String fechaHora, double x, double w,
+            double pageWidth) {
         double yFirma = 55;
 
         canvas.setStrokeColor(0.8, 0.8, 0.8);
         canvas.strokeLine(x, yFirma + 45, x + w, yFirma + 45, 0.5);
 
-        // Nota a la izquierda
         canvas.setTextColor(0.4, 0.4, 0.4);
         canvas.drawText("Reporte emitido para control administrativo interno.", x, yFirma + 25, "F1", 7.5);
         canvas.drawText("OmniModa S.A.S. - Sistema de Gestion Comercial", x, yFirma + 14, "F1", 7.0);
 
-        // Línea de firma a la derecha
         double xSign = x + w - 170;
         canvas.setStrokeColor(0.2, 0.2, 0.2);
         canvas.strokeLine(xSign, yFirma + 22, xSign + 160, yFirma + 22, 0.7);
@@ -369,13 +369,15 @@ public class ReportePdfService {
     }
 
     private String truncar(String text, int max) {
-        if (text == null) return "";
+        if (text == null)
+            return "";
         String normalized = normalizarTexto(text);
         return normalized.length() <= max ? normalized : normalized.substring(0, max - 3) + "...";
     }
 
     private String normalizarTexto(String s) {
-        if (s == null) return "";
+        if (s == null)
+            return "";
         return s.replace("á", "a").replace("é", "e").replace("í", "i").replace("ó", "o").replace("ú", "u")
                 .replace("Á", "A").replace("É", "E").replace("Í", "I").replace("Ó", "O").replace("Ú", "U")
                 .replace("ñ", "n").replace("Ñ", "N");
@@ -389,9 +391,6 @@ public class ReportePdfService {
         }
     }
 
-    /**
-     * Motor ligero de dibujo vectorial PDF 1.4 en Java puro (sin dependencias).
-     */
     private static class PdfCanvas {
         private final StringBuilder content = new StringBuilder();
 
@@ -420,13 +419,14 @@ public class ReportePdfService {
         }
 
         public void drawText(String text, double x, double y, String fontName, double fontSize) {
-            if (text == null || text.isEmpty()) return;
+            if (text == null || text.isEmpty())
+                return;
             String sanitized = escapePdfString(text);
             content.append("BT\n")
-                   .append(String.format(Locale.US, "/%s %.2f Tf\n", fontName, fontSize))
-                   .append(String.format(Locale.US, "%.2f %.2f Td\n", x, y))
-                   .append("(").append(sanitized).append(") Tj\n")
-                   .append("ET\n");
+                    .append(String.format(Locale.US, "/%s %.2f Tf\n", fontName, fontSize))
+                    .append(String.format(Locale.US, "%.2f %.2f Td\n", x, y))
+                    .append("(").append(sanitized).append(") Tj\n")
+                    .append("ET\n");
         }
 
         private String escapePdfString(String str) {
@@ -457,7 +457,8 @@ public class ReportePdfService {
                 write(out, "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n");
 
                 offsets.add(out.size());
-                write(out, "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n");
+                write(out,
+                        "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595.28 841.89] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>\nendobj\n");
 
                 offsets.add(out.size());
                 write(out, "4 0 obj\n<< /Length " + streamBytes.length + " >>\nstream\n");
@@ -477,7 +478,8 @@ public class ReportePdfService {
                     write(out, String.format(Locale.US, "%010d 00000 n \n", off));
                 }
 
-                write(out, "trailer\n<< /Size " + (offsets.size() + 1) + " /Root 1 0 R >>\nstartxref\n" + startXref + "\n%%EOF\n");
+                write(out, "trailer\n<< /Size " + (offsets.size() + 1) + " /Root 1 0 R >>\nstartxref\n" + startXref
+                        + "\n%%EOF\n");
             } catch (IOException e) {
                 throw new RuntimeException("Error al componer PDF de reporte: " + e.getMessage(), e);
             }

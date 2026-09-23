@@ -11,10 +11,6 @@ import com.apiv1.omniModa.Models.Entity.Ventas;
 
 public interface EstadisticaRepository extends JpaRepository<Ventas, Integer> {
 
-    // =========================================================
-    // PRODUCTOS MÁS VENDIDOS
-    // =========================================================
-
     @Query("""
                 SELECT
                     d.producto.nombre,
@@ -33,10 +29,6 @@ public interface EstadisticaRepository extends JpaRepository<Ventas, Integer> {
             @Param("fechaFin") LocalDate fechaFin,
             @Param("tipoCliente") String tipoCliente);
 
-    // =========================================================
-    // CLIENTES FRECUENTES
-    // =========================================================
-
     @Query("""
                 SELECT
                     c.nombreCompleto,
@@ -53,10 +45,6 @@ public interface EstadisticaRepository extends JpaRepository<Ventas, Integer> {
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin,
             @Param("tipoCliente") String tipoCliente);
-
-    // =========================================================
-    // INGRESOS POR MES
-    // =========================================================
 
     @Query("""
                 SELECT
@@ -78,10 +66,6 @@ public interface EstadisticaRepository extends JpaRepository<Ventas, Integer> {
             @Param("fechaInicio") LocalDate fechaInicio,
             @Param("fechaFin") LocalDate fechaFin,
             @Param("tipoCliente") String tipoCliente);
-
-    // =========================================================
-    // INGRESOS POR TIPO DE CLIENTE
-    // =========================================================
 
     @Query("""
                 SELECT

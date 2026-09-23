@@ -1,7 +1,3 @@
-/* =====================================================
-   ELEMENTOS
-===================================================== */
-
 const formsWrapper =
     document.querySelector(".forms-wrapper");
 
@@ -18,9 +14,7 @@ const showLogin =
     document.getElementById("showLogin");
 
 
-/* =====================================================
-   CAMBIAR A REGISTRO
-===================================================== */
+
 
 showRegister.addEventListener("click", () => {
 
@@ -34,9 +28,7 @@ showRegister.addEventListener("click", () => {
 });
 
 
-/* =====================================================
-   CAMBIAR A LOGIN
-===================================================== */
+
 
 showLogin.addEventListener("click", () => {
 
@@ -50,9 +42,7 @@ showLogin.addEventListener("click", () => {
 });
 
 
-/* =====================================================
-   MOSTRAR / OCULTAR PASSWORD
-===================================================== */
+
 
 function setupPasswordToggle(buttonId, inputId) {
 
@@ -75,7 +65,8 @@ function setupPasswordToggle(buttonId, inputId) {
 
         button.innerHTML = isPassword
 
-            ? '<i class="fa-regular fa-eye-slash"></i>'
+            ?
+            '<i class="fa-regular fa-eye-slash"></i>'
 
             : '<i class="fa-regular fa-eye"></i>';
 
@@ -83,7 +74,7 @@ function setupPasswordToggle(buttonId, inputId) {
 }
 
 
-/* Login */
+
 
 setupPasswordToggle(
     "togglePassword",
@@ -91,7 +82,7 @@ setupPasswordToggle(
 );
 
 
-/* Registro */
+
 
 setupPasswordToggle(
     "toggleRegisterPassword",
@@ -99,7 +90,7 @@ setupPasswordToggle(
 );
 
 
-/* Confirmación */
+
 
 setupPasswordToggle(
     "toggleConfirmPassword",
@@ -107,9 +98,7 @@ setupPasswordToggle(
 );
 
 
-/* =====================================================
-   LOGIN
-===================================================== */
+
 
 const loginForm =
     document.getElementById("loginForm");
@@ -178,7 +167,7 @@ loginForm.addEventListener("submit", async (event) => {
     }
 
 
-    /* Loading */
+
 
     loginButton.classList.add("loading");
 
@@ -237,9 +226,7 @@ loginForm.addEventListener("submit", async (event) => {
 });
 
 
-/* =====================================================
-   REGISTRO
-===================================================== */
+
 
 const registerForm =
     document.getElementById("registerForm");
@@ -275,7 +262,7 @@ registerForm.addEventListener("submit", async (event) => {
     const confirmation =
         confirmPassword.value;
 
-    /* Validaciones */
+
 
     if (!name) {
         registerName.closest(".form-group")

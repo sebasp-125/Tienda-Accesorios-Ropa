@@ -438,6 +438,11 @@ body {
   font-size: 14px;
 }
 
+.custom-select-icon span {
+  font-size: 18px;
+  color: #94a3b8;
+}
+
 .custom-select-text {
   overflow: hidden;
   white-space: nowrap;
@@ -471,12 +476,15 @@ body {
   border: 1px solid var(--border);
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(15, 23, 42, 0.13);
-  z-index: 99999;
+  z-index: 1000;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-6px) scale(0.98);
   transform-origin: top;
-  overflow: visible;
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease,
+    visibility 0.18s ease;
 }
 
 .custom-select.open .custom-select-dropdown {
@@ -486,9 +494,9 @@ body {
 }
 
 .custom-select-options {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  max-height: 140px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .custom-select-option {
@@ -518,13 +526,16 @@ body {
   width: 34px;
   height: 34px;
   flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   border-radius: 9px;
   background: #f5f2ec;
   color: var(--primary-dark);
-  font-size: 13px;
+}
+
+.custom-option-icon span {
+  font-size: 18px;
 }
 
 .custom-option-content {
@@ -532,7 +543,8 @@ body {
 }
 
 .custom-option-name {
-  display: block;
+  margin-left: 4px;
+  display: inline-flex;
   color: var(--text);
   font-size: 12px;
   font-weight: 600;

@@ -29,10 +29,6 @@ public class PromocionesController {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    // =====================================================
-    // LISTAR PROMOCIONES
-    // =====================================================
-
     @GetMapping
     public String listar(Model model) {
 
@@ -42,10 +38,6 @@ public class PromocionesController {
 
         return "promotion/promociones";
     }
-
-    // =====================================================
-    // NUEVA PROMOCIÓN
-    // =====================================================
 
     @GetMapping("/nueva")
     public String nuevaPromocion(Model model) {
@@ -64,10 +56,6 @@ public class PromocionesController {
 
         return "promotion/nueva_promocion";
     }
-
-    // =====================================================
-    // GUARDAR PROMOCIÓN
-    // =====================================================
 
     @PostMapping("/guardar")
     public String guardar(
@@ -95,10 +83,6 @@ public class PromocionesController {
         return "redirect:/promociones";
     }
 
-    // =====================================================
-    // ACTUALIZAR PROMOCIÓN
-    // =====================================================
-
     @GetMapping("/editar/{id}")
     public String editar(
             @PathVariable("id") Integer id,
@@ -125,10 +109,6 @@ public class PromocionesController {
         return "promotion/actualizar_promocion";
     }
 
-    // =====================================================
-    // ACTUALIZAR
-    // =====================================================
-
     @PostMapping("/actualizar")
     public String actualizar(
             Promociones promocion,
@@ -154,10 +134,6 @@ public class PromocionesController {
 
         return "redirect:/promociones";
     }
-
-    // =====================================================
-    // ELIMINAR
-    // =====================================================
 
     @PostMapping("/eliminar/{id}")
     public String eliminar(
